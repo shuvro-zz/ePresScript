@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as DOM from "react-dom";
-import type {LoginFormStateType} from "../types/state/LoginFormStateType";
 
 // material
 import Avatar from '@material-ui/core/Avatar';
@@ -69,18 +68,15 @@ class Login extends React.Component<Props, any> {
   }
 
   handleChange(event: any, target: any) {
-    console.log(target);
-    const name = target.name;
-    const value = target.value;
-
-    console.log('working');
+    const name = event.target.name;
+    const value = event.target.value;
 
     // If the user is editting again submitted must be false...
     if (value == "") {
       //this.props.setSubmitted(false);
     }
 
-    if (name == "username") {
+    if (name == "email") {
       //this.props.setUserName(value);
     } else if (name == "password") {
       //this.props.setPassword(value);
@@ -116,7 +112,7 @@ class Login extends React.Component<Props, any> {
             >
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus value=''
+                <Input id="email" name="email" autoComplete="email" autoFocus
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
@@ -124,7 +120,7 @@ class Login extends React.Component<Props, any> {
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
-                <Input name="password" type="password" id="password" autoComplete="current-password" value='h'
+                <Input name="password" type="password" id="password" autoComplete="current-password"
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
