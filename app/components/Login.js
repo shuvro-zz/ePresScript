@@ -15,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import type {LoginFormStateType} from "../types/state/LoginFormStateType";
+
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -73,13 +75,13 @@ class Login extends React.Component<Props, any> {
 
     // If the user is editting again submitted must be false...
     if (value == "") {
-      //this.props.setSubmitted(false);
+      this.props.setSubmitted(false);
     }
 
     if (name == "email") {
-      //this.props.setUserName(value);
+      this.props.setUserName(value);
     } else if (name == "password") {
-      //this.props.setPassword(value);
+      this.props.setPassword(value);
     } else {
       console.error("Not handled form field: " + name);
     }
@@ -87,13 +89,16 @@ class Login extends React.Component<Props, any> {
 
   handleSubmit(event: any, target: any) {
     console.log("submitted");
+    event.preventDefault();
+    console.log(event);
+    console.log(target);
   }
 
   render() {
       console.log("Render Login Page");
       console.log(this.props);
   
-      //const {currentUserName, currentPassword,loggingIn,submitted,error} = this.props.loginForm;
+      const {currentUserName, currentPassword,loggingIn,submitted,error} = this.props.loginForm;
       const { classes } = this.props;
       return (
           <main className={classes.main}>
@@ -112,7 +117,7 @@ class Login extends React.Component<Props, any> {
             >
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus
+                <Input id="email" name="email" autoComplete="email" autoFocus value={currentUserName}
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
@@ -120,7 +125,7 @@ class Login extends React.Component<Props, any> {
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
-                <Input name="password" type="password" id="password" autoComplete="current-password"
+                <Input name="password" type="password" id="password" autoComplete="current-password" value={currentPassword}
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
