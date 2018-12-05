@@ -4,6 +4,7 @@
 import { loginFormConstants } from '../constants';
 import { loginService } from '../services';
 import type {UserType} from "../types/common/UserType";
+import { history } from '../store/configureStore';
 
 export const loginFormActions = {
     setUserName,
@@ -63,7 +64,7 @@ function login(username: string, password: string) {
             .then(
                 (user: UserType) => { 
                     dispatch(success(user));
-                    applicationHistory.push('/');
+                    history.push('/home');
                 },
                 (error: any) => {
                     dispatch(failure(error));

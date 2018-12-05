@@ -51,8 +51,8 @@ const styles = theme => ({
 
 type Props = {
   loginForm: LoginFormStateType,
-  // logout: () => void,
-  // login: (username: string, passwors: string) => void,
+  logout: () => void,
+  login: (username: string, passwors: string) => void,
   setUserName: (username: string) => void,
   setPassword: (password: string) => void,
   setSubmitted: (submitted: boolean) => void
@@ -62,6 +62,9 @@ class Login extends React.Component<Props, any> {
   
   constructor(props: Props, state: any) {
     super(props);
+
+    // reset login status
+    this.props.logout();
     
     // Set initial values for login form
     this.props.setUserName("");
@@ -90,8 +93,16 @@ class Login extends React.Component<Props, any> {
   handleSubmit(event: any, target: any) {
     console.log("submitted");
     event.preventDefault();
-    console.log(event);
-    console.log(target);
+
+    this.props.setSubmitted(true);
+
+    const {currentUserName, currentPassword} = this.props.loginForm;
+
+    if (currentUserName && currentPassword) {
+      this.props.login(currentUserName, currentPassword);
+    } else {
+      // No need to do anything as validation will kick in due to submitted status changing
+    }
   }
 
   render() {
