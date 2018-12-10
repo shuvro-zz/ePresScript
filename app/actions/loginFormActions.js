@@ -20,11 +20,11 @@ function setUserName(username: string) {
         dispatch(go(username));
     };
 
-    function go(username: string) { 
-        return { 
+    function go(username: string) {
+        return {
             type: loginFormConstants.SET_USERNAME,
             username: username
-        } 
+        }
     }
 }
 
@@ -34,11 +34,11 @@ function setPassword(password: string) {
         dispatch(go(password));
     };
 
-    function go(password: string) { 
-        return { 
+    function go(password: string) {
+        return {
             type: loginFormConstants.SET_PASSWORD,
             password: password
-        } 
+        }
     }
 }
 
@@ -48,11 +48,11 @@ function setSubmitted(value: boolean) {
         dispatch(go(value));
     };
 
-    function go(value: boolean) { 
-        return { 
+    function go(value: boolean) {
+        return {
             type: loginFormConstants.SET_SUBMITTED,
             submitted: value
-        } 
+        }
     }
 }
 
@@ -62,9 +62,9 @@ function login(username: string, password: string) {
 
         loginService.login(username, password)
             .then(
-                (user: UserType) => { 
+                (user: UserType) => {
                     dispatch(success(user));
-                    history.push('/home');
+                    history.push('/medicine');
                 },
                 (error: any) => {
                     dispatch(failure(error));
@@ -79,6 +79,6 @@ function login(username: string, password: string) {
 
 function logout() {
     loginService.logout();
-    return { 
+    return {
         type: loginFormConstants.LOGOUT };
 }
