@@ -20,7 +20,7 @@ function setForm(form: string) {
   function go(form: string) {
     return {
       type: AddMedicineConstants.SET_FORM,
-      form: form
+      form : form
     }
   }
 }
@@ -34,7 +34,7 @@ function setName(name: string) {
   function go(name: string) {
     return {
       type: AddMedicineConstants.SET_NAME,
-      name: name
+      name:name
     }
   }
 }
@@ -46,7 +46,7 @@ function setStrength(strength: string) {
   function go(strength: string) {
     return {
       type: AddMedicineConstants.SET_STRENGTH,
-      strength: strength
+      strength:strength
     }
   }
 }
@@ -58,7 +58,7 @@ function setFrequency(frequency: string) {
   function go(frequency: string) {
     return {
       type: AddMedicineConstants.SET_FREQUENCY,
-      frequency: frequency
+      frequency:frequency
     }
   }
 }
@@ -70,7 +70,7 @@ function setRemark(remark: string) {
   function go(remark: string) {
     return {
       type: AddMedicineConstants.SET_REMARK,
-      remark: remark
+      remark:remark
     }
   }
 }
