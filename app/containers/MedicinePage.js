@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AddMedicine from '../components/AddMedicine';
-import { addMedicineActions } from '../actions/AddMedicineFormActions';
+import { addMedicineActions } from '../actions/addMedicineFormActions';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 
 type State = {

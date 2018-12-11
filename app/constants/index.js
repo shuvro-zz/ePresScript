@@ -1,2 +1,2 @@
 export * from './loginFormConstants';
-export * from './AddMedicineConstants';
+export * from './addMedicineConstants';

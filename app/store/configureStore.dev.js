@@ -5,7 +5,7 @@ import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import createRootReducer from '../reducers';
 import * as loginFormActions from '../actions/loginFormActions';
-import * as addMedicineActions from '../actions/AddMedicineFormActions';
+import * as addMedicineActions from '../actions/addMedicineFormActions';
 
 const history = createHashHistory();
 
