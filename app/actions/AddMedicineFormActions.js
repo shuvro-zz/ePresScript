@@ -7,7 +7,6 @@ export const addMedicineActions = {
   setStrength,
   setFrequency,
   setRemark,
-  logout,
   setSubmitted
 };
 
@@ -86,9 +85,4 @@ function setSubmitted(value: boolean) {
       submitted: value
     }
   }
-}
-function logout() {
-  loginService.logout();
-  return {
-    type: addMedicineActions.LOGOUT };
 }

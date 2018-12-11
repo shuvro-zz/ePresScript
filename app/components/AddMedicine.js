@@ -41,7 +41,6 @@ const styles = theme => ({
 
 type Props = {
   medicineForm: AddMedicineFormStateType,
-  logout: () => void,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,
@@ -54,16 +53,16 @@ class AddMedicine extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
+    console.log('in constructor');
+    console.log(props);
     // Set initial values for login form
-    this.props.setForm("");
-    this.props.setName("");
-    this.props.setFrequency("");
-    this.props.setStrength("");
-    this.props.setRemark("");
+    props.setForm("");
+    props.setName("");
+    props.setFrequency("");
+    props.setStrength("");
+    props.setRemark("");
     this.props.setSubmitted(false);
   }
-
-
 
   handleChange(event: any, target: any) {
     const name = event.target.name;
@@ -76,29 +75,9 @@ class AddMedicine extends React.Component<Props, any> {
     }
     console.log(name);
 
-    if (name == "name") {
-      this.props.setName(value);
+    if (name == "form") {
+      this.props.setForm(value);
     }
-    // switch (name) {
-    //   case "form":
-    //     this.props.setForm(value);
-    //     break;
-    //   case "name":
-    //     this.props.setName(value);
-    //     break;
-    //   case "strength":
-    //     this.props.setStrength(value);
-    //     break;
-    //   case "frequency":
-    //     this.props.setFrequency(value);
-    //     break;
-    //   case "remark":
-    //     this.props.setRemark(value);
-    //     break;
-    //    default:
-    //
-    //     break
-    // }
   }
 
   handleSubmit(event: any, target: any) {
@@ -108,10 +87,19 @@ class AddMedicine extends React.Component<Props, any> {
 
   render() {
     console.log("Render Medicine Page");
-    console.log(this.props);
+    console.log(this.props.medicineForm);
 
-   const {currentMedicineForm, currentMedicineName, currentMedicineStrength, currentMedicineFrequency, currentMedicineRemark, submitted} = this.props.medicineForm;
+   const {
+     currentMedicineForm, 
+     currentMedicineName, 
+     currentMedicineStrength, 
+     currentMedicineFrequency, 
+     currentMedicineRemark, 
+     submitted
+    } = this.props.medicineForm;
+
     const { classes } = this.props;
+
     return (
         <Paper className={classes.paper}>
           <form className={classes.form}
@@ -126,7 +114,9 @@ class AddMedicine extends React.Component<Props, any> {
               className={classes.addMedReqTextFields}
               margin="normal"
               value={currentMedicineForm}
-              onChange={this.handleChange}
+              onChange={(event: any, target: any) => {
+                this.handleChange(event, target);
+              }}
             />
             <TextField
               id="name"
@@ -135,7 +125,9 @@ class AddMedicine extends React.Component<Props, any> {
               className={classes.addMedReqTextFields}
               margin="normal"
               value={currentMedicineName}
-              onChange={this.handleChange}
+              onChange={(event: any, target: any) => {
+                this.handleChange(event, target);
+              }}
             />
             <TextField
               id="strength"
@@ -144,7 +136,9 @@ class AddMedicine extends React.Component<Props, any> {
               className={classes.addMedReqTextFields}
               margin="normal"
               value={currentMedicineStrength}
-              onChange={this.handleChange}
+              onChange={(event: any, target: any) => {
+                this.handleChange(event, target);
+              }}
             />
             <TextField
               id="frequency"
@@ -153,7 +147,9 @@ class AddMedicine extends React.Component<Props, any> {
               className={classes.addMedReqTextFields}
               margin="normal"
               value={currentMedicineFrequency}
-              onChange={this.handleChange}
+              onChange={(event: any, target: any) => {
+                this.handleChange(event, target);
+              }}
             />
             <TextField
               id="remark"
@@ -163,7 +159,9 @@ class AddMedicine extends React.Component<Props, any> {
               margin="normal"
               multiline={true}
               value={currentMedicineRemark}
-              onChange={this.handleChange}
+              onChange={(event: any, target: any) => {
+                this.handleChange(event, target);
+              }}
             />
             <Button
               type="submit"

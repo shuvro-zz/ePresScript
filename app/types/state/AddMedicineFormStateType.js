@@ -1,6 +1,7 @@
-import type {UserType} from "../common/UserType";
-
-export  type AddMedicineFormStateType = {
+/**
+ * @flow
+ */ 
+export type AddMedicineFormStateType = {
 
   currentMedicineForm: string,
   currentMedicineName: string,
@@ -8,6 +9,5 @@ export  type AddMedicineFormStateType = {
   currentMedicineFrequency: string,
   currentMedicineRemark: string,
   submitted: boolean,
-  user: ?UserType,
   error: string
 };

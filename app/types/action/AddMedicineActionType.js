@@ -1,7 +1,6 @@
 /**
  * @flow
  */
-import type {UserType} from "../common/UserType";
 
 export type AddMedicineActionType = {
   type: string,
@@ -11,7 +10,6 @@ export type AddMedicineActionType = {
   frequency: string,
   remark: string,
   submitted: boolean,
-  error: string,
-  user: UserType
+  error: string
 };
 

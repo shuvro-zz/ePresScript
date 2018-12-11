@@ -4,45 +4,22 @@
 
 import { AddMedicineConstants } from "../constants";
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
-import type {UserType} from "../types/common/UserType";
 import type {AddMedicineActionType} from "../types/action/AddMedicineActionType";
 
 
 // Initialise the redux store
 // Check if the local storage already has a user saved, otherwise start fresh.
-const userstring: ?string = (localStorage.getItem("user"): ?string);
-var initialState: AddMedicineFormStateType;
 
-if (userstring) {
-    const jsonUser = (JSON.parse(userstring): UserType);
-    const user: UserType = jsonUser;
-    initialState = {
-      user: user,
-      loggedIn: true,
-      loggingIn: false,
-      error: "",
-      currentMedicineForm:"",
-      currentMedicineName:"",
-      currentMedicineStrength:"",
-      currentMedicineFrequency:"",
-      currentMedicineRemark:"",
-      submitted: false
-    };
-} else {
-    initialState = {
-        user: null,
-        loggedIn: false,
-        loggingIn: false,
-        error: "",
-      currentMedicineForm:"",
-      currentMedicineName:"",
-      currentMedicineStrength:"",
-      currentMedicineFrequency:"",
-      currentMedicineRemark:"",
-        submitted: false
-    };
-}
+const initialState: AddMedicineFormStateType;
 
+initialState = {
+currentMedicineForm:"",
+currentMedicineName:"",
+currentMedicineStrength:"",
+currentMedicineFrequency:"",
+currentMedicineRemark:"",
+  submitted: false
+};
 
 export function medicineForm(state: any = initialState, action: AddMedicineActionType): AddMedicineFormStateType {
   switch (action.type) {
@@ -77,15 +54,6 @@ export function medicineForm(state: any = initialState, action: AddMedicineActio
         submitted: action.submitted
       };
 
-
-  case AddMedicineConstants.LOGOUT:
-      return {
-        ...state,
-          user: null,
-          loggedIn: false,
-          loggingIn: false,
-          error: ""
-      };
     default:
       return state;
   }

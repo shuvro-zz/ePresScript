@@ -5,7 +5,7 @@
 
 import type {UserType} from "../common/UserType";
 
-export  type LoginFormStateType = {
+export type LoginFormStateType = {
         user: ?UserType,
         loggedIn: boolean,
         loggingIn: boolean,

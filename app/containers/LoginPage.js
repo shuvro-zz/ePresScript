@@ -6,9 +6,6 @@ import Login from '../components/Login';
 import { loginFormActions } from '../actions/loginFormActions';
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
 
-console.log("Inside Container");
-
-
 type State = {
     loginForm: LoginFormStateType
 
