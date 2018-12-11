@@ -10,7 +10,7 @@ import type {AddMedicineActionType} from "../types/action/AddMedicineActionType"
 // Initialise the redux store
 // Check if the local storage already has a user saved, otherwise start fresh.
 
-const initialState: AddMedicineFormStateType;
+var initialState: AddMedicineFormStateType;
 
 initialState = {
 currentMedicineForm:"",
