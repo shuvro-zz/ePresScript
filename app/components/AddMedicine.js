@@ -105,11 +105,7 @@ class AddMedicine extends React.Component<Props, any> {
     console.log("submitted");
     event.preventDefault();
   }
-  handleLogout(event:any , target:any ){
-    console.log("logout");
-    event.preventDefault();
-    this.props.logout();
-  }
+
   render() {
     console.log("Render Medicine Page");
     console.log(this.props.medicineForm);
