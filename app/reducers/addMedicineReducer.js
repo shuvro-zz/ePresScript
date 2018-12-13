@@ -2,7 +2,7 @@
  * @flow
  */
 
-import { addMedicineConstants } from "../constants";
+import {addMedicineConstants, loginFormConstants} from "../constants";
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 import type {AddMedicineActionType} from "../types/action/AddMedicineActionType";
 
@@ -53,7 +53,40 @@ export function medicineForm(state: any = initialState, action: AddMedicineActio
         ...state,
         submitted: action.submitted
       };
-
+    case addMedicineConstants.LOGOUT_REQUEST:
+      return {
+        ...state,
+        currentMedicineForm:"",
+        currentMedicineName:"",
+        currentMedicineStrength:"",
+        currentMedicineFrequency:"",
+        currentMedicineRemark:"",
+        user: null,
+        loggedIn: false,
+        loggingIn: false,
+        error: ""
+      };
+    case addMedicineConstants.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        currentMedicineForm:"",
+        currentMedicineName:"",
+        currentMedicineStrength:"",
+        currentMedicineFrequency:"",
+        currentMedicineRemark:"",
+        user: null,
+        loggedIn: false,
+        loggingIn: false,
+        error: ""
+      };
+    case addMedicineConstants.LOGOUT_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loggedIn: false,
+        loggingIn: false,
+        error: ""
+      };
     default:
       return state;
   }

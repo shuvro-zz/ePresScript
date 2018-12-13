@@ -37,10 +37,14 @@ const styles = theme => ({
     width: '90%',
     height:200,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 type Props = {
   medicineForm: AddMedicineFormStateType,
+  logout: () => void,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,
@@ -56,6 +60,7 @@ class AddMedicine extends React.Component<Props, any> {
     console.log('in constructor');
     console.log(props);
     // Set initial values for login form
+    props.logout();
     props.setForm("");
     props.setName("");
     props.setFrequency("");
@@ -73,10 +78,26 @@ class AddMedicine extends React.Component<Props, any> {
     if (value == "") {
       this.props.setSubmitted(false);
     }
-    console.log(name);
 
-    if (name == "form") {
-      this.props.setForm(value);
+    switch (name) {
+      case "form":
+        this.props.setForm(value);
+        break;
+
+      case "name":
+        this.props.setName(value);
+        break;
+
+      case "strength":
+        this.props.setStrength(value);
+        break;
+      case "frequency":
+        this.props.setFrequency(value);
+        break;
+      case "remark":
+        this.props.setRemark(value);
+        break;
+
     }
   }
 
@@ -84,29 +105,36 @@ class AddMedicine extends React.Component<Props, any> {
     console.log("submitted");
     event.preventDefault();
   }
-
+  handleLogout(event:any , target:any ){
+    console.log("logout");
+    event.preventDefault();
+    this.props.logout();
+  }
   render() {
     console.log("Render Medicine Page");
     console.log(this.props.medicineForm);
 
    const {
-     currentMedicineForm, 
-     currentMedicineName, 
-     currentMedicineStrength, 
-     currentMedicineFrequency, 
-     currentMedicineRemark, 
+     currentMedicineForm,
+     currentMedicineName,
+     currentMedicineStrength,
+     currentMedicineFrequency,
+     currentMedicineRemark,
      submitted
     } = this.props.medicineForm;
 
     const { classes } = this.props;
 
     return (
+      <div>
+
         <Paper className={classes.paper}>
           <form className={classes.form}
                 onSubmit={(event: any, target: any) => {
                   this.handleSubmit(event, target);
                 }}
           >
+
             <TextField
               id="form"
               name="form"
@@ -174,6 +202,7 @@ class AddMedicine extends React.Component<Props, any> {
             </Button>
           </form>
         </Paper>
+    </div>
     );
   }
 }

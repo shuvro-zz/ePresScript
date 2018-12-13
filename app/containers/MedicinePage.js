@@ -28,7 +28,8 @@ function mapDispatchToProps(dispatch: any) {
       setStrength: addMedicineActions.setStrength,
       setFrequency: addMedicineActions.setFrequency,
       setRemark: addMedicineActions.setRemark,
-      setSubmitted: addMedicineActions.setSubmitted
+      setSubmitted: addMedicineActions.setSubmitted,
+      logout: addMedicineActions.logout
     },
     dispatch
   );

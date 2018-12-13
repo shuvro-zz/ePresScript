@@ -78,7 +78,9 @@ function login(username: string, password: string) {
 }
 
 function logout() {
+  console.log("inside logout()");
     loginService.logout();
+
     return {
         type: loginFormConstants.LOGOUT };
 }
