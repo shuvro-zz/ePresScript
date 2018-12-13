@@ -127,7 +127,15 @@ class AddMedicine extends React.Component<Props, any> {
 
     return (
       <div>
-
+        <form className={classes.form}
+              onSubmit={(event: any, target: any) => {
+                this.handleLogout(event, target);
+              }}
+        >
+          <Button type="submit"  variant="contained" color="secondary" className={classes.button}>
+            Logout
+          </Button>
+        </form>
         <Paper className={classes.paper}>
           <form className={classes.form}
                 onSubmit={(event: any, target: any) => {
