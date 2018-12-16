@@ -1,7 +1,4 @@
-import {addMedicineConstants, loginFormConstants} from '../constants';
-import { loginService } from '../services';
-import {history} from "../store/configureStore";
-import type {UserType} from "../types/common/UserType";
+import {addMedicineConstants} from '../constants';
 
 export const addMedicineActions = {
   setForm,
@@ -9,10 +6,8 @@ export const addMedicineActions = {
   setStrength,
   setFrequency,
   setRemark,
-  setSubmitted,
-  logout
+  setSubmitted
 };
-
 
 function setForm(form: string) {
   return (dispatch: any) => {
@@ -89,10 +84,4 @@ function setSubmitted(value: boolean) {
     }
   }
 }
-function logout() {
-  console.log("inside logout()");
-  loginService.logout();
 
-  return {
-    type: addMedicineConstants.LOGOUT_REQUEST };
-}

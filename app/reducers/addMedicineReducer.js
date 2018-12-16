@@ -13,11 +13,11 @@ import type {AddMedicineActionType} from "../types/action/AddMedicineActionType"
 var initialState: AddMedicineFormStateType;
 
 initialState = {
-currentMedicineForm:"",
-currentMedicineName:"",
-currentMedicineStrength:"",
-currentMedicineFrequency:"",
-currentMedicineRemark:"",
+  currentMedicineForm:"",
+  currentMedicineName:"",
+  currentMedicineStrength:"",
+  currentMedicineFrequency:"",
+  currentMedicineRemark:"",
   submitted: false
 };
 
@@ -52,40 +52,6 @@ export function medicineForm(state: any = initialState, action: AddMedicineActio
       return {
         ...state,
         submitted: action.submitted
-      };
-    case addMedicineConstants.LOGOUT_REQUEST:
-      return {
-        ...state,
-        currentMedicineForm:"",
-        currentMedicineName:"",
-        currentMedicineStrength:"",
-        currentMedicineFrequency:"",
-        currentMedicineRemark:"",
-        user: null,
-        loggedIn: false,
-        loggingIn: false,
-        error: ""
-      };
-    case addMedicineConstants.LOGOUT_SUCCESS:
-      return {
-        ...state,
-        currentMedicineForm:"",
-        currentMedicineName:"",
-        currentMedicineStrength:"",
-        currentMedicineFrequency:"",
-        currentMedicineRemark:"",
-        user: null,
-        loggedIn: false,
-        loggingIn: false,
-        error: ""
-      };
-    case addMedicineConstants.LOGOUT_FAILURE:
-      return {
-        ...state,
-        user: null,
-        loggedIn: false,
-        loggingIn: false,
-        error: ""
       };
     default:
       return state;

@@ -4,17 +4,21 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Login from '../components/Login';
 import { loginFormActions } from '../actions/loginFormActions';
+import { authenticationActions } from '../actions/authenticationActions';
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 type State = {
-    loginForm: LoginFormStateType
+  loginForm: LoginFormStateType,
+  authentication: AuthenticationStateType
 
 };
 
 // Map the stuff we want from the global application state in redux to the props
 function mapStateToProps(state: State) {
     return {
-        loginForm: state.loginForm
+      loginForm: state.loginForm,
+      authentication: state.authentication
     };
 }
 
@@ -25,8 +29,8 @@ function mapDispatchToProps(dispatch: any) {
         setUserName: loginFormActions.setUserName,
         setPassword: loginFormActions.setPassword,
         setSubmitted: loginFormActions.setSubmitted,
-        login: loginFormActions.login,
-        logout: loginFormActions.logout
+        login: authenticationActions.login,
+        logout: authenticationActions.logout
     },
     dispatch
   );

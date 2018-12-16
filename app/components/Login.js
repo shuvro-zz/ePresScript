@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 const styles = theme => ({
   main: {
@@ -51,6 +52,7 @@ const styles = theme => ({
 
 type Props = {
   loginForm: LoginFormStateType,
+  authentication: AuthenticationStateType,
   logout: () => void,
   login: (username: string, passwors: string) => void,
   setUserName: (username: string) => void,
@@ -62,9 +64,9 @@ class Login extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
-
-    // reset login status
-    this.props.logout();
+    console.log('in Login constructor');
+    // reset logout status
+    this.props.logout(false);
 
     // Set initial values for login form
     this.props.setUserName("");
@@ -75,8 +77,6 @@ class Login extends React.Component<Props, any> {
   handleChange(event: any, target: any) {
     const name = event.target.name;
     const value = event.target.value;
-    console.log("handleChange");
-    console.log(this.props);
 
     // If the user is editting again submitted must be false...
     if (value == "") {
@@ -96,6 +96,8 @@ class Login extends React.Component<Props, any> {
     console.log("submitted");
     event.preventDefault();
 
+    console.log(this.props.authentication);
+
     this.props.setSubmitted(true);
 
     const {currentUserName, currentPassword} = this.props.loginForm;
@@ -108,10 +110,7 @@ class Login extends React.Component<Props, any> {
   }
 
   render() {
-      console.log("Render Login Page");
-      console.log(this.props);
-
-      const {currentUserName, currentPassword,loggingIn,submitted,error} = this.props.loginForm;
+      const {currentUserName, currentPassword} = this.props.loginForm;
       const { classes } = this.props;
       return (
           <main className={classes.main}>

@@ -5,7 +5,7 @@
 import type {UserType} from "../types/common/UserType";
 
 
-export const loginService = {
+export const authenticationService = {
     login: fakeLogin,
     logout : fakelogout
 };
@@ -28,6 +28,7 @@ function fakelogout() {
   var p: Promise<any> =
     new Promise((resolve: any, x: any) => {
       setTimeout(() => {
+        console.log("inside fakelogout()");
         localStorage.removeItem('user');
         resolve(true);
       }, 1000);
