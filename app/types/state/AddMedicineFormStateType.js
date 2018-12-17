@@ -1,8 +1,7 @@
 /**
  * @flow
- */ 
+ */
 export type AddMedicineFormStateType = {
-
   currentMedicineForm: string,
   currentMedicineName: string,
   currentMedicineStrength: string,

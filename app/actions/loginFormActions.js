@@ -2,18 +2,12 @@
  * @flow
  */
 import { loginFormConstants } from '../constants';
-import { loginService } from '../services';
-import type {UserType} from "../types/common/UserType";
-import { history } from '../store/configureStore';
 
 export const loginFormActions = {
     setUserName,
     setPassword,
-    setSubmitted,
-    login,
-    logout
+    setSubmitted
 };
-
 
 function setUserName(username: string) {
     return (dispatch: any) => {
@@ -56,31 +50,4 @@ function setSubmitted(value: boolean) {
     }
 }
 
-function login(username: string, password: string) {
-    return (dispatch: any) => {
-        dispatch(request({ username }));
 
-        loginService.login(username, password)
-            .then(
-                (user: UserType) => {
-                    dispatch(success(user));
-                    history.push('/medicine');
-                },
-                (error: any) => {
-                    dispatch(failure(error));
-                }
-            );
-    };
-
-    function request(user: {username: string}) { return { type: loginFormConstants.LOGIN_REQUEST, user } }
-    function success(user: UserType) { return { type: loginFormConstants.LOGIN_SUCCESS, user } }
-    function failure(error: any) { return { type: loginFormConstants.LOGIN_FAILURE, error } }
-}
-
-function logout() {
-  console.log("inside logout()");
-    loginService.logout();
-
-    return {
-        type: loginFormConstants.LOGOUT };
-}

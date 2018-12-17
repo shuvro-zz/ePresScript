@@ -4,13 +4,30 @@
 
 import type {UserType} from "../types/common/UserType";
 
+import {database} from "../services/database";
 
-export const loginService = {
+export const authenticationService = {
     login: fakeLogin,
     logout : fakelogout
 };
 
   function fakeLogin(username: string, password: string) {
+    console.log("inside fakeLogin()");
+    /**  Check if the user exists in the local database  */
+    let test = database.check(username , password); //send the credentials to database to query
+
+    test.then(function (fromResolve) {
+      console.log(fromResolve);
+      /**
+       * save the user in the local storage or db ?
+       * create token ?
+       * return success
+       * */
+    }).catch(function (fromReject) {
+      console.log(fromReject);
+      /** return failed **/
+    });
+    /**  -------------------------------------------  */
 
     var p: Promise<any> =
      new Promise((resolve: any, x: any) => {
@@ -28,6 +45,7 @@ function fakelogout() {
   var p: Promise<any> =
     new Promise((resolve: any, x: any) => {
       setTimeout(() => {
+        console.log("inside fakelogout()");
         localStorage.removeItem('user');
         resolve(true);
       }, 1000);

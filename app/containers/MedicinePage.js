@@ -5,15 +5,19 @@ import { connect } from 'react-redux';
 import AddMedicine from '../components/AddMedicine';
 import { addMedicineActions } from '../actions/addMedicineFormActions';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import { authenticationActions } from '../actions/authenticationActions';
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 type State = {
-  medicineForm: AddMedicineFormStateType
+  medicineForm: AddMedicineFormStateType,
+  authentication: AuthenticationStateType
 };
 
 // Map the stuff we want from the global application state in redux to the props
 function mapStateToProps(state: State) {
   return {
-    medicineForm: state.medicineForm
+    medicineForm: state.medicineForm,
+    authentication: state.authentication
   };
 }
 
@@ -29,7 +33,7 @@ function mapDispatchToProps(dispatch: any) {
       setFrequency: addMedicineActions.setFrequency,
       setRemark: addMedicineActions.setRemark,
       setSubmitted: addMedicineActions.setSubmitted,
-      logout: addMedicineActions.logout
+      logout : authenticationActions.logout
     },
     dispatch
   );

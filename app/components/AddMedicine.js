@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 const styles = theme => ({
 
@@ -43,8 +44,9 @@ const styles = theme => ({
 });
 
 type Props = {
-  medicineForm: AddMedicineFormStateType,
+  authentication: AuthenticationStateType,
   logout: () => void,
+  medicineForm: AddMedicineFormStateType,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,
@@ -57,10 +59,11 @@ class AddMedicine extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
-    console.log('in constructor');
+    console.log('in AddMedicine constructor');
     console.log(props);
+    console.log('End of Add Medicine props');
     // Set initial values for login form
-    props.logout();
+
     props.setForm("");
     props.setName("");
     props.setFrequency("");
@@ -102,7 +105,7 @@ class AddMedicine extends React.Component<Props, any> {
   }
 
   handleSubmit(event: any, target: any) {
-    console.log("submitted");
+    console.log("add medicine submitted");
     event.preventDefault();
   }
 
@@ -123,7 +126,15 @@ class AddMedicine extends React.Component<Props, any> {
 
     return (
       <div>
-
+        <form className={classes.form}
+              onSubmit={(event: any, target: any) => {
+                this.handleLogout(event, target);
+              }}
+        >
+          <Button type="submit"  variant="contained" color="secondary" className={classes.button}>
+            Logout
+          </Button>
+        </form>
         <Paper className={classes.paper}>
           <form className={classes.form}
                 onSubmit={(event: any, target: any) => {
