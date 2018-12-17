@@ -1,5 +1,5 @@
 {
   "MEDICINE": "/medicine",
-  "HOME": "/home",
-  "LOGIN": "/"
+  "HOME": "/",
+  "LOGIN": "/home"
 }
