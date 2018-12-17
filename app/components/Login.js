@@ -59,13 +59,13 @@ type Props = {
 };
 
 class Login extends React.Component<Props, any> {
-  
+
   constructor(props: Props, state: any) {
     super(props);
 
     // reset login status
     this.props.logout();
-    
+
     // Set initial values for login form
     this.props.setUserName("");
     this.props.setPassword("");
@@ -75,6 +75,8 @@ class Login extends React.Component<Props, any> {
   handleChange(event: any, target: any) {
     const name = event.target.name;
     const value = event.target.value;
+    console.log("handleChange");
+    console.log(this.props);
 
     // If the user is editting again submitted must be false...
     if (value == "") {
@@ -108,7 +110,7 @@ class Login extends React.Component<Props, any> {
   render() {
       console.log("Render Login Page");
       console.log(this.props);
-  
+
       const {currentUserName, currentPassword,loggingIn,submitted,error} = this.props.loginForm;
       const { classes } = this.props;
       return (
@@ -158,5 +160,5 @@ class Login extends React.Component<Props, any> {
       );
     }
 }
-  
+
 export default withStyles(styles)(Login);

@@ -7,7 +7,7 @@ import type {UserType} from "../types/common/UserType";
 
 export const loginService = {
     login: fakeLogin,
-    logout
+    logout : fakelogout
 };
 
   function fakeLogin(username: string, password: string) {
@@ -24,8 +24,17 @@ export const loginService = {
       return p;
 }
 
-function logout() {
-    localStorage.removeItem('user');
+function fakelogout() {
+  var p: Promise<any> =
+    new Promise((resolve: any, x: any) => {
+      setTimeout(() => {
+        localStorage.removeItem('user');
+        resolve(true);
+      }, 1000);
+    });
+
+  return p;
+
 }
 
 function realLoginExample(username: string, password: string) {

@@ -1,4 +1,5 @@
 {
+  "MEDICINE": "/",
   "HOME": "/home",
-  "LOGIN": "/"
+  "LOGIN": "/login"
 }
