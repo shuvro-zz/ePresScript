@@ -9,8 +9,8 @@ import MedicinePage from './containers/MedicinePage'
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.MEDICINE} component={MedicinePage} />
-      <Route path={routes.HOME} component={HomePage} />
+      <Route path={routes.MEDICINE} component={HomePage} />
+      <Route path={routes.HOME} component={MedicinePage} />
       <Route path={routes.LOGIN} component={LoginPage} />
     </Switch>
   </App>
