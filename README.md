@@ -115,6 +115,18 @@ Then, use git to merge some latest commits:
 git pull upstream master
 ```
 
-## run migration and seed
+## Install
+
+// Using Yarn
+\$ yarn add sequelize
+
+# And one of the following:
+
+$yarn add pg pg-hstore$ yarn add mysql2
+$yarn add sqlite3$ yarn add tedious // MSSQL
+
+\$ yarn global add sequelize-cli
+
+## Run migration and seed
 
 ` sequelize db:migrate```` `sequelize db:seed:all --debug``
