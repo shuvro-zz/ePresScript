@@ -108,6 +108,18 @@ class AddMedicine extends React.Component<Props, any> {
     event.preventDefault();
   }
 
+  handleLogout(event:any , target:any ){
+    const {loggedIn } = this.props.authentication;
+    event.preventDefault();
+    console.log("logout request");
+    console.log(loggedIn);
+    if (loggedIn) {
+      this.props.logout(loggedIn);
+    }
+
+  }
+
+
   render() {
     console.log(this.props.medicineForm);
 
