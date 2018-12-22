@@ -23,8 +23,6 @@ function mapStateToProps(state: State) {
 
 // Map any actions required to the props
 function mapDispatchToProps(dispatch: any) {
-  console.log('working');
-  console.log(addMedicineActions);
   return bindActionCreators(
     {
       setForm: addMedicineActions.setForm,

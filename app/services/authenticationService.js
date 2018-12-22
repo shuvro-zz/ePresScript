@@ -65,6 +65,8 @@ async function login(username: string, password: string) {
 
     if (user) {
         localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      console.log('not init');  
     }
 
     return user;

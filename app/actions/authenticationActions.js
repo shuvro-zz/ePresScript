@@ -15,8 +15,12 @@ function login(username: string, password: string) {
     authenticationService.login(username, password)
       .then(
         (user: UserType) => {
-          dispatch(success(user));
-          history.push('/medicine');
+          if (user) {
+            dispatch(success(user));
+            history.push('/medicine');
+          } else {
+            dispatch(failure(user));
+          }
         },
         (error: any) => {
           dispatch(failure(error));

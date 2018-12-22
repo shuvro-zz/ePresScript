@@ -111,12 +111,10 @@ class AddMedicine extends React.Component<Props, any> {
   handleLogout(event:any , target:any ){
     const {loggedIn } = this.props.authentication;
     event.preventDefault();
-    console.log("logout request");
-    console.log(loggedIn);
     if (loggedIn) {
       this.props.logout(loggedIn);
+      console.log(loggedIn);
     }
-
   }
 
 
