@@ -64,7 +64,6 @@ class Login extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
-    console.log('in Login constructor');
     // reset logout status
     this.props.logout(false);
 
@@ -95,8 +94,6 @@ class Login extends React.Component<Props, any> {
   handleSubmit(event: any, target: any) {
     console.log("submitted");
     event.preventDefault();
-
-    console.log(this.props.authentication);
 
     this.props.setSubmitted(true);
 

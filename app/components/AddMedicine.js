@@ -105,12 +105,10 @@ class AddMedicine extends React.Component<Props, any> {
   }
 
   handleSubmit(event: any, target: any) {
-    console.log("add medicine submitted");
     event.preventDefault();
   }
 
   render() {
-    console.log("Render Medicine Page");
     console.log(this.props.medicineForm);
 
    const {
