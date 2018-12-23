@@ -129,4 +129,5 @@ $yarn add sqlite3$ yarn add tedious // MSSQL
 
 ## Run migration and seed
 
-` sequelize db:migrate```` `sequelize db:seed:all --debug``
+`sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
+``sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
