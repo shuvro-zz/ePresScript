@@ -1,16 +1,19 @@
 // @flow
-import * as React from 'react';
-import Sidebar from "../components/Sidebar";
-import AppBar from "../components/AppBar";
-import Provider from "react-redux/es/components/Provider";
-import {ConnectedRouter} from "connected-react-router";
-import routes from "../Routes";
+import React, { PureComponent } from 'react';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import type { Store } from '../reducers/types';
+import routes from '../Routes';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Sidebar from '../components/Sidebar';
+import AppBar from '../components/AppBar';
 import PropTypes from "prop-types";
-import connect from "react-redux/es/connect/connect";
-import Root from "../components/Root";
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
-import type {Store} from "../reducers/types";
 import {withStyles} from "@material-ui/core";
+
+import { connect } from 'react-redux';
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
+import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -22,15 +25,15 @@ const styles = theme => ({
   },
 });
 type Props = {
+  authentication: AuthenticationStateType,
   store: Store,
   history: {}
 };
-const mapStateToProps = state => ({
-  authentication: state.authentication
-});
 
-class App extends React.Component<Props> {
+class Root extends React.Component<Props>{
+
   render() {
+    console.log("inside Root()");
     console.log(this.props);
     const { loggedIn} = this.props.authentication.loggedIn;
     const {store , history, classes} = this.props;
@@ -52,11 +55,10 @@ class App extends React.Component<Props> {
           </Provider>
         </main>
       </div>
-
     );
   }
 }
-App.propTypes = {
+Root.propTypes = {
   classes: PropTypes.object.isRequired
 };
-export default connect(mapStateToProps)(withStyles(styles)(App)) ;
+export default withStyles(styles)(Root);

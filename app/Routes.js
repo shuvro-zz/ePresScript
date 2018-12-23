@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Switch, Route } from 'react-router';
-import routes from './constants/routes';
+import routesPath from './constants/routes';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import LoginPage from './containers/LoginPage';
 import MedicinePage from './containers/MedicinePage'
-
-export default () => (
-  <App>
+import DashboardPage from './containers/DashboardPage'
+import PrivateRoute from './containers/PrivateRoute';
+import RootPage from './containers/RootPage';
+const routes = (
+  <div>
     <Switch>
-      <Route path={routes.MEDICINE} component={HomePage} />
-      <Route path={routes.HOME} component={MedicinePage} />
-      <Route path={routes.LOGIN} component={LoginPage} />
+      <PrivateRoute path="/dashboard" component={DashboardPage} />
+      <PrivateRoute path="/medicine" component={MedicinePage} />
+      <PrivateRoute path="/root" component={RootPage} />
+      <Route path="/" component={LoginPage} />
     </Switch>
-  </App>
+  </div>
 );
+
+export default routes;

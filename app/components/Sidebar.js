@@ -16,7 +16,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
+import {mainListItems, secondaryListItems} from "./dashboard/listItems";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ControlPoint from "@material-ui/icons/ControlPoint";
+import { push } from 'connected-react-router';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -52,38 +55,60 @@ const styles = theme => ({
 });
 
 class ResponsiveDrawer extends React.Component {
-  state = {
-    mobileOpen: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      // the articles item is supposed to be open when starting the application
+      openItem: 'dashboard',
+      mobileOpen: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+
+    console.log("inside Sidebar constructor");
+    console.log(this.props );
+  }
+
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
+  // change the selected item
+  handleClick(requestedPath) {
+    // get the currently selected item
+    const { openItem } = this.state;
 
+    // if the clicked item is not the already selected item, it gets selected
+    if (openItem !== requestedPath) {
+      this.setState({
+        openItem: requestedPath,
+      });
+
+      // insert a slash before the requested path to make it a path
+      const path = `/${requestedPath}`;
+      console.log(path);
+      this.props.navigateTo(path, openItem);
+    }
+  }
   render() {
     const { classes, theme } = this.props;
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <ListItem button
+                  onClick={() => this.handleClick('dashboard')}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+
+        <ListItem button
+                  onClick={() => this.handleClick('medicine')}>
+          <ListItemIcon>
+            <ControlPoint />
+          </ListItemIcon>
+          <ListItemText primary="Add medicine" />
+        </ListItem>
       </div>
     );
 

@@ -16,7 +16,7 @@ function login(username: string, password: string) {
       .then(
         (user: UserType) => {
           dispatch(success(user));
-          history.push('/medicine');
+          history.push('/dashboard');
         },
         (error: any) => {
           dispatch(failure(error));
