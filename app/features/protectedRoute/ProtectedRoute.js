@@ -2,23 +2,16 @@ import React, { PureComponent } from 'react';
 import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-// import { checkToken } from '../../features/security';
-//
-// const mapDispatchToProps = {
-//   checkToken,
-// };
-
 const mapStateToProps = state => ({
   loggedIn: state.authentication.loggedIn,
 });
 
-class PrivateRoute extends PureComponent {
-  // if the access token is valid, we're getting the component we want
+class ProtectedRoute extends PureComponent {
+  // if the user is logged in , we're getting the component we want
   // if not, we're redirected to the login
   render() {
     const {
       component: Component,
-      Page,
       loggedIn,
       ...rest
     } = this.props;
@@ -44,4 +37,4 @@ console.log(this.props);
   }
 }
 
-export default connect(mapStateToProps, null)(PrivateRoute);
+export default connect(mapStateToProps, null)(ProtectedRoute);

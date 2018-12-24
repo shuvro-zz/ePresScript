@@ -1,13 +1,9 @@
 // @flow
 import React, { PureComponent } from 'react';
 
-import type { Store } from '../reducers/types';
-
 import { connect } from 'react-redux';
 import DashboardElems from '../components/DashboardItems'
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
-import {addMedicineActions} from "../actions/addMedicineFormActions";
 import {bindActionCreators} from "redux";
 import {authenticationActions} from "../actions/authenticationActions"
 

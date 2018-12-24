@@ -3,18 +3,14 @@ import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import type { Store } from '../reducers/types';
-import routes from '../Routes';
+import routes from '../store/Routes';
 import DashboardItems from './DashboardElementsContainer';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
-import navigateTo from '../actions/navigation';
+import navigateTo from '../features/navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AddMedicine from '../components/AddMedicine';
-import { addMedicineActions } from '../actions/addMedicineFormActions';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 import { authenticationActions } from '../actions/authenticationActions';
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 type Props = {
   store: Store,
@@ -49,7 +45,7 @@ function mapDispatchToProps(dispatch: any) {
   );
 }
 
-class RootPage extends React.Component<Props>{
+class RootContainer extends React.Component<Props>{
 
   render() {
     const { classes, theme } = this.props;
@@ -80,7 +76,7 @@ class RootPage extends React.Component<Props>{
     );
   }
 }
-RootPage.propTypes = {
+RootContainer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(RootPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(RootContainer));

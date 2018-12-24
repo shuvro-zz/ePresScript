@@ -21,11 +21,9 @@ import Badge from "@material-ui/core/Badge/Badge";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -143,12 +141,11 @@ class ResponsiveDrawer extends React.Component {
   constructor(props: Props, state: any) {
     super(props);
     this.state = {
-      // the articles item is supposed to be open when starting the application
+      // initial menu
       currentPath: 'dashboard',
       //mobileOpen: false,
       open:true,
     };
-
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
     console.log(this.props);
@@ -163,7 +160,6 @@ class ResponsiveDrawer extends React.Component {
     this.setState({ open: false });
   };
 
-  // change the selected item
   handleClick(requestedPath) {
     // get the currently selected item
     const { currentPath } = this.state;
@@ -180,11 +176,8 @@ class ResponsiveDrawer extends React.Component {
     }
   }
   handleLogout(event){
-    console.log("logout request");
     const {loggedIn } = this.props.authentication;
     event.preventDefault();
-    console.log("logout request");
-    console.log(loggedIn);
     if (loggedIn) {
       this.props.logout(loggedIn);
     }
@@ -222,109 +215,105 @@ class ResponsiveDrawer extends React.Component {
       </div>
     );
     return (
-<div className={classes.root}>
-  <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={classNames(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={this.handleDrawerOpen}
-            className={classNames(classes.menuButton, {
-              [classes.hide]: this.state.open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            {currentPath}
-          </Typography>
-          <div className={classes.grow} />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          className={classNames(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
             <IconButton
-              aria-owns ='material-appbar'
-              aria-haspopup="true"
-              onClick={this.handleProfileMenuOpen}
               color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerOpen}
+              className={classNames(classes.menuButton, {
+                [classes.hide]: this.state.open,
+              })}
             >
-              <AccountCircle />
+              <MenuIcon />
             </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-            <Drawer
-              variant="permanent"
-              className={classNames(classes.drawer, {
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.title}
+            >
+              {currentPath}
+              </Typography>
+            <div className={classes.grow} />
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+              />
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <IconButton color="inherit">
+                <Badge badgeContent={17} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                aria-owns ='material-appbar'
+                aria-haspopup="true"
+                onClick={this.handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+
+        <Drawer
+          variant="permanent"
+            className={classNames(classes.drawer, {
+              [classes.drawerOpen]: this.state.open,
+              [classes.drawerClose]: !this.state.open,
+            })}
+            classes={{
+              paper: classNames({
                 [classes.drawerOpen]: this.state.open,
                 [classes.drawerClose]: !this.state.open,
-              })}
-              classes={{
-                paper: classNames({
-                  [classes.drawerOpen]: this.state.open,
-                  [classes.drawerClose]: !this.state.open,
-                }),
-              }}
-              open={open}
+              }),
+            }}
+          open={open}>
+          <div className={classes.toolbar}>
+            <IconButton
+              aria-label="More"
+              aria-haspopup="true"
+              onClick={this.handleDrawerClose}
             >
-              <div className={classes.toolbar}>
-                <IconButton
-                  aria-label="More"
-                  aria-haspopup="true"
-                  onClick={this.handleDrawerClose}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </div>
-              <Divider />
-              {primaryItems}
-              <Divider />
-              {secondaryItems}
-
-            </Drawer>
-</div>
-
+              <MoreVertIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          {primaryItems}
+          <Divider />
+          {secondaryItems}
+          </Drawer>
+      </div>
     );
   }
 }
 
 ResponsiveDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
   container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };

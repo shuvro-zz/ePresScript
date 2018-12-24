@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Switch, Route } from 'react-router';
-import routesPath from './constants/routes';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import LoginPage from './containers/LoginPage';
-import MedicinePage from './containers/MedicinePage'
-import DashboardPage from './containers/DashboardPage'
-import PrivateRoute from './containers/PrivateRoute';
-import RootPage from './containers/RootPage';
+import TreatmentContainer from '../containers/TreatmentContainer';
+import LoginPage from '../containers/LoginContainer';
+import MedicinePage from '../containers/MedicineContainer'
+import DashboardPage from '../containers/DashboardContentContainer'
+import PrivateRoute from '../features/protectedRoute/ProtectedRoute';
+import RootPage from '../containers/RootContainer';
 const routes = (
   <div>
     <Switch>
