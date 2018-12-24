@@ -11,6 +11,11 @@ import {addMedicineActions} from "../actions/addMedicineFormActions";
 import {bindActionCreators} from "redux";
 import {authenticationActions} from "../actions/authenticationActions"
 
+
+/**
+ *
+ * Add navigate
+ */
 type State = {
   authentication: AuthenticationStateType
 };
