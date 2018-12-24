@@ -1,13 +1,36 @@
 // @flow
-import React, { Component } from 'react';
-import Home from '../components/Home';
 
-type Props = {};
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import {bindActionCreators} from "redux";
+import {addMedicineActions} from "../actions/addMedicineFormActions";
+import Treatment from '../components/Treatment';
 
-export default class TreatmentContainer extends Component<Props> {
-  props: Props;
+type State = {
+  medicineForm: AddMedicineFormStateType
+};
 
-  render() {
-    return <Home />;
-  }
+// Map the stuff we want from the global application state in redux to the props
+function mapStateToProps(state: State) {
+  return {
+    medicineForm: state.medicineForm
+  };
 }
+
+// Map any actions required to the props
+function mapDispatchToProps(dispatch: any) {
+  return bindActionCreators(
+    {
+      setForm: addMedicineActions.setForm,
+      setName: addMedicineActions.setName,
+      setStrength: addMedicineActions.setStrength,
+      setFrequency: addMedicineActions.setFrequency,
+      setRemark: addMedicineActions.setRemark,
+      setSubmitted: addMedicineActions.setSubmitted
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Treatment);

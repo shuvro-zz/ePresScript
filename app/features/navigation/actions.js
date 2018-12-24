@@ -11,6 +11,8 @@ const navigateTo = (path, location) => (dispatch) => {
   console.log("inside navigateTo action");
   console.log(path);
   console.log(location);
+  console.log(dispatch);
+
   // don't route unnecessarily!
   if (location !== path) dispatch(push(path));
 };

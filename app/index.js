@@ -4,15 +4,17 @@ import { AppContainer } from 'react-hot-loader';
 import RootContainer from './containers/RootContainer';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
+import Provider from "react-redux/es/components/Provider";
+
 
 const store = configureStore();
 
 render(
-
-  <AppContainer>
-    <RootContainer store={store} history={history} />
-  </AppContainer>,
-
+    <Provider store={store}>
+      <AppContainer>
+        <RootContainer store={store} history={history} />
+      </AppContainer>
+    </Provider>,
   document.getElementById('root')
 );
 

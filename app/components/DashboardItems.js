@@ -172,7 +172,7 @@ class ResponsiveDrawer extends React.Component {
       // insert a slash before the requested path to make it a path
       const path = `/${requestedPath}`;
       console.log(path);
-      this.props.navigateTo(path, currentPath);
+      this.props.navigate(path, currentPath);
     }
   }
   handleLogout(event){
@@ -200,6 +200,13 @@ class ResponsiveDrawer extends React.Component {
             <ControlPoint />
           </ListItemIcon>
           <ListItemText primary="Add medicine" />
+        </ListItem>
+        <ListItem button
+                  onClick={() => this.handleClick('treatment')}>
+          <ListItemIcon>
+            <ControlPoint />
+          </ListItemIcon>
+          <ListItemText primary="Add Treatment" />
         </ListItem>
       </div>
     );

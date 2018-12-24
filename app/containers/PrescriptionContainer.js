@@ -1,8 +1,7 @@
-// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AddMedicine from '../components/AddMedicine';
+import Prescription from '../components/Prescription';
 import { addMedicineActions } from '../actions/addMedicineFormActions';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 
@@ -14,7 +13,7 @@ type State = {
 function mapStateToProps(state: State) {
   return {
     medicineForm: state.medicineForm
-};
+  };
 }
 
 // Map any actions required to the props
@@ -33,4 +32,4 @@ function mapDispatchToProps(dispatch: any) {
 }
 type Props = {};
 
-export default connect(mapStateToProps,mapDispatchToProps)(AddMedicine);
+export default connect(mapStateToProps,mapDispatchToProps)(Prescription);

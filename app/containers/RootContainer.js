@@ -6,11 +6,12 @@ import type { Store } from '../reducers/types';
 import routes from '../store/Routes';
 import DashboardItems from './DashboardElementsContainer';
 import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core";
+import {MuiThemeProvider, withStyles} from "@material-ui/core";
 import navigateTo from '../features/navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { authenticationActions } from '../actions/authenticationActions';
+import muiTheme from "../assets/AppTheme";
 
 type Props = {
   store: Store,
@@ -21,9 +22,9 @@ const styles = theme => ({
     display: 'flex',
   },
   content: {
-    marginTop: 64,
+    marginTop: 50,
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit,
   },
 });
 
@@ -52,27 +53,22 @@ class RootContainer extends React.Component<Props>{
     const { store, history , navigate} = this.props;
     const{loggedIn} = this.props.authentication;
     return (
-      <Provider store={store}>
+      <MuiThemeProvider theme={muiTheme}>
       <div className={classes.root}>
         {loggedIn // render the bars if we're logged in
         && (
           <div>
-
-              <DashboardItems navigateTo={navigate} />
-
-
-
+              <DashboardItems />
           </div>
         )
         }
         <main className={classes.content}>
-
             <ConnectedRouter history={history}>
               {routes}
             </ConnectedRouter>
         </main>
       </div>
-      </Provider>
+      </MuiThemeProvider>
     );
   }
 }

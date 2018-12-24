@@ -6,6 +6,7 @@ import DashboardElems from '../components/DashboardItems'
 import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 import {bindActionCreators} from "redux";
 import {authenticationActions} from "../actions/authenticationActions"
+import navigateTo from "../features/navigation";
 
 
 /**
@@ -27,7 +28,8 @@ function mapStateToProps(state: State) {
 function mapDispatchToProps(dispatch: any) {
   return bindActionCreators(
     {
-      logout : authenticationActions.logout
+      logout : authenticationActions.logout,
+      navigate: navigateTo
     },
     dispatch
   );

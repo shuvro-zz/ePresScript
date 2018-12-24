@@ -1,18 +1,21 @@
 import React, { PureComponent } from 'react';
 import { Switch, Route } from 'react-router';
 import TreatmentContainer from '../containers/TreatmentContainer';
-import LoginPage from '../containers/LoginContainer';
-import MedicinePage from '../containers/MedicineContainer'
-import DashboardPage from '../containers/DashboardContentContainer'
-import PrivateRoute from '../features/protectedRoute/ProtectedRoute';
-import RootPage from '../containers/RootContainer';
+import LoginContainer from '../containers/LoginContainer';
+import MedicineContainer from '../containers/MedicineContainer'
+import DashboardContentContainer from '../containers/DashboardContentContainer'
+import ProtectedRoute from '../features/protectedRoute/ProtectedRoute';
+import RootContainer from '../containers/RootContainer';
+import PrescriptionContainer from '../containers/PrescriptionContainer';
 const routes = (
   <div>
     <Switch>
-      <PrivateRoute path="/dashboard" component={DashboardPage} />
-      <PrivateRoute path="/medicine" component={MedicinePage} />
-      <PrivateRoute path="/root" component={RootPage} />
-      <Route path="/" component={LoginPage} />
+      <ProtectedRoute path="/prescription" component={PrescriptionContainer} />
+      <ProtectedRoute path="/treatment" component={TreatmentContainer} />
+      <ProtectedRoute path="/dashboard" component={DashboardContentContainer} />
+      <ProtectedRoute path="/medicine" component={MedicineContainer} />
+      <ProtectedRoute path="/root" component={RootContainer} />
+      <Route path="/" component={LoginContainer} />
     </Switch>
   </div>
 );

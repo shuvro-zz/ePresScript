@@ -7,12 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 const styles = theme => ({
 
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing.unit * 3,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -44,8 +43,6 @@ const styles = theme => ({
 });
 
 type Props = {
-  authentication: AuthenticationStateType,
-  logout: () => void,
   medicineForm: AddMedicineFormStateType,
   setForm: (form: string) => void,
   setName: (name: string) => void,
