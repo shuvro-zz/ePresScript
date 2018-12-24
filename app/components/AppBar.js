@@ -55,10 +55,7 @@ const styles = theme => ({
     width: '100%',
   },
   appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
+    marginLeft: 'auto',
   },
   inputInput: {
     paddingTop: theme.spacing.unit,

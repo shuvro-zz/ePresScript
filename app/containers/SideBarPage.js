@@ -6,7 +6,7 @@ import type { Store } from '../reducers/types';
 import {withStyles} from "@material-ui/core";
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/DashboardItems'
 import navigateTo from '../actions/navigation';
 
 const mapDispatchToProps = {

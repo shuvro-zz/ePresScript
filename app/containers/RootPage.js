@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import type { Store } from '../reducers/types';
 import routes from '../Routes';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Sidebar from '../components/Sidebar';
-import AppBar from '../components/AppBar';
+import DashboardItems from '../components/DashboardItems';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import navigateTo from '../actions/navigation';
@@ -42,8 +40,8 @@ class RootPage extends React.Component<Props>{
         {loggedIn // render the bars if we're logged in
         && (
           <div>
-            <Sidebar navigateTo={navigate}/>
-            <AppBar />
+            <DashboardItems navigateTo={navigate}  loggedIn = {loggedIn}/>
+
           </div>
         )
         }
