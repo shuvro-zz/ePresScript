@@ -24,6 +24,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
+import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -137,9 +139,8 @@ const styles = theme => ({
   },
 });
 
-
 class ResponsiveDrawer extends React.Component {
-  constructor(props) {
+  constructor(props: Props, state: any) {
     super(props);
     this.state = {
       // the articles item is supposed to be open when starting the application
@@ -150,7 +151,7 @@ class ResponsiveDrawer extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
-    console.log(this.props );
+    console.log(this.props);
   }
 
 
@@ -178,8 +179,15 @@ class ResponsiveDrawer extends React.Component {
       this.props.navigateTo(path, currentPath);
     }
   }
-  handleLogout(){
+  handleLogout(event){
     console.log("logout request");
+    const {loggedIn } = this.props.authentication;
+    event.preventDefault();
+    console.log("logout request");
+    console.log(loggedIn);
+    if (loggedIn) {
+      this.props.logout(loggedIn);
+    }
   }
   render() {
     const { classes, theme } = this.props;
@@ -205,7 +213,7 @@ class ResponsiveDrawer extends React.Component {
     const secondaryItems = (
       <div>
         <ListItem button
-                  onClick={() => this.handleLogout()}>
+                  onClick={() => this.handleLogout(event)}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>

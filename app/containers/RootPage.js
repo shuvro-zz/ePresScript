@@ -4,11 +4,18 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import type { Store } from '../reducers/types';
 import routes from '../Routes';
-import DashboardItems from '../components/DashboardItems';
+import DashboardItems from './DashboardElementsContainer';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import navigateTo from '../actions/navigation';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import AddMedicine from '../components/AddMedicine';
+import { addMedicineActions } from '../actions/addMedicineFormActions';
+import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import { authenticationActions } from '../actions/authenticationActions';
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
+
 type Props = {
   store: Store,
   history: {}
@@ -23,41 +30,57 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
 });
-const mapDispatchToProps = {
-  navigate: navigateTo,
 
-};
-const mapStateToProps = state => ({
-  loggedIn: state.authentication.loggedIn,
-});
+// Map the stuff we want from the global application state in redux to the props
+function mapStateToProps(state: State) {
+  return {
+    authentication: state.authentication
+  };
+}
+
+// Map any actions required to the props
+function mapDispatchToProps(dispatch: any) {
+  return bindActionCreators(
+    {
+      navigate: navigateTo,
+      logout : authenticationActions.logout
+    },
+    dispatch
+  );
+}
+
 class RootPage extends React.Component<Props>{
 
   render() {
     const { classes, theme } = this.props;
-    const { store, history , loggedIn, navigate} = this.props;
+    const { store, history , navigate} = this.props;
+    const{loggedIn} = this.props.authentication;
     return (
+      <Provider store={store}>
       <div className={classes.root}>
         {loggedIn // render the bars if we're logged in
         && (
           <div>
-            <DashboardItems navigateTo={navigate}  loggedIn = {loggedIn}/>
+
+              <DashboardItems navigateTo={navigate} />
+
+
 
           </div>
         )
         }
         <main className={classes.content}>
-          <Provider store={store}>
+
             <ConnectedRouter history={history}>
               {routes}
             </ConnectedRouter>
-          </Provider>
         </main>
       </div>
+      </Provider>
     );
   }
 }
 RootPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  loggedIn: PropTypes.bool.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(RootPage));
