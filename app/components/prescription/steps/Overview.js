@@ -1,9 +1,6 @@
-// @flow
 import React, { Component } from 'react';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 
 type Props = {
-  medicineForm: AddMedicineFormStateType,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,
@@ -12,11 +9,11 @@ type Props = {
   setSubmitted: (submitted: boolean) => void
 };
 
-class Treatment extends React.Component<Props, any> {
+class Overview extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
-    console.log('in Treatment constructor');
+    console.log('in Overview constructor');
     console.log(props);
   }
 
@@ -24,10 +21,10 @@ class Treatment extends React.Component<Props, any> {
     const { classes } = this.props;
     return (
       <div>
-        <h1> Add a Treatment </h1>
+        <h1> Overview </h1>
       </div>
     );
   }
 }
 
-export default (Treatment);
+export default (Overview);

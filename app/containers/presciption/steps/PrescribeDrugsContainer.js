@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
+// @flow
+
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import Prescription from '../components/Prescription';
-import { addMedicineActions } from '../actions/addMedicineFormActions';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import type {AddMedicineFormStateType} from "../../../types/state/AddMedicineFormStateType";
+import {bindActionCreators} from "redux";
+import {addMedicineActions} from "../../../actions/addMedicineFormActions";
+import PrescribeDrugs from '../../../components/prescription/steps/PrescribeDrugs';
 
 type State = {
   medicineForm: AddMedicineFormStateType
@@ -30,6 +32,5 @@ function mapDispatchToProps(dispatch: any) {
     dispatch
   );
 }
-type Props = {};
 
-export default connect(mapStateToProps,mapDispatchToProps)(Prescription);
+export default connect(mapStateToProps,mapDispatchToProps)(PrescribeDrugs);

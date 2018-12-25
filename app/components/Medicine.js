@@ -58,8 +58,6 @@ class Medicine extends React.Component<Props, any> {
     super(props);
     console.log('in Medicine constructor');
     console.log(props);
-    console.log('End of Add Medicine props');
-    // Set initial values for login form
 
     props.setForm("");
     props.setName("");
@@ -107,9 +105,6 @@ class Medicine extends React.Component<Props, any> {
   }
 
   render() {
-    console.log("Render Medicine Page");
-    console.log(this.props.medicineForm);
-
    const {
      currentMedicineForm,
      currentMedicineName,

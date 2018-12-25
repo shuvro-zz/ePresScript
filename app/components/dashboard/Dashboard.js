@@ -4,10 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from '@material-ui/core/Button';
-import {history} from "../store/configureStore";
+import {history} from "../../store/configureStore";
 import CloudUploadIcon from '@material-ui/icons/Subject';
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import {Redirect, Route} from "react-router";
 
 const styles = theme => ({
   main: {

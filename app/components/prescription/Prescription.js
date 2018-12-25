@@ -4,10 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
+//import all the prescription steps containers
+import PatientDetailsContainer from '../../containers/presciption/steps/PatientDetailsContainer';
+import PrescribeDrugsContainer from '../../containers/presciption/steps/PrescribeDrugsContainer';
+import OverviewContainer from '../../containers/presciption/steps/OverviewContainer';
+import CheckUpExaminationContainer from '../../containers/presciption/steps/CheckUpExaminationContainer';
+
+import type {AddMedicineFormStateType} from "../../types/state/AddMedicineFormStateType";
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -45,27 +52,45 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
   },
 });
+type Props = {
+  medicineForm: AddMedicineFormStateType,
+  setForm: (form: string) => void,
+  setName: (name: string) => void,
+  setStrength: (strength: string) => void,
+  setFrequency: (frequency: string) => void,
+  setRemark: (remark: string) => void,
+  setSubmitted: (submitted: boolean) => void
+};
 
 function getSteps() {
-  return ['Patient Details', 'Checkup & Examination', 'Prescribe Drugs'];
+  return ['Patient Details', 'Checkup & Examination', 'Prescribe Drugs', 'Overview'];
 }
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `Descriptions for first step`;
+
+      return <PatientDetailsContainer />;
     case 1:
-      return 'Descriptions for second step';
+      return <CheckUpExaminationContainer/>;
     case 2:
-      return `Descriptions for third step`;
+      return <PrescribeDrugsContainer />;
+    case 3:
+      return <OverviewContainer />;
     default:
       return 'Unknown step';
   }
 }
 class Prescription extends React.Component<Props, any> {
-  state = {
-    activeStep: 0,
-    skipped: new Set(),
-  };
+  constructor(props: Props, state: any) {
+    super(props);
+    console.log('in Prescription constructor');
+    console.log(props);
+    this.state = {
+      activeStep: 0,
+      skipped: new Set(),
+      stepName:''
+    };
+  }
 
   isStepOptional = step => {
     return step === 1;
@@ -119,8 +144,6 @@ class Prescription extends React.Component<Props, any> {
   }
 
   render() {
-    console.log("Render Prescription Container");
-
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
@@ -145,7 +168,9 @@ class Prescription extends React.Component<Props, any> {
           })}
         </Stepper>
         <div className={classes.stepContents}>
-          <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+          {/* Check for the current step and show the container */}
+          {getStepContent(activeStep)}
+
         </div>
         <div>
           {activeStep === steps.length ? (

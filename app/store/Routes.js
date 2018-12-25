@@ -6,7 +6,7 @@ import MedicineContainer from '../containers/MedicineContainer'
 import DashboardContentContainer from '../containers/DashboardContentContainer'
 import ProtectedRoute from '../features/protectedRoute/ProtectedRoute';
 import RootContainer from '../containers/RootContainer';
-import PrescriptionContainer from '../containers/PrescriptionContainer';
+import PrescriptionContainer from '../containers/presciption/PrescriptionContainer';
 const routes = (
   <div>
     <Switch>
