@@ -38,14 +38,15 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   stepContents:{
-    width: '70%',
+    width: '80%',
     height: '100%',
     float:'left',
   },
   stepper: {
-    width: '30%',
+    width: '20%',
     height: '100%',
     float:'left',
+
   },
   instructions: {
     marginTop: theme.spacing.unit,

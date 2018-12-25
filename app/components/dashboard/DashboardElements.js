@@ -275,6 +275,9 @@ class ResponsiveDrawer extends React.Component {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
+              {/* still need to code handleProfileMenuOpen*/}
+
               <IconButton
                 aria-owns ='material-appbar'
                 aria-haspopup="true"
