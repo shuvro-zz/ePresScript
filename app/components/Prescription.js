@@ -1,85 +1,184 @@
 import React, { Component } from 'react';
-import styles from './Home.css';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
-import withStyles from "@material-ui/core/styles/withStyles";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+const styles = theme => ({
+  root: {
+    width: '100%',
+    height: '100%',
+    marginTop: theme.spacing.unit * 3,
+  },
+  buttonBack: {
+    marginTop: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    float:'left',
+  },
+  buttonNext: {
+    marginTop: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    float:'right',
+  },
+  actionsContainer: {
+    marginBottom: theme.spacing.unit * 2,
+  },
+  resetContainer: {
+    padding: theme.spacing.unit * 3,
+  },
+  stepContents:{
+    width: '70%',
+    height: '100%',
+    float:'left',
+  },
+  stepper: {
+    width: '30%',
+    height: '100%',
+    float:'left',
+  },
+  instructions: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
+  },
+});
 
-type Props = {
-  medicineForm: AddMedicineFormStateType,
-  setForm: (form: string) => void,
-  setName: (name: string) => void,
-  setStrength: (strength: string) => void,
-  setFrequency: (frequency: string) => void,
-  setRemark: (remark: string) => void,
-  setSubmitted: (submitted: boolean) => void
-};
-
-class Prescription extends React.Component<Props, any> {
-
-  constructor(props: Props, state: any) {
-    super(props);
-    console.log('in AddMedicine constructor');
-    console.log(props);
-    console.log('End of Add Medicine props');
-    // Set initial values for login form
-
-    props.setForm("");
-    props.setName("");
-    props.setFrequency("");
-    props.setStrength("");
-    props.setRemark("");
-    this.props.setSubmitted(false);
+function getSteps() {
+  return ['Patient Details', 'Checkup & Examination', 'Prescribe Drugs'];
+}
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return `Descriptions for first step`;
+    case 1:
+      return 'Descriptions for second step';
+    case 2:
+      return `Descriptions for third step`;
+    default:
+      return 'Unknown step';
   }
+}
+class Prescription extends React.Component<Props, any> {
+  state = {
+    activeStep: 0,
+    skipped: new Set(),
+  };
 
-  handleChange(event: any, target: any) {
-    const name = event.target.name;
-    const value = event.target.value;
+  isStepOptional = step => {
+    return step === 1;
+  };
 
-    console.log(this.props);
-    // // If the user is editting again submitted must be false...
-    if (value == "") {
-      this.props.setSubmitted(false);
+  handleNext = () => {
+    const { activeStep } = this.state;
+    let { skipped } = this.state;
+    if (this.isStepSkipped(activeStep)) {
+      skipped = new Set(skipped.values());
+      skipped.delete(activeStep);
     }
+    this.setState({
+      activeStep: activeStep + 1,
+      skipped,
+    });
+  };
 
-    switch (name) {
-      case "form":
-        this.props.setForm(value);
-        break;
+  handleBack = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }));
+  };
 
-      case "name":
-        this.props.setName(value);
-        break;
+  // handleSkip = () => {
+  //   const { activeStep } = this.state;
+  //   if (!this.isStepOptional(activeStep)) {
+  //     // You probably want to guard against something like this,
+  //     // it should never occur unless someone's actively trying to break something.
+  //     throw new Error("You can't skip a step that isn't optional.");
+  //   }
+  //
+  //   this.setState(state => {
+  //     const skipped = new Set(state.skipped.values());
+  //     skipped.add(activeStep);
+  //     return {
+  //       activeStep: state.activeStep + 1,
+  //       skipped,
+  //     };
+  //   });
+  // };
 
-      case "strength":
-        this.props.setStrength(value);
-        break;
-      case "frequency":
-        this.props.setFrequency(value);
-        break;
-      case "remark":
-        this.props.setRemark(value);
-        break;
+  handleReset = () => {
+    this.setState({
+      activeStep: 0,
+    });
+  };
 
-    }
+  isStepSkipped(step) {
+    return this.state.skipped.has(step);
   }
 
   render() {
-    console.log("Render Medicine Page");
-    console.log(this.props.medicineForm);
-
-    const {
-      currentMedicineForm,
-      currentMedicineName,
-      currentMedicineStrength,
-      currentMedicineFrequency,
-      currentMedicineRemark,
-      submitted
-    } = this.props.medicineForm;
+    console.log("Render Prescription Container");
 
     const { classes } = this.props;
+    const steps = getSteps();
+    const { activeStep } = this.state;
 
     return (
-      <div>
-        <h1> New Prescription</h1>
+      <div className={classes.root}>
+        <Stepper activeStep={activeStep} orientation="vertical" className={classes.stepper}>
+          {steps.map((label, index) => {
+            const props = {};
+            const labelProps = {};
+            if (this.isStepOptional(index)) {
+              labelProps.optional = <Typography variant="caption">Optional</Typography>;
+            }
+            if (this.isStepSkipped(index)) {
+              props.completed = false;
+            }
+            return (
+              <Step key={label} {...props}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        <div className={classes.stepContents}>
+          <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+        </div>
+        <div>
+          {activeStep === steps.length ? (
+            <div>
+              <Typography className={classes.instructions}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={this.handleReset} className={classes.button}>
+                Reset
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <div>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={this.handleBack}
+                  className={classes.buttonBack}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}
+                  className={classes.buttonNext}
+                >
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

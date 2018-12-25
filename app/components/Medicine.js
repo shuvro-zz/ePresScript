@@ -52,11 +52,11 @@ type Props = {
   setSubmitted: (submitted: boolean) => void
 };
 
-class AddMedicine extends React.Component<Props, any> {
+class Medicine extends React.Component<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
-    console.log('in AddMedicine constructor');
+    console.log('in Medicine constructor');
     console.log(props);
     console.log('End of Add Medicine props');
     // Set initial values for login form
@@ -202,4 +202,4 @@ class AddMedicine extends React.Component<Props, any> {
   }
 }
 
-export default withStyles(styles)(AddMedicine);
+export default withStyles(styles)(Medicine);

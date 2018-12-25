@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-import styles from './Home.css';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -86,4 +85,4 @@ class Treatment extends React.Component<Props, any> {
   }
 }
 
-export default withStyles(styles)(Treatment);
+export default (Treatment);

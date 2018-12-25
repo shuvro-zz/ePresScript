@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
-import Dashboard from '../components/Dashboard'
+import Dashboard from '../components/dashboard/Dashboard'
 import navigateTo from "../features/navigation";
 import {bindActionCreators} from "redux";
 

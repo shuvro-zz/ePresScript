@@ -4,14 +4,14 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import type { Store } from '../reducers/types';
 import routes from '../store/Routes';
-import DashboardItems from './DashboardElementsContainer';
+import DashboardElementsContainer from './DashboardElementsContainer';
 import PropTypes from "prop-types";
 import {MuiThemeProvider, withStyles} from "@material-ui/core";
 import navigateTo from '../features/navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { authenticationActions } from '../actions/authenticationActions';
-import muiTheme from "../assets/AppTheme";
+import muiTheme from "../assets/theme";
 
 type Props = {
   store: Store,
@@ -25,6 +25,21 @@ const styles = theme => ({
     marginTop: 50,
     flexGrow: 1,
     padding: theme.spacing.unit,
+  },
+  contentWindow: {
+    marginTop: 64,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 64,
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+    },
+    padding: 8,
+    paddingTop: 0,
+  },
+
+  contentBeneathTabBar: {
+    paddingTop: 56,
   },
 });
 
@@ -58,7 +73,7 @@ class RootContainer extends React.Component<Props>{
         {loggedIn // render the bars if we're logged in
         && (
           <div>
-              <DashboardItems />
+              <DashboardElementsContainer />
           </div>
         )
         }

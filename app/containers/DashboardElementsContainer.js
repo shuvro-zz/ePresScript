@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
-import DashboardElems from '../components/DashboardItems'
+import DashboardElements from '../components/dashboard/DashboardElements'
 import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 import {bindActionCreators} from "redux";
 import {authenticationActions} from "../actions/authenticationActions"
@@ -35,4 +35,4 @@ function mapDispatchToProps(dispatch: any) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardElems);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardElements);

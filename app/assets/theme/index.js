@@ -4,7 +4,7 @@ import {
   primaryColor,
   secondaryColor,
   highlightColor,
-} from '../GlobalConstants';
+} from '../styleConstants';
 
 // ****************************************** THEME ********************************************* //
 
@@ -72,11 +72,6 @@ const muiTheme = createMuiTheme({
   typography: {
     fontFamily: 'Roboto',
     fontSize: '1rem',
-    // rem means relative to the html document's fontsize (2rem*10px = 20px)
-    // -> important for accessibility!
-    // "fontWeightLight": 300,
-    // "fontWeightRegular": 400,
-    // "fontWeightMedium": 500
   },
 });
 
