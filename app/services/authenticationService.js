@@ -3,11 +3,11 @@
  */
 
 import type {UserType} from "../types/common/UserType";
-
+import {models} from "../models";
 import {database} from "../services/database";
 
 export const authenticationService = {
-    login: fakeLogin,
+    login: login,
     logout : fakelogout
 };
 
@@ -89,4 +89,21 @@ function handleResponse(response: any) {
 
 function handleError(error: any) {
     return Promise.reject(error && error.message);
+}
+async function login(username: string, password: string) {
+
+  const user = await models.User.findOne({
+    where: {
+      email: username,
+      password: password
+    }
+  });
+
+  if (user) {
+    localStorage.setItem('user', JSON.stringify(user));
+  } else {
+    console.log('not init');
+  }
+
+  return user;
 }

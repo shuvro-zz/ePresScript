@@ -22,6 +22,7 @@ class PrescribeDrugs extends React.Component<Props, any> {
     return (
       <div>
         <h1> Prescribe Drugs </h1>
+        <h2> Code me! </h2>
       </div>
     );
   }

@@ -22,6 +22,7 @@ class CheckUpExamination extends React.Component<Props, any> {
     return (
       <div>
         <h1> Check-Up And Examination </h1>
+        <h2> Code me! </h2>
       </div>
     );
   }
