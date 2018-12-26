@@ -13,6 +13,7 @@ const styles = theme => ({
     display: 'block', // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 20,
     [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
       marginLeft: 'auto',
@@ -20,7 +21,6 @@ const styles = theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -64,9 +64,6 @@ class Dashboard extends React.Component<Props, any> {
 
     console.log("Render Dashboard Components");
     const { classes, theme } = this.props;
-    const {
-      loggedIn,
-    } = this.props;
     return (
       <main className={classes.main}>
         <CssBaseline />

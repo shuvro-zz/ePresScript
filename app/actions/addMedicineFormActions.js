@@ -1,4 +1,6 @@
-import {addMedicineConstants} from '../constants';
+import {addMedicineConstants, authenticationConstants} from '../constants';
+import {history} from "../store/configureStore";
+import {medicineService} from "../services";
 
 export const addMedicineActions = {
   setForm,
@@ -6,7 +8,8 @@ export const addMedicineActions = {
   setStrength,
   setFrequency,
   setRemark,
-  setSubmitted
+  setSubmitted,
+  saveMedicine
 };
 
 function setForm(form: string) {
@@ -21,7 +24,6 @@ function setForm(form: string) {
     }
   }
 }
-
 
 function setName(name: string) {
   return (dispatch: any) => {
@@ -84,4 +86,10 @@ function setSubmitted(value: boolean) {
     }
   }
 }
+function saveMedicine(value: object) {
+  console.log("inside saveMedicine()");
 
+  medicineService.saveMedicine(value);
+  return {
+    type: addMedicineConstants.SAVE_MEDICINE,};
+}

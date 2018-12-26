@@ -7,39 +7,46 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
+import Snackbar from '@material-ui/core/Snackbar';
+import FormControl from "@material-ui/core/FormControl/FormControl";
 
 const styles = theme => ({
-
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit * 10,
+    [theme.breakpoints.up(800)]: {
+      width: 550,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
   paper: {
-    marginTop: theme.spacing.unit * 3,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
   },
-
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-    width: 200,
+    width:200,
+    marginTop: theme.spacing.unit*3,
   },
   addMedReqTextFields: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 400,
+    width: 220,
   },
   addMedRemarkTextField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '90%',
-    height:200,
+    width: 455,
   },
-  button: {
-    margin: theme.spacing.unit,
-  },
+
 });
 
 type Props = {
@@ -64,6 +71,17 @@ class Medicine extends React.Component<Props, any> {
     props.setFrequency("");
     props.setStrength("");
     props.setRemark("");
+    this.state = {
+      form:'',
+      name:'',
+      frequency:'',
+      strength:'',
+      remark:'',
+      open: false,
+      vertical: 'top',
+      horizontal: 'center',
+    };
+
     this.props.setSubmitted(false);
   }
 
@@ -79,31 +97,52 @@ class Medicine extends React.Component<Props, any> {
 
     switch (name) {
       case "form":
+        this.setState({form:value});
         this.props.setForm(value);
         break;
 
       case "name":
+        this.setState({name:value});
         this.props.setName(value);
         break;
 
       case "strength":
+        this.setState({strength:value});
         this.props.setStrength(value);
         break;
       case "frequency":
+        this.setState({frequency:value});
         this.props.setFrequency(value);
         break;
       case "remark":
+        this.setState({remark:value});
         this.props.setRemark(value);
         break;
 
     }
   }
-
   handleSubmit(event: any, target: any) {
-    console.log("add medicine submitted");
     event.preventDefault();
+    const { form, name,frequency,strength,remark } = this.state; // get the values from the state
+    let newMedicine = {form:form,name:name, frequency:frequency, remark:remark, strength:strength}; // create a new medicine by passing the values as object to the service
+    this.props.saveMedicine(newMedicine);
+
+    /**
+     * TODO :
+     * Need to implement something that checks
+     * the success or failure of db and use maybe snackbar to show the msg
+     * and also reset the entire form for new medicine
+     * **/
   }
 
+  /** For Snackbar to be used later on for success or failure notification
+  handleClick = state => () => {
+    this.setState({ open: true, ...state });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  }; */
   render() {
    const {
      currentMedicineForm,
@@ -113,12 +152,14 @@ class Medicine extends React.Component<Props, any> {
      currentMedicineRemark,
      submitted
     } = this.props.medicineForm;
-
+    const { vertical, horizontal, open } = this.state;
     const { classes } = this.props;
 
     return (
-      <div>
+      <div className={classes.main}>
+        <CssBaseline />
         <Paper className={classes.paper}>
+          <FormControl margin="normal" required fullWidth>
           <form className={classes.form}
                 onSubmit={(event: any, target: any) => {
                   this.handleSubmit(event, target);
@@ -126,6 +167,7 @@ class Medicine extends React.Component<Props, any> {
           >
 
             <TextField
+              required={true}
               id="form"
               name="form"
               label="Form"
@@ -137,6 +179,7 @@ class Medicine extends React.Component<Props, any> {
               }}
             />
             <TextField
+              required={true}
               id="name"
               name="name"
               label="Name"
@@ -148,6 +191,7 @@ class Medicine extends React.Component<Props, any> {
               }}
             />
             <TextField
+              required={true}
               id="strength"
               name="strength"
               label="Strength"
@@ -181,6 +225,7 @@ class Medicine extends React.Component<Props, any> {
                 this.handleChange(event, target);
               }}
             />
+
             <Button
               type="submit"
               fullWidth
@@ -190,7 +235,17 @@ class Medicine extends React.Component<Props, any> {
             >
               Add Medicine
             </Button>
+            <Snackbar
+              anchorOrigin={{ vertical, horizontal }}
+              open={open}
+              onClose={this.handleClose}
+              ContentProps={{
+                'aria-describedby': 'message-id',
+              }}
+              message={<span id="message-id">I love snacks</span>}
+            />
           </form>
+          </FormControl>
         </Paper>
     </div>
     );

@@ -8,8 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      from: {
-        type: Sequelize.STRING
+      form: {
+        type: Sequelize.ENUM,
+        values:['CAP.', 'CAP./TAB', 'CREAM','DROP','INF.','INHALATION','INJ','OINTMENT', 'SHAMPOO',' SOAP','SOLUTION','SPRAY','SUPPOSITORY','SUSPENSION','SYP.','TAB.']
       },
       name: {
         type: Sequelize.STRING

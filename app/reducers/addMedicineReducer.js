@@ -53,6 +53,11 @@ export function medicineForm(state: any = initialState, action: AddMedicineActio
         ...state,
         submitted: action.submitted
       };
+    case addMedicineConstants.SAVE_MEDICINE:
+      return {
+        ...state,
+        save: action.submitted
+      };
     default:
       return state;
   }
