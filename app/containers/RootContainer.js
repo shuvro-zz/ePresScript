@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { authenticationActions } from '../actions/authenticationActions';
 import muiTheme from "../assets/theme";
+import SnackBar from '../components/SnackBar';
 
 type Props = {
   store: Store,
@@ -46,7 +47,9 @@ const styles = theme => ({
 // Map the stuff we want from the global application state in redux to the props
 function mapStateToProps(state: State) {
   return {
-    authentication: state.authentication
+    loggedIn: state.authentication.loggedIn,
+    snackBarOpen: state.uiReducer.snackBarOpen,
+    message: state.uiReducer.message,
   };
 }
 
@@ -65,8 +68,8 @@ class RootContainer extends React.Component<Props>{
 
   render() {
     const { classes, theme } = this.props;
-    const { store, history , navigate} = this.props;
-    const{loggedIn} = this.props.authentication;
+    const { store, history , navigate ,  message, snackBarOpen, loggedIn} = this.props;
+    console.log(this.props);
     return (
       <MuiThemeProvider theme={muiTheme}>
       <div className={classes.root}>
@@ -78,9 +81,17 @@ class RootContainer extends React.Component<Props>{
         )
         }
         <main className={classes.content}>
-            <ConnectedRouter history={history}>
+          {snackBarOpen
+          && (
+            <SnackBar
+              message={message}
+              open={snackBarOpen}
+            />
+          )
+          }
+          <ConnectedRouter history={history}>
               {routes}
-            </ConnectedRouter>
+          </ConnectedRouter>
         </main>
       </div>
       </MuiThemeProvider>

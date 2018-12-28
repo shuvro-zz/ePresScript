@@ -4,12 +4,14 @@ import { connectRouter } from 'connected-react-router';
 import { loginForm } from './loginFormReducer';
 import { medicineForm } from './addMedicineReducer';
 import { authentication } from './authenticationReducer';
+import uiReducer from '../features/ui/reducer';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
     loginForm,
     medicineForm,
-    authentication
+    authentication,
+    uiReducer
   });
 }

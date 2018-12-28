@@ -2,7 +2,7 @@ import {authenticationService} from "../services";
 import type {UserType} from "../types/common/UserType";
 import {history} from "../store/configureStore";
 import {authenticationConstants} from "../constants";
-
+import {SNACKBAR_OPEN} from '../features/ui/constants';
 export const authenticationActions = {
   login,
   logout
@@ -19,18 +19,26 @@ function login(username: string, password: string) {
             dispatch(success(user));
             history.push('/medicine');
           } else {
-            dispatch(failure(user));
+            const errorString = `Email or Password is wrong!`;
+            dispatch(failure(errorString));
           }
         },
         (error: any) => {
-          dispatch(failure(error));
+          const errorString = `Email or Password is wrong`;
+          dispatch(failure(errorString));
         }
       );
   };
 
   function request(user: {username: string}) { return { type: authenticationConstants.LOGIN_REQUEST, user } }
   function success(user: UserType) { return { type: authenticationConstants.LOGIN_SUCCESS, user } }
-  function failure(error: any) { return { type: authenticationConstants.LOGIN_FAILURE, error } }
+  function failure(error) {
+    return {
+      type:SNACKBAR_OPEN,
+      message: error,
+      variant: 'error'
+    }
+  }
 }
 
 function logout(isLoggedIn:boolean) {
