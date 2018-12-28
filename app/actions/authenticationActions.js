@@ -19,7 +19,7 @@ function login(username: string, password: string) {
             dispatch(success(user));
             history.push('/medicine');
           } else {
-            const errorString = `Email or Password is wrong!`;
+            const errorString = `Please Check Your Credentials!`;
             dispatch(failure(errorString));
           }
         },
