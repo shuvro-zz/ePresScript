@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import Button from '@material-ui/core/Button';
 
@@ -59,18 +59,13 @@ type Props = {
   setSubmitted: (submitted: boolean) => void
 };
 
-class Medicine extends React.Component<Props, any> {
+class Medicine extends React.PureComponent<Props, any> {
 
   constructor(props: Props, state: any) {
     super(props);
     console.log('in Medicine constructor');
     console.log(props);
 
-    props.setForm("");
-    props.setName("");
-    props.setFrequency("");
-    props.setStrength("");
-    props.setRemark("");
     this.state = {
       form:'',
       name:'',
@@ -235,15 +230,6 @@ class Medicine extends React.Component<Props, any> {
             >
               Add Medicine
             </Button>
-            <Snackbar
-              anchorOrigin={{ vertical, horizontal }}
-              open={open}
-              onClose={this.handleClose}
-              ContentProps={{
-                'aria-describedby': 'message-id',
-              }}
-              message={<span id="message-id">I love snacks</span>}
-            />
           </form>
           </FormControl>
         </Paper>

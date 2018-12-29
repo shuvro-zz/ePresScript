@@ -17,7 +17,7 @@ function login(username: string, password: string) {
         (user: UserType) => {
           if (user) {
             dispatch(success(user));
-            history.push('/medicine');
+            history.push('/dashboard');
           } else {
             const errorString = `Please Check Your Credentials!`;
             dispatch(failure(errorString));

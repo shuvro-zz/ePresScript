@@ -49,7 +49,7 @@ function mapStateToProps(state: State) {
   return {
     loggedIn: state.authentication.loggedIn,
     snackBarOpen: state.uiReducer.snackBarOpen,
-    message: state.uiReducer.message,
+    message: state.uiReducer.message
   };
 }
 
@@ -64,11 +64,11 @@ function mapDispatchToProps(dispatch: any) {
   );
 }
 
-class RootContainer extends React.Component<Props>{
+class RootContainer extends PureComponent{
 
   render() {
     const { classes, theme } = this.props;
-    const { store, history , navigate ,  message, snackBarOpen, loggedIn} = this.props;
+    const { history , navigate ,  message, snackBarOpen, loggedIn} = this.props;
     console.log(this.props);
     return (
       <MuiThemeProvider theme={muiTheme}>
