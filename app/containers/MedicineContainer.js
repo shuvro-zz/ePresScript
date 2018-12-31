@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AddMedicine from '../components/Medicine';
-import { addMedicineActions } from '../actions/addMedicineFormActions';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import { addMedicineActions } from '../actions/medicineFormActions';
+import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 
 // type State = {
-//   medicineForm: AddMedicineFormStateType
+//   medicineForm: MedicineFormStateType
 // };
 
 // Map the stuff we want from the global application state in redux to the props
@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch: any) {
       setFrequency: addMedicineActions.setFrequency,
       setRemark: addMedicineActions.setRemark,
       setSubmitted: addMedicineActions.setSubmitted,
-      saveMedicine:addMedicineActions.saveMedicine
+      saveMedicine: addMedicineActions.saveMedicine
     },
     dispatch
   );

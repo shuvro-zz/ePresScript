@@ -9,7 +9,6 @@ import {
 // ****************************************** THEME ********************************************* //
 
 const muiTheme = createMuiTheme({
-  // overrides: changes every single style injected by Material-UI into the DOM
   overrides: {
     MuiListItem: {
       button: {
@@ -56,11 +55,9 @@ const muiTheme = createMuiTheme({
   },
   // this is the colour palette
   palette: {
-    // primary color of the app for primary interfaces
     primary: {
       main: primaryColor,
     },
-    //  color of the app for secondary interfaces
     secondary: {
       main: secondaryColor,
     },
@@ -68,7 +65,7 @@ const muiTheme = createMuiTheme({
       main: highlightColor,
     },
   },
-  // this is text stuff
+  //text or headlines
   typography: {
     fontFamily: 'Roboto',
     fontSize: '1rem',

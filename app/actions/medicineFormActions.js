@@ -1,6 +1,7 @@
-import {addMedicineConstants, authenticationConstants} from '../constants';
-import {history} from "../store/configureStore";
+import {medicineConstants} from '../constants';
 import {medicineService} from "../services";
+import {SNACKBAR_OPEN} from "../features/ui/constants";
+import type {MedicineType} from "../types/common/MedicineType";
 
 export const addMedicineActions = {
   setForm,
@@ -19,7 +20,7 @@ function setForm(form: string) {
 
   function go(form: string) {
     return {
-      type: addMedicineConstants.SET_FORM,
+      type: medicineConstants.SET_FORM,
       form : form
     }
   }
@@ -32,7 +33,7 @@ function setName(name: string) {
 
   function go(name: string) {
     return {
-      type: addMedicineConstants.SET_NAME,
+      type: medicineConstants.SET_NAME,
       name:name
     }
   }
@@ -44,7 +45,7 @@ function setStrength(strength: string) {
 
   function go(strength: string) {
     return {
-      type: addMedicineConstants.SET_STRENGTH,
+      type: medicineConstants.SET_STRENGTH,
       strength:strength
     }
   }
@@ -56,7 +57,7 @@ function setFrequency(frequency: string) {
 
   function go(frequency: string) {
     return {
-      type: addMedicineConstants.SET_FREQUENCY,
+      type: medicineConstants.SET_FREQUENCY,
       frequency:frequency
     }
   }
@@ -68,7 +69,7 @@ function setRemark(remark: string) {
 
   function go(remark: string) {
     return {
-      type: addMedicineConstants.SET_REMARK,
+      type: medicineConstants.SET_REMARK,
       remark:remark
     }
   }
@@ -81,15 +82,41 @@ function setSubmitted(value: boolean) {
 
   function go(value: boolean) {
     return {
-      type: addMedicineConstants.SET_SUBMITTED,
+      type: medicineConstants.SET_SUBMITTED,
       submitted: value
     }
   }
 }
+
+
 function saveMedicine(value: object) {
   console.log("inside saveMedicine()");
-
-  medicineService.saveMedicine(value);
-  return {
-    type: addMedicineConstants.SAVE_MEDICINE,};
+  return (dispatch: any) => {
+    medicineService.saveMedicine(value).then(
+      (medicine : MedicineType) => {
+        if (medicine) {
+          const msg = `New medicine added!`;
+          dispatch(success(medicine, msg));
+        } else {
+          const errorString = `Please Check the details you have provided!`;
+          dispatch(failure(errorString));
+        }
+      },
+      (error: any) => {
+        const errorString = `Cannot save the Medicine`;
+        dispatch(failure(errorString));
+      }
+    );
+  };
+  function success(medicine: MedicineType , msg) { return {
+    type: medicineConstants.SAVE_MEDICINE_SUCCESS,
+    medicine
+  }}
+  function failure(error) {
+    return {
+      type:SNACKBAR_OPEN,
+      message: error,
+      variant: 'error'
+    }
+  }
 }

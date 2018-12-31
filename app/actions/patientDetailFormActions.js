@@ -1,4 +1,4 @@
-import {addMedicineConstants} from '../constants';
+import {medicineConstants} from '../constants';
 
 export const patientDetailFormActions = {
   setForm,
@@ -16,7 +16,7 @@ function setForm(form: string) {
 
   function go(form: string) {
     return {
-      type: addMedicineConstants.SET_FORM,
+      type: medicineConstants.SET_FORM,
       form : form
     }
   }
@@ -30,7 +30,7 @@ function setName(name: string) {
 
   function go(name: string) {
     return {
-      type: addMedicineConstants.SET_NAME,
+      type: medicineConstants.SET_NAME,
       name:name
     }
   }
@@ -42,7 +42,7 @@ function setStrength(strength: string) {
 
   function go(strength: string) {
     return {
-      type: addMedicineConstants.SET_STRENGTH,
+      type: medicineConstants.SET_STRENGTH,
       strength:strength
     }
   }
@@ -54,7 +54,7 @@ function setFrequency(frequency: string) {
 
   function go(frequency: string) {
     return {
-      type: addMedicineConstants.SET_FREQUENCY,
+      type: medicineConstants.SET_FREQUENCY,
       frequency:frequency
     }
   }
@@ -66,7 +66,7 @@ function setRemark(remark: string) {
 
   function go(remark: string) {
     return {
-      type: addMedicineConstants.SET_REMARK,
+      type: medicineConstants.SET_REMARK,
       remark:remark
     }
   }
@@ -79,7 +79,7 @@ function setSubmitted(value: boolean) {
 
   function go(value: boolean) {
     return {
-      type: addMedicineConstants.SET_SUBMITTED,
+      type: medicineConstants.SET_SUBMITTED,
       submitted: value
     }
   }

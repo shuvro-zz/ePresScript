@@ -13,7 +13,7 @@ import PrescribeDrugsContainer from '../../containers/presciption/steps/Prescrib
 import OverviewContainer from '../../containers/presciption/steps/OverviewContainer';
 import CheckUpExaminationContainer from '../../containers/presciption/steps/CheckUpExaminationContainer';
 
-import type {AddMedicineFormStateType} from "../../types/state/AddMedicineFormStateType";
+import type {MedicineFormStateType} from "../../types/state/MedicineFormStateType";
 
 const styles = theme => ({
   root: {
@@ -54,7 +54,7 @@ const styles = theme => ({
   },
 });
 type Props = {
-  medicineForm: AddMedicineFormStateType,
+  medicineForm: MedicineFormStateType,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,

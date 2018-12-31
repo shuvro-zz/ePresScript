@@ -2,7 +2,9 @@
  * @flow
  */
 
-export type AddMedicineActionType = {
+import type {MedicineType} from "../common/MedicineType";
+
+export type MedicineActionType = {
   type: string,
   form: string,
   name: string,
@@ -10,6 +12,7 @@ export type AddMedicineActionType = {
   frequency: string,
   remark: string,
   submitted: boolean,
-  error: string
+  error: string,
+  medicine: MedicineType
 };
 

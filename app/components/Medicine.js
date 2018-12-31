@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from "@material-ui/core/FormControl/FormControl";
@@ -50,7 +50,7 @@ const styles = theme => ({
 });
 
 type Props = {
-  medicineForm: AddMedicineFormStateType,
+  medicineForm: MedicineFormStateType,
   setForm: (form: string) => void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,
@@ -118,16 +118,11 @@ class Medicine extends React.PureComponent<Props, any> {
   }
   handleSubmit(event: any, target: any) {
     event.preventDefault();
+    this.props.setSubmitted(true);
     const { form, name,frequency,strength,remark } = this.state; // get the values from the state
     let newMedicine = {form:form,name:name, frequency:frequency, remark:remark, strength:strength}; // create a new medicine by passing the values as object to the service
     this.props.saveMedicine(newMedicine);
 
-    /**
-     * TODO :
-     * Need to implement something that checks
-     * the success or failure of db and use maybe snackbar to show the msg
-     * and also reset the entire form for new medicine
-     * **/
   }
 
   /** For Snackbar to be used later on for success or failure notification

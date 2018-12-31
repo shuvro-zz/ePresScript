@@ -141,9 +141,7 @@ class ResponsiveDrawer extends React.Component {
   constructor(props: Props, state: any) {
     super(props);
     this.state = {
-      // initial menu
       currentPath: 'dashboard',
-      //mobileOpen: false,
       open:true,
     };
     this.handleClick = this.handleClick.bind(this);
@@ -276,7 +274,7 @@ class ResponsiveDrawer extends React.Component {
                 </Badge>
               </IconButton>
 
-              {/* still need to code handleProfileMenuOpen*/}
+              {/* still need to fix handleProfileMenuOpen*/}
 
               <IconButton
                 aria-owns ='material-appbar'

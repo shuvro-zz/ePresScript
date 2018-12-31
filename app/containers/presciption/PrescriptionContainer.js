@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Prescription from '../../components/prescription/Prescription';
-import { addMedicineActions } from '../../actions/addMedicineFormActions';
-import type {AddMedicineFormStateType} from "../../types/state/AddMedicineFormStateType";
+import { addMedicineActions } from '../../actions/medicineFormActions';
+import type {MedicineFormStateType} from "../../types/state/MedicineFormStateType";
 
 type State = {
-  medicineForm: AddMedicineFormStateType
+  medicineForm: MedicineFormStateType
 };
 
 // Map the stuff we want from the global application state in redux to the props

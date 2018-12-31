@@ -23,32 +23,32 @@ initialState = {
 
 export function medicineForm(state: any = initialState, action: PatientDetailsActionType): PatientDetailsStateType {
   switch (action.type) {
-    case addMedicineConstants.SET_FORM:
+    case medicineConstants.SET_FORM:
       return {
         ...state,
         currentMedicineForm: action.form
       };
-    case addMedicineConstants.SET_NAME:
+    case medicineConstants.SET_NAME:
       return {
         ...state,
         currentMedicineName: action.name
       };
-    case addMedicineConstants.SET_STRENGTH:
+    case medicineConstants.SET_STRENGTH:
       return {
         ...state,
         currentMedicineStrength: action.strength
       };
-    case addMedicineConstants.SET_FREQUENCY:
+    case medicineConstants.SET_FREQUENCY:
       return {
         ...state,
         currentMedicineFrequency: action.frequency
       };
-    case addMedicineConstants.SET_REMARK:
+    case medicineConstants.SET_REMARK:
       return {
         ...state,
         currentMedicineRemark: action.remark
       };
-      case addMedicineConstants.SET_SUBMITTED:
+      case medicineConstants.SET_SUBMITTED:
       return {
         ...state,
         submitted: action.submitted

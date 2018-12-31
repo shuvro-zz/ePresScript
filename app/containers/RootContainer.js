@@ -69,6 +69,7 @@ class RootContainer extends PureComponent{
   render() {
     const { classes, theme } = this.props;
     const { history , navigate ,  message, snackBarOpen, loggedIn} = this.props;
+    console.log("Inside RootContainer");
     console.log(this.props);
     return (
       <MuiThemeProvider theme={muiTheme}>

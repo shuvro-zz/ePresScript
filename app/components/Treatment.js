@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import type {AddMedicineFormStateType} from "../types/state/AddMedicineFormStateType";
+import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   root: {
@@ -10,7 +10,7 @@ const styles = theme => ({
   }
 });
 type Props = {
-  medicineForm: AddMedicineFormStateType,
+  medicineForm: MedicineFormStateType,
   setForm: (form: string) =>  void,
   setName: (name: string) => void,
   setStrength: (strength: string) => void,

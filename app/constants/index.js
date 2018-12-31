@@ -1,5 +1,5 @@
 export * from './loginFormConstants';
-export * from './addMedicineConstants';
+export * from './medicineConstants';
 export * from './authenticationConstants';
 export * from './patientDetailsConstants';
 export * from './userInterfaceConstants';
