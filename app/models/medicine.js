@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     remark: DataTypes.STRING
   }, {});
   Medicine.associate = function(models) {
-    // associations can be defined here
+    Medicine.belongsToMany(models.Treatment, {
+      through: 'TreatmentMedicine',
+      as: 'treatment',
+      foreignKey: 'medicine_id'
+    });
   };
   return Medicine;
 };
