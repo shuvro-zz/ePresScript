@@ -3,9 +3,8 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Medicines', [{
-      id: '1',
-      from: 'beximco',
-      name: 'histamin',
+      form: 'CAP.',
+      name: 'AXET',
       strength: '500mg',
       frequency: '1+0+1',
       remark: 'before eating',
@@ -15,7 +14,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    
+
     return queryInterface.bulkDelete('Medicines', null, {});
   }
 };

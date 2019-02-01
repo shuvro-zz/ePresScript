@@ -1,5 +1,5 @@
 
-export const addMedicineConstants = {
+export const patientDetailsConstants = {
   SET_FORM: 'ADDMEDICINE_SET_FORM',
   SET_NAME: 'ADDMEDICINE_SET_NAME',
   SET_STRENGTH: 'ADDMEDICINE_SET_STRENGTH',
