@@ -45,7 +45,6 @@ function fakelogout() {
   var p: Promise<any> =
     new Promise((resolve: any, x: any) => {
       setTimeout(() => {
-        console.log("inside fakelogout()");
         localStorage.removeItem('user');
         resolve(true);
       }, 1000);
@@ -53,6 +52,24 @@ function fakelogout() {
 
   return p;
 
+}
+
+async function login(username: string, password: string) {
+    
+    const user = await models.User.findOne({
+        where: {
+            email: username,
+            password: password
+        }
+    });
+
+    if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      console.log('not init');  
+    }
+
+    return user;
 }
 
 function realLoginExample(username: string, password: string) {

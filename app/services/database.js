@@ -22,6 +22,7 @@ const connection = new Sequelize('database', 'username', 'password', {
   // SQLite only
   storage: dbFile
 });
+
 const Users = connection.define('users', {
   username: {
     type: Sequelize.STRING,

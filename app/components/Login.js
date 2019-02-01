@@ -87,8 +87,6 @@ class Login extends React.Component<Props, any> {
   handleSubmit(event: any, target: any) {
     event.preventDefault();
 
-    console.log(this.props.authentication);
-
     this.props.setSubmitted(true);
 
     const {currentUserName, currentPassword} = this.props.loginForm;
