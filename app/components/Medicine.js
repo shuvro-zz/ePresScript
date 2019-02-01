@@ -10,6 +10,7 @@ import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from "@material-ui/core/FormControl/FormControl";
+import Grid from "@material-ui/core/Grid/Grid";
 
 const styles = theme => ({
   main: {
@@ -17,7 +18,7 @@ const styles = theme => ({
     display: 'block', // Fix IE 11 issue.
     marginTop: theme.spacing.unit * 10,
     [theme.breakpoints.up(800)]: {
-      width: 550,
+      width: 700,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -33,20 +34,15 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
   },
   submit: {
-    width:200,
     marginTop: theme.spacing.unit*3,
   },
   addMedReqTextFields: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 220,
-  },
-  addMedRemarkTextField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 455,
-  },
 
+  },
+  preview:{
+  }
 });
 
 type Props = {
@@ -68,13 +64,15 @@ class Medicine extends React.PureComponent<Props, any> {
 
     this.state = {
       form:'',
-      name:'',
+      mname:'',
       frequency:'',
       strength:'',
       remark:'',
       open: false,
       vertical: 'top',
       horizontal: 'center',
+      firstline:'',
+      secondline : ''
     };
 
     this.props.setSubmitted(false);
@@ -97,7 +95,7 @@ class Medicine extends React.PureComponent<Props, any> {
         break;
 
       case "name":
-        this.setState({name:value});
+        this.setState({mname:value});
         this.props.setName(value);
         break;
 
@@ -113,9 +111,14 @@ class Medicine extends React.PureComponent<Props, any> {
         this.setState({remark:value});
         this.props.setRemark(value);
         break;
-
     }
+    const { form, mname,frequency,strength,remark } = this.state;
+    let fistline = form + ' ' + mname + ' ' + strength;
+    let secondline = frequency + '\t' + remark ;
+
+    this.setState({firstline : fistline , secondline:secondline});
   }
+
   handleSubmit(event: any, target: any) {
     event.preventDefault();
     this.props.setSubmitted(true);
@@ -134,6 +137,7 @@ class Medicine extends React.PureComponent<Props, any> {
     this.setState({ open: false });
   }; */
   render() {
+
    const {
      currentMedicineForm,
      currentMedicineName,
@@ -142,92 +146,112 @@ class Medicine extends React.PureComponent<Props, any> {
      currentMedicineRemark,
      submitted
     } = this.props.medicineForm;
-    const { vertical, horizontal, open } = this.state;
-    const { classes } = this.props;
+    const { vertical, horizontal, open , firstline, secondline} = this.state;
 
+    const preview =
+      <div>
+        <p>
+          {firstline}
+        </p>
+        <p>
+          {secondline}
+        </p>
+    </div>;
+
+    const { classes } = this.props;
     return (
       <div className={classes.main}>
         <CssBaseline />
-        <Paper className={classes.paper}>
-          <FormControl margin="normal" required fullWidth>
-          <form className={classes.form}
-                onSubmit={(event: any, target: any) => {
-                  this.handleSubmit(event, target);
-                }}
-          >
+        <Grid container spacing={0}>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper}>
+              <FormControl margin="normal" required fullWidth>
+                <form className={classes.form}
+                      onSubmit={(event: any, target: any) => {
+                        this.handleSubmit(event, target);
+                      }}
+                >
 
-            <TextField
-              required={true}
-              id="form"
-              name="form"
-              label="Form"
-              className={classes.addMedReqTextFields}
-              margin="normal"
-              value={currentMedicineForm}
-              onChange={(event: any, target: any) => {
-                this.handleChange(event, target);
-              }}
-            />
-            <TextField
-              required={true}
-              id="name"
-              name="name"
-              label="Name"
-              className={classes.addMedReqTextFields}
-              margin="normal"
-              value={currentMedicineName}
-              onChange={(event: any, target: any) => {
-                this.handleChange(event, target);
-              }}
-            />
-            <TextField
-              required={true}
-              id="strength"
-              name="strength"
-              label="Strength"
-              className={classes.addMedReqTextFields}
-              margin="normal"
-              value={currentMedicineStrength}
-              onChange={(event: any, target: any) => {
-                this.handleChange(event, target);
-              }}
-            />
-            <TextField
-              id="frequency"
-              name="frequency"
-              label="Frequency"
-              className={classes.addMedReqTextFields}
-              margin="normal"
-              value={currentMedicineFrequency}
-              onChange={(event: any, target: any) => {
-                this.handleChange(event, target);
-              }}
-            />
-            <TextField
-              id="remark"
-              name="remark"
-              label="Remark"
-              className={classes.addMedRemarkTextField}
-              margin="normal"
-              multiline={true}
-              value={currentMedicineRemark}
-              onChange={(event: any, target: any) => {
-                this.handleChange(event, target);
-              }}
-            />
+                  <TextField
+                    required={true}
+                    id="form"
+                    name="form"
+                    label="Form"
+                    className={classes.addMedReqTextFields}
+                    margin="normal"
+                    value={currentMedicineForm}
+                    onChange={(event: any, target: any) => {
+                      this.handleChange(event, target);
+                    }}
+                  />
+                  <TextField
+                    required={true}
+                    id="name"
+                    name="name"
+                    label="Name"
+                    className={classes.addMedReqTextFields}
+                    margin="normal"
+                    value={currentMedicineName}
+                    onChange={(event: any, target: any) => {
+                      this.handleChange(event, target);
+                    }}
+                  />
+                  <TextField
+                    required={true}
+                    id="strength"
+                    name="strength"
+                    label="Strength"
+                    className={classes.addMedReqTextFields}
+                    margin="normal"
+                    value={currentMedicineStrength}
+                    onChange={(event: any, target: any) => {
+                      this.handleChange(event, target);
+                    }}
+                  />
+                  <TextField
+                    id="frequency"
+                    name="frequency"
+                    label="Frequency"
+                    className={classes.addMedReqTextFields}
+                    margin="normal"
+                    value={currentMedicineFrequency}
+                    onChange={(event: any, target: any) => {
+                      this.handleChange(event, target);
+                    }}
+                  />
+                  <TextField
+                    id="remark"
+                    name="remark"
+                    label="Remark"
+                    className={classes.addMedReqTextFields}
+                    margin="normal"
+                    multiline={true}
+                    value={currentMedicineRemark}
+                    onChange={(event: any, target: any) => {
+                      this.handleChange(event, target);
+                    }}
+                  />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Add Medicine
-            </Button>
-          </form>
-          </FormControl>
-        </Paper>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Add Medicine
+                  </Button>
+                </form>
+              </FormControl>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} className={classes.preview}>
+            <Typography className={classes.instructions}>
+              Displayed as in Prescription
+            </Typography>
+            {preview}
+          </Grid>
+          </Grid>
     </div>
     );
   }

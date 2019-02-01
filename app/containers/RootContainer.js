@@ -76,9 +76,9 @@ class RootContainer extends PureComponent{
       <div className={classes.root}>
         {loggedIn // render the bars if we're logged in
         && (
-          <div>
+
               <DashboardElementsContainer />
-          </div>
+
         )
         }
         <main className={classes.content}>
