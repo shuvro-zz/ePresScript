@@ -20,6 +20,7 @@ function login(username: string, password: string) {
             history.push('/dashboard');
           } else {
             const errorString = `Please Check Your Credentials!`;
+            console.log(errorString);
             dispatch(failure(errorString));
           }
         },
