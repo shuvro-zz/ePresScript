@@ -172,8 +172,7 @@ class Prescription extends React.Component<Props, any> {
           {/* Check for the current step and show the container */}
           {getStepContent(activeStep)}
 
-        </div>
-        <div>
+
           {activeStep === steps.length ? (
             <div>
               <Typography className={classes.instructions}>
