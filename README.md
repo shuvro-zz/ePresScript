@@ -118,6 +118,7 @@ git pull upstream master
 ## Install Sequelize for database implementation
 
 *The following procedure is highly required to run the application using this branch*
+
 Using Yarn
 $ yarn add sequelize
 
