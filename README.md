@@ -130,5 +130,5 @@ $ yarn global add sequelize-cli
 
 ## Run migration and seed
 
-`sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
-`sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
+1. `sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
+2. `sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
