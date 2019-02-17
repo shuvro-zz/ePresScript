@@ -115,19 +115,19 @@ Then, use git to merge some latest commits:
 git pull upstream master
 ```
 
-## Install
+## Install Sequelize for database implementation
 
-// Using Yarn
-\$ yarn add sequelize
+*The following procedure is highly required to run the application using this branch*
+Using Yarn
+$ yarn add sequelize
 
 # And one of the following:
 
-$yarn add pg pg-hstore$ yarn add mysql2
 $yarn add sqlite3$ yarn add tedious // MSSQL
 
-\$ yarn global add sequelize-cli
+$ yarn global add sequelize-cli
 
 ## Run migration and seed
 
 `sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
-``sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
+`sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
