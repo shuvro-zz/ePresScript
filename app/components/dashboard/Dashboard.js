@@ -8,7 +8,7 @@ import {history} from "../../store/configureStore";
 import CloudUploadIcon from '@material-ui/icons/Subject';
 
 const styles = theme => ({
-  main: {
+  dashboardComponent: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
@@ -65,7 +65,7 @@ class Dashboard extends React.Component<Props, any> {
     console.log("Render Dashboard Components");
     const { classes, theme } = this.props;
     return (
-      <main className={classes.main}>
+      <main className={classes.dashboardComponent}>
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography component="h4" variant="h5">

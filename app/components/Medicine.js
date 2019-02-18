@@ -13,7 +13,7 @@ import FormControl from "@material-ui/core/FormControl/FormControl";
 import Grid from "@material-ui/core/Grid/Grid";
 
 const styles = theme => ({
-  main: {
+  medicine: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
     marginTop: theme.spacing.unit * 10,
@@ -160,7 +160,7 @@ class Medicine extends React.PureComponent<Props, any> {
 
     const { classes } = this.props;
     return (
-      <div className={classes.main}>
+      <div className={classes.medicine}>
         <CssBaseline />
         <Grid container spacing={0}>
           <Grid item xs={12} sm={6}>

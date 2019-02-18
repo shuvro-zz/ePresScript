@@ -11,7 +11,7 @@ import type {AuthenticationStateType} from "../types/state/AuthenticationStateTy
 
 const styles = theme => ({
 
-  paper: {
+  medicinePaper: {
     marginTop: theme.spacing.unit * 8,
     display: 'flex',
     flexDirection: 'column',
@@ -143,7 +143,7 @@ class AddMedicine extends React.Component<Props, any> {
             Logout
           </Button>
         </form>
-        <Paper className={classes.paper}>
+        <Paper className={classes.medicinePaper}>
           <form className={classes.form}
                 onSubmit={(event: any, target: any) => {
                   this.handleSubmit(event, target);

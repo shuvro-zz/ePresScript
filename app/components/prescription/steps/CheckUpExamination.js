@@ -8,37 +8,27 @@ import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import Select from "@material-ui/core/Select/Select";
 import {withStyles} from "@material-ui/core";
 const styles = theme => ({
-  root: {
+  checkupexamination: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    padding: `${theme.spacing.unit }px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
   },
-  checkupContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
+
   textFieldPatientComplain: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width:'70%',
+    margin: theme.spacing.unit,
+    width:'50%',
   },
   textFieldOnExamination: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width:'70%',
+    margin: theme.spacing.unit,
+    width:'50%',
   },
   textFieldInvestigation: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width:'70%',
+    margin: theme.spacing.unit,
+    width:'50%',
   },
   textFieldDiagnosis: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width:'70%',
+    margin: theme.spacing.unit,
+    width:'50%',
   },
 });
 type Props = {
@@ -61,7 +51,7 @@ class CheckUpExamination extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.checkupexamination}>
         <form className={classes.form}
               onSubmit={(event: any, target: any) => {
                 this.handleSubmit(event, target);
@@ -109,12 +99,9 @@ class CheckUpExamination extends React.Component<Props, any> {
                 margin="normal"
                 variant="outlined"
               />
-
-
-
           </Grid>
         </form>
-      </Paper>
+      </div>
     );
   }
 }

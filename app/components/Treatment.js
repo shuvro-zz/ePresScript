@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
-  root: {
+  treatment: {
     width: '100%',
     height: '100%',
     marginTop: theme.spacing.unit * 3,
@@ -30,7 +30,7 @@ class Treatment extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div className={classes.treatment}>
         <h1> Add a Treatment </h1>
         <h2> Code me! </h2>
       </div>
