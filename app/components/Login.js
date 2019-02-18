@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import * as DOM from "react-dom";
-
-// material
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
@@ -16,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
+import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 const styles = theme => ({
   main: {
@@ -51,6 +47,7 @@ const styles = theme => ({
 
 type Props = {
   loginForm: LoginFormStateType,
+  authentication: AuthenticationStateType,
   logout: () => void,
   login: (username: string, passwors: string) => void,
   setUserName: (username: string) => void,
@@ -59,14 +56,11 @@ type Props = {
 };
 
 class Login extends React.Component<Props, any> {
-  
+
   constructor(props: Props, state: any) {
     super(props);
-
-    // reset login status
-    this.props.logout();
-    
-    // Set initial values for login form
+    console.log('in Login constructor');
+    this.props.logout(false);
     this.props.setUserName("");
     this.props.setPassword("");
     this.props.setSubmitted(false);
@@ -91,7 +85,6 @@ class Login extends React.Component<Props, any> {
   }
 
   handleSubmit(event: any, target: any) {
-    console.log("submitted");
     event.preventDefault();
 
     this.props.setSubmitted(true);
@@ -106,13 +99,10 @@ class Login extends React.Component<Props, any> {
   }
 
   render() {
-      console.log("Render Login Page");
-      console.log(this.props);
-  
-      const {currentUserName, currentPassword,loggingIn,submitted,error} = this.props.loginForm;
+      const {currentUserName, currentPassword} = this.props.loginForm;
       const { classes } = this.props;
       return (
-          <main className={classes.main}>
+        <main className={classes.main}>
           <CssBaseline />
           <Paper className={classes.paper}>
             <Avatar className={classes.avatar}>
@@ -158,5 +148,5 @@ class Login extends React.Component<Props, any> {
       );
     }
 }
-  
+
 export default withStyles(styles)(Login);

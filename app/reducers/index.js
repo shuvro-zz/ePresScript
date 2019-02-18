@@ -2,11 +2,16 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import { loginForm } from './loginFormReducer';
+import { medicineForm } from './medicineReducer';
+import { authentication } from './authenticationReducer';
+import uiReducer from '../features/ui/reducer';
 
 export default function createRootReducer(history: History) {
-  console.log(history);
   return combineReducers({
     router: connectRouter(history),
-    loginForm
+    loginForm,
+    medicineForm,
+    authentication,
+    uiReducer
   });
 }

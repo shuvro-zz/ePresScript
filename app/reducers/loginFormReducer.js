@@ -16,21 +16,13 @@ var initialState: LoginFormStateType;
 if (userstring) {
     const jsonUser = (JSON.parse(userstring): UserType);
     const user: UserType = jsonUser;
-    initialState = {   
-        user: user, 
-        loggedIn: true, 
-        loggingIn: false, 
-        error: "",
+    initialState = {
         currentUserName: "",
         currentPassword: "",
         submitted: false
     };
 } else {
     initialState = {
-        user: null,   
-        loggedIn: false,
-        loggingIn: false,
-        error: "",
         currentUserName: "",
         currentPassword: "",
         submitted: false
@@ -55,40 +47,6 @@ export function loginForm(state: any = initialState, action: LoginFormActionType
       return {
         ...state,
         currentUserName: action.username
-      };
-      case loginFormConstants.LOGIN_REQUEST:
-      return {
-        ...state,
-          user: action.user,
-          loggedIn: false,
-          loggingIn: true,
-          error: "",
-          currentUserName: "",
-          currentPassword: ""
-      };
-  case loginFormConstants.LOGIN_SUCCESS:
-      return {
-        ...state,
-          user: action.user,
-          loggedIn: true,
-          loggingIn: false,
-          error: ""
-      };
-  case loginFormConstants.LOGIN_FAILURE:
-      return {
-        ...state,
-          user: null,
-          loggedIn: false,
-          loggingIn: false,
-          error: action.error
-      };
-  case loginFormConstants.LOGOUT:
-      return {
-        ...state,
-          user: null,
-          loggedIn: false,
-          loggingIn: false,
-          error: ""
       };
     default:
       return state;
