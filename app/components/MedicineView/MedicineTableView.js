@@ -158,26 +158,22 @@ function ReactVirtualizedTable() {
         onRowClick={event => console.log(event)}
         columns={[
           {
-            width: 80,
+            width: 120,
             flexGrow: 1.0,
             label: 'Generic Name',
             dataKey: 'generic_name',
           },
           {
-            width: 80,
+            width: 120,
+            flexGrow: 1.0,
             label: 'Form',
             dataKey: 'form',
           },
           {
-            width: 80,
-            label: 'Strength',
-            dataKey: 'strength',
-          },
-          {
             width: 120,
             flexGrow: 1.0,
-            label: 'Indication',
-            dataKey: 'indication',
+            label: 'Strength',
+            dataKey: 'strength',
           },
         ]}
       />
