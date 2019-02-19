@@ -14,7 +14,7 @@ import type {LoginFormStateType} from "../types/state/LoginFormStateType";
 import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
 const styles = theme => ({
-  main: {
+  loginComponent: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
@@ -25,7 +25,7 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
-  paper: {
+  loginPaper: {
     marginTop: theme.spacing.unit * 8,
     display: 'flex',
     flexDirection: 'column',
@@ -102,9 +102,9 @@ class Login extends React.Component<Props, any> {
       const {currentUserName, currentPassword} = this.props.loginForm;
       const { classes } = this.props;
       return (
-        <main className={classes.main}>
+        <main className={classes.loginComponent}>
           <CssBaseline />
-          <Paper className={classes.paper}>
+          <Paper className={classes.loginPaper}>
             <Avatar className={classes.avatar}>
               <LockIcon />
             </Avatar>

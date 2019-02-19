@@ -9,42 +9,48 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Typography from "@material-ui/core/Typography/Typography";
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    color: theme.palette.text.secondary,
-  },
-  patientDetailSex: {
-    margin: theme.spacing.unit,
-    minWidth: 122,
+  patientDetailComponent: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    padding: `${theme.spacing.unit }px ${theme.spacing.unit }px ${theme.spacing.unit }px`,
   },
   patientDetailAge:{
     margin: theme.spacing.unit,
-    minWidth: 120,
-    width:122,
+    minWidth: 60,
+    width:70,
   },
-  patientDetailReligion:{
+  patientInfoHeight:{
     margin: theme.spacing.unit,
-    minWidth: 120,
-    width:122,
+    minWidth: 60,
+    width:70,
   },
-  patientDetailFirstname:{
+  patientInfoWeight:{
     margin: theme.spacing.unit,
+    minWidth: 60,
+    width:70,
   },
-  patientDetailLastname:{
-    margin: theme.spacing.unit,
+  patientInfoMaritalStatus:{
+      margin: theme.spacing.unit,
+      minWidth: 100,
+      width:120,
   },
-  patientDetailContact:{
+  patientInfoBloodGroup:{
     margin: theme.spacing.unit,
+    minWidth: 100,
+    width:120,
   },
-  patientDetailEmail:{
+  patientInfoRhesus:{
     margin: theme.spacing.unit,
+    minWidth: 100,
+    width:120,
   },
-  patientDetailAddress:{
+  patientInfoApgaScore:{
     margin: theme.spacing.unit,
-    minWidth: 200,
-    width:400,
+    minWidth: 100,
+    width:120,
+  },
+  patientInfo:{
+    margin: theme.spacing.unit,
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -80,7 +86,7 @@ class PatientDetails extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.patientDetailComponent}>
         <form className={classes.form}
               onSubmit={(event: any, target: any) => {
                 this.handleSubmit(event, target);
@@ -89,32 +95,30 @@ class PatientDetails extends React.Component<Props, any> {
         <Grid container spacing={0}>
 
           <Grid item xs={12} sm={6}>
-            <Typography className={classes.instructions}>
-              General Details
-            </Typography>
-            <div className={classes.paper}>
-
-                <TextField
-                  id="form"
-                  name="form"
-                  label="First Name"
-                  className={classes.patientDetailFirstname}
-                  margin="normal"
-                  onChange={(event: any, target: any) => {
-                    this.handleChange(event, target);
-                  }}
-                />
-                <TextField
-                  id="name"
-                  name="name"
-                  label="Last Name"
-                  className={classes.patientDetailLastname}
-                  margin="normal"
-                  onChange={(event: any, target: any) => {
-                    this.handleChange(event, target);
-                  }}
-                />
-              <FormControl className={classes.patientDetailSex}>
+            <Grid item xs={12}>
+              <TextField
+                id="form"
+                name="form"
+                label="First Name"
+                className={classes.patientInfo}
+                margin="normal"
+                onChange={(event: any, target: any) => {
+                  this.handleChange(event, target);
+                }}
+              />
+              <TextField
+                id="name"
+                name="name"
+                label="Last Name"
+                className={classes.patientInfo}
+                margin="normal"
+                onChange={(event: any, target: any) => {
+                  this.handleChange(event, target);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl className={classes.patientInfo}>
                 <InputLabel htmlFor="sex-native-simple">Sex</InputLabel>
                 <Select
                   native
@@ -131,7 +135,8 @@ class PatientDetails extends React.Component<Props, any> {
                   <option value='NA'>N/A</option>
                 </Select>
               </FormControl>
-              <FormControl className={classes.patientDetailReligion}>
+
+              <FormControl className={classes.patientInfo}>
                 <InputLabel htmlFor="religion-native-simple">Religion</InputLabel>
                 <Select
                   native
@@ -148,9 +153,10 @@ class PatientDetails extends React.Component<Props, any> {
                   <option value='Christian'>Christian</option>
                 </Select>
               </FormControl>
+
               <TextField
-                id="strength"
-                name="strength"
+                id="age"
+                name="age"
                 label="age"
                 className={classes.patientDetailAge}
                 margin="normal"
@@ -158,21 +164,23 @@ class PatientDetails extends React.Component<Props, any> {
                   this.handleChange(event, target);
                 }}
               />
+            </Grid>
+            <Grid item xs={12}>
                 <TextField
-                  id="strength"
-                  name="strength"
+                  id="contact"
+                  name="contact"
                   label="Contact"
-                  className={classes.patientDetailContact}
+                  className={classes.patientInfo}
                   margin="normal"
                   onChange={(event: any, target: any) => {
                     this.handleChange(event, target);
                   }}
                 />
                 <TextField
-                  id="frequency"
-                  name="frequency"
+                  id="email"
+                  name="email"
                   label="E-Mail"
-                  className={classes.patientDetailEmail}
+                  className={classes.patientInfo}
                   margin="normal"
                   onChange={(event: any, target: any) => {
                     this.handleChange(event, target);
@@ -182,21 +190,21 @@ class PatientDetails extends React.Component<Props, any> {
                   id="address"
                   name="address"
                   label="Address"
-                  className={classes.patientDetailAddress}
+                  className={classes.patientInfo}
                   margin="normal"
                   onChange={(event: any, target: any) => {
                     this.handleChange(event, target);
                   }}
                 />
-
-            </div>
+            </Grid>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <Typography className={classes.instructions}>
               Patient's History
             </Typography>
-
-            <FormControl className={classes.patientDetailReligion}>
+            <Grid item xs={12}>
+            <FormControl className={classes.patientInfoMaritalStatus}>
               <InputLabel htmlFor="maritalstatue-native-simple">Marital Status</InputLabel>
               <Select
                 native
@@ -213,28 +221,29 @@ class PatientDetails extends React.Component<Props, any> {
                 <option value='NA'>NA</option>
               </Select>
             </FormControl>
-            <div className={classes.paper}>
               <TextField
-                id="strength"
-                name="strength"
+                id="height"
+                name="height"
                 label="Height"
-                className={classes.patientDetailAge}
+                className={classes.patientInfoHeight}
                 margin="normal"
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
               />
               <TextField
-                id="strength"
-                name="strength"
+                id="weight"
+                name="weight"
                 label="Weight"
-                className={classes.patientDetailAge}
+                className={classes.patientInfoWeight}
                 margin="normal"
                 onChange={(event: any, target: any) => {
                   this.handleChange(event, target);
                 }}
               />
-              <FormControl className={classes.patientDetailReligion}>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl className={classes.patientInfoBloodGroup}>
                 <InputLabel htmlFor="bloodgroup-native-simple">Blood Group</InputLabel>
                 <Select
                   native
@@ -257,7 +266,7 @@ class PatientDetails extends React.Component<Props, any> {
 
                 </Select>
               </FormControl>
-              <FormControl className={classes.patientDetailReligion}>
+              <FormControl className={classes.patientInfoRhesus}>
                 <InputLabel htmlFor="rhesus-native-simple">RH Factor</InputLabel>
                 <Select
                   native
@@ -274,7 +283,7 @@ class PatientDetails extends React.Component<Props, any> {
 
                 </Select>
               </FormControl>
-              <FormControl className={classes.patientDetailReligion}>
+              <FormControl className={classes.patientInfoApgaScore}>
                 <InputLabel htmlFor="apgarscore-native-simple">Apgar Score</InputLabel>
                 <Select
                   native
@@ -291,10 +300,10 @@ class PatientDetails extends React.Component<Props, any> {
                   <option value='7+'>7</option>
                 </Select>
               </FormControl>
-            </div>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <Typography className={classes.instructions}>
               Emergency Contact
             </Typography>
@@ -302,7 +311,7 @@ class PatientDetails extends React.Component<Props, any> {
               id="emergencyName"
               name="emergencyName"
               label="Name"
-              className={classes.patientDetailEmergencyName}
+              className={classes.patientInfo}
               margin="normal"
               onChange={(event: any, target: any) => {
                 this.handleChange(event, target);
@@ -312,7 +321,7 @@ class PatientDetails extends React.Component<Props, any> {
               id="emergencyContact"
               name="emergencyContact"
               label="Contact"
-              className={classes.patientDetailEmergencyContact}
+              className={classes.patientInfo}
               margin="normal"
               onChange={(event: any, target: any) => {
                 this.handleChange(event, target);
@@ -322,7 +331,7 @@ class PatientDetails extends React.Component<Props, any> {
               id="emergencyAddress"
               name="emergencyAddress"
               label="Address"
-              className={classes.patientDetailEmergencyAddress}
+              className={classes.patientInfo}
               margin="normal"
               onChange={(event: any, target: any) => {
                 this.handleChange(event, target);
@@ -330,9 +339,9 @@ class PatientDetails extends React.Component<Props, any> {
             />
 
           </Grid>
-        </Grid>
+          </Grid>
         </form>
-      </Paper>
+      </div>
     );
   }
 }
