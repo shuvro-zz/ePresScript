@@ -8,27 +8,37 @@ import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import Select from "@material-ui/core/Select/Select";
 import {withStyles} from "@material-ui/core";
 const styles = theme => ({
-  checkupexamination: {
+  root: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    padding: `${theme.spacing.unit }px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   },
-
+  checkupContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
   textFieldPatientComplain: {
-    margin: theme.spacing.unit,
-    width:'50%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width:'70%',
   },
   textFieldOnExamination: {
-    margin: theme.spacing.unit,
-    width:'50%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width:'70%',
   },
   textFieldInvestigation: {
-    margin: theme.spacing.unit,
-    width:'50%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width:'70%',
   },
   textFieldDiagnosis: {
-    margin: theme.spacing.unit,
-    width:'50%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width:'70%',
   },
 });
 type Props = {
@@ -51,7 +61,7 @@ class CheckUpExamination extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.checkupexamination}>
+      <Paper className={classes.root}>
         <form className={classes.form}
               onSubmit={(event: any, target: any) => {
                 this.handleSubmit(event, target);
@@ -101,7 +111,7 @@ class CheckUpExamination extends React.Component<Props, any> {
               />
           </Grid>
         </form>
-      </div>
+      </Paper>
     );
   }
 }
