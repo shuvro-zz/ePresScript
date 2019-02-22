@@ -244,7 +244,6 @@ class Prescription extends React.Component<Props, any> {
             </div>
           )}
         </div>
-      </div>
     );
   }
 }
