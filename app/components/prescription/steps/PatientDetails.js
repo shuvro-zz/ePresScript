@@ -88,7 +88,7 @@ class PatientDetails extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.patientDetailComponent}>
         <form className={classes.form}
               onSubmit={(event: any, target: any) => {
                 this.handleSubmit(event, target);
@@ -343,7 +343,7 @@ class PatientDetails extends React.Component<Props, any> {
           </Grid>
           </Grid>
         </form>
-      </Paper>
+      </div>
     );
   }
 }

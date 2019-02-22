@@ -1,0 +1,26 @@
+[
+  {
+    "generic_name": "Paracetamol",
+    "form": "Tablet",
+    "strength": "50mg",
+    "indication": "Fever and Mild to moderate pain such as osteoarthritis, rheumatoid arthritis, chronic low back pain, Renal stone pain, neuopathic pain, toothache, migraine, postoperative mild to moderate pain."
+  },
+  {
+    "generic_name": "Aspirin",
+    "form": "Tablet",
+    "strength": "75mg",
+    "indication": "Fever, Headache, Pain/inflammation,Acute coronary syndrome, TIA, MI, Stroke"
+  },
+  {
+    "generic_name": "Almotri ptan",
+    "form": "Tablet",
+    "strength": "6.5mg",
+    "indication": "Migraine headache, Acute migraine attack"
+  },
+  {
+    "generic_name": "Dexketoprofen",
+    "form": "Tablet",
+    "strength": "25mg",
+    "indication": "Pain,Dysmenorrhea, Rheumatic disorders"
+  }
+]

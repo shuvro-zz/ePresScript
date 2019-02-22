@@ -30,7 +30,7 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
-  root: {
+  dashboardElementComponent: {
     display: 'flex',
   },
   drawer: {
@@ -197,14 +197,14 @@ class ResponsiveDrawer extends React.Component {
           <ListItemIcon>
             <ControlPoint />
           </ListItemIcon>
-          <ListItemText primary="Add medicine" />
+          <ListItemText primary="Medicine" />
         </ListItem>
         <ListItem button
                   onClick={() => this.handleClick('treatment')}>
           <ListItemIcon>
             <ControlPoint />
           </ListItemIcon>
-          <ListItemText primary="Add Treatment" />
+          <ListItemText primary="Treatment" />
         </ListItem>
       </div>
     );
@@ -220,7 +220,7 @@ class ResponsiveDrawer extends React.Component {
       </div>
     );
     return (
-      <div className={classes.root}>
+      <div className={classes.dashboardElementComponent}>
         <CssBaseline />
         <AppBar
           position="fixed"

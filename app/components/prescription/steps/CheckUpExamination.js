@@ -109,9 +109,6 @@ class CheckUpExamination extends React.Component<Props, any> {
                 margin="normal"
                 variant="outlined"
               />
-
-
-
           </Grid>
         </form>
       </Paper>

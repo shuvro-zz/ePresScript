@@ -1,27 +1,50 @@
 import React, { PureComponent } from 'react';
 
 import Button from '@material-ui/core/Button';
-
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import Grid from "@material-ui/core/Grid/Grid";
+import MedicineTableView from "./MedicineView/MedicineTableView";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
+import Draggable from 'react-draggable';
+
+function papercomponent(props) {
+  return (
+    <Draggable>
+      <Paper {...props} />
+    </Draggable>
+  );
+}
 const styles = theme => ({
-  main: {
+  medicineComponent: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit * 10,
+    marginTop: theme.spacing.unit*2,
     [theme.breakpoints.up(800)]: {
-      width: 700,
+      width: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
     },
+  },
+  absolute: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 3,
   },
   paper: {
     display: 'flex',
@@ -33,15 +56,16 @@ const styles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
-  submit: {
-    marginTop: theme.spacing.unit*3,
-  },
+
   addMedReqTextFields: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
 
   },
-  preview:{
+  addMedicineBtn:{
+    position: 'relative',
+    zIndex:'100',
+    float: 'right',
   }
 });
 
@@ -72,11 +96,19 @@ class Medicine extends React.PureComponent<Props, any> {
       vertical: 'top',
       horizontal: 'center',
       firstline:'',
-      secondline : ''
+      secondline : '',
+
     };
 
     this.props.setSubmitted(false);
   }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleChange(event: any, target: any) {
     const name = event.target.name;
@@ -160,11 +192,18 @@ class Medicine extends React.PureComponent<Props, any> {
 
     const { classes } = this.props;
     return (
-      <div className={classes.main}>
+      <div className={classes.medicineComponent}>
         <CssBaseline />
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
+        <div className={classes.addMedicineDialogueBox}>
+
+          <Dialog
+            disableBackdropClick
+            disableEscapeKeyDown
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <DialogTitle>Add a new Medicine</DialogTitle>
+            <DialogContent>
               <FormControl margin="normal" required fullWidth>
                 <form className={classes.form}
                       onSubmit={(event: any, target: any) => {
@@ -237,22 +276,39 @@ class Medicine extends React.PureComponent<Props, any> {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
+                    className={classes.saveMedicineBtn}
                   >
                     Add Medicine
                   </Button>
                 </form>
               </FormControl>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} className={classes.preview}>
-            <Typography className={classes.instructions}>
-              Displayed as in Prescription
-            </Typography>
-            {preview}
-          </Grid>
-          </Grid>
-    </div>
+
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+
+          {/*<Typography className={classes.instructions}>
+            Displayed as in Prescription
+          </Typography>
+          {preview} */}
+          <div>
+            <div className={classes.addMedicineBtn}>
+            <Tooltip title="Add" aria-label="Add">
+              <Fab color="secondary" onClick={this.handleClickOpen}>
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+            </div>
+            <MedicineTableView />
+          </div>
+
+
+      </div>
     );
   }
 }
