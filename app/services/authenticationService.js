@@ -2,44 +2,13 @@
  * @flow
  */
 
-import type {UserType} from "../types/common/UserType";
-import {models} from "../models";
-import {database} from "../services/database";
-
+import DB from "../models";
+const log = require('electron-log');
 export const authenticationService = {
     login: login,
     logout : fakelogout
 };
-
-  function fakeLogin(username: string, password: string) {
-    console.log("inside fakeLogin()");
-    /**  Check if the user exists in the local database  */
-    let test = database.check(username , password); //send the credentials to database to query
-
-    test.then(function (fromResolve) {
-      console.log(fromResolve);
-      /**
-       * save the user in the local storage or db ?
-       * create token ?
-       * return success
-       * */
-    }).catch(function (fromReject) {
-      console.log(fromReject);
-      /** return failed **/
-    });
-    /**  -------------------------------------------  */
-
-    var p: Promise<any> =
-     new Promise((resolve: any, x: any) => {
-        setTimeout(() => {
-          const user: UserType = { user: username, token: "fake token"};
-          localStorage.setItem('user', JSON.stringify(user));
-          resolve(user);
-        }, 1000);
-      });
-
-      return p;
-}
+log.info("In Authentication");
 
 function fakelogout() {
   var p: Promise<any> =
@@ -55,21 +24,17 @@ function fakelogout() {
 }
 
 async function login(username: string, password: string) {
-
-    const user = await models.User.findOne({
+  log.info("Login request using " + username +" "+ password);
+    const user = await DB.User.findOne({
         where: {
             email: username,
             password: password
         }
     });
+  log.info("Login request : User " + JSON.stringify(user));
+  localStorage.setItem('user', JSON.stringify(user));
 
-    if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      console.log('not init');
-    }
-
-    return user;
+  return user;
 }
 
 function realLoginExample(username: string, password: string) {
@@ -107,20 +72,4 @@ function handleResponse(response: any) {
 function handleError(error: any) {
     return Promise.reject(error && error.message);
 }
-// async function login(username: string, password: string) {
-//
-//   const user = await models.User.findOne({
-//     where: {
-//       email: username,
-//       password: password
-//     }
-//   });
-//
-//   if (user) {
-//     localStorage.setItem('user', JSON.stringify(user));
-//   } else {
-//     console.log('not init');
-//   }
-//
-//   return user;
-// }
+

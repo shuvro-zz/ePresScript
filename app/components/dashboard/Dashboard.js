@@ -50,10 +50,6 @@ class Dashboard extends React.Component<Props, any> {
     const { currentPath } = this.props.location;
     // if the clicked item is not the already selected item, it gets selected
     if (currentPath !== requestedPath) {
-      // this.setState({
-      //   currentPath: requestedPath,
-      // });
-      // insert a slash before the requested path to make it a path
       const path = `/${requestedPath}`;
       console.log(path);
      history.push(path);

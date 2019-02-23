@@ -6,7 +6,6 @@ import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import Provider from "react-redux/es/components/Provider";
 
-
 const store = configureStore();
 
 render(

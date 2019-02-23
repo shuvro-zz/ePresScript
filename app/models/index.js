@@ -1,49 +1,70 @@
 'use strict';
-
-const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-const modelDirectory = __dirname + '/models';
+//const config = require(__dirname + '/../config/config.json')[env];
+const modelDirectory = path.join(__dirname, '/models');
+let dbDirectory = path.join(__dirname, process.env.NODE_ENV ==='development' ? '/db/development.db' : '/db/production.db');
+const log = require('electron-log');
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+if (process.env.NODE_ENV ==='production'){
+  dbDirectory = path.join(process.resourcesPath , '/db/production.db');
 }
+log.info("Database Models ");
+log.info( 'Env :' + process.env.NODE_ENV);
+log.info ('DB Dir' + dbDirectory);
+log.info ('Models directory '+ modelDirectory);
 
-fs
-  .readdirSync(modelDirectory)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js') && (file !== 'index.js');
-  })
-  .forEach(file => {
-    const model = sequelize['import'](path.join(modelDirectory, file));
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+//Database Connection
+let sequelize = new Sequelize('', '', '', {
+  dialect: 'sqlite',
+  host: '127.0.0.1',
+  storage: dbDirectory
 });
+
+//let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    log.info('Connection has been established successfully.');
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    log.info('Unable to connect to the database:', err);
   });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
-//module.exports = db;
+let models = {};
 
-export const models = db;
+const DB = (function () {
+  if (Object.keys(models).length) {
+    return models;
+  }
+
+  let modules = [
+    require('./user'),
+    require('./medicine'),
+    require('./treatment'),
+    require('./treatmentmedicine'),
+  ];
+
+  // Initialize models
+  modules.forEach((module) => {
+    const model = module(sequelize, Sequelize);
+    models[model.name] = model;
+  });
+
+  // Apply associations
+  Object.keys(models).forEach((key) => {
+    if ('associate' in models[key]) {
+      models[key].associate(models);
+    }
+  });
+
+  models.sequelize = sequelize;
+  models.Sequelize = Sequelize;
+
+  return models;
+})();
+
+export default DB;
