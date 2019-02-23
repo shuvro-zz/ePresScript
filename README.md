@@ -1,14 +1,6 @@
 ## Install
 
-- **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
-
-First, clone the repo via git:
-
-```bash
-git clone --depth 1 --single-branch --branch master https://github.com/electron-react-boilerplate/electron-react-boilerplate.git your-project-name
-```
-
-And then install the dependencies with yarn.
+then install the dependencies with yarn.
 
 ```bash
 $ cd your-project-name
@@ -115,19 +107,21 @@ Then, use git to merge some latest commits:
 git pull upstream master
 ```
 
-## Install
+## Install Sequelize for database implementation
 
-// Using Yarn
+_The following procedure is highly required to run the application using this branch_
+
+sequelize and sqlite3 are added in the package.json file. Hence you do not need to install them again. Incase you face any problem, install them
+
 \$ yarn add sequelize
 
-# And one of the following:
+### Install the sqlite3 client (\*optional)
 
-$yarn add pg pg-hstore$ yarn add mysql2
 $yarn add sqlite3$ yarn add tedious // MSSQL
 
 \$ yarn global add sequelize-cli
 
-## Run migration and seed
+### Run migration and seed (\*required)
 
-`sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
-``sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
+1. `sequelize db:migrate --config app/config/config.json --migrations-path app/migrations`
+2. `sequelize db:seed:all --seeders-path app/seeders --config app/config/config.json --debug`
