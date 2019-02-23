@@ -67,6 +67,7 @@ const muiTheme = createMuiTheme({
   },
   //text or headlines
   typography: {
+    useNextVariants: true,
     fontFamily: 'Roboto',
     fontSize: '1rem',
   },

@@ -3,6 +3,7 @@ import type {UserType} from "../types/common/UserType";
 import {history} from "../store/configureStore";
 import {authenticationConstants} from "../constants";
 import {SNACKBAR_OPEN} from '../features/ui/constants';
+const log = require('electron-log');
 export const authenticationActions = {
   login,
   logout
