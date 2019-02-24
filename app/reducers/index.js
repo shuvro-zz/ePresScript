@@ -4,6 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import { loginForm } from './loginFormReducer';
 import { medicineForm } from './medicineReducer';
 import { authentication } from './authenticationReducer';
+import  treatment from './treatmentReducer';
 import uiReducer from '../features/ui/reducer';
 
 export default function createRootReducer(history: History) {
@@ -12,6 +13,7 @@ export default function createRootReducer(history: History) {
     loginForm,
     medicineForm,
     authentication,
-    uiReducer
+    uiReducer,
+    treatment
   });
 }

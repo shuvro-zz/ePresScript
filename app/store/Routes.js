@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Switch, Route } from 'react-router';
-import TreatmentContainer from '../containers/TreatmentContainer';
+import TreatmentContainer from '../components/Treatmentx';
 import LoginContainer from '../containers/LoginContainer';
 import MedicineContainer from '../containers/MedicineContainer'
 import DashboardContentContainer from '../containers/DashboardContentContainer'
