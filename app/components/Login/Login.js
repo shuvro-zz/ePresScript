@@ -4,16 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Background from '../../assets/page.jpg';
 
 const styles = theme => ({
-    root: {
-      flexGrow: 1,
-    },
     loginSection:{
-      width: "100%",
-      height: "600px",
+      height: "100%",
       backgroundImage: `url(${Background})`,
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      backgroundSize: "100% 100%",
+      backgroundSize: "cover",
+  },
+  loginComponent:{
+      height:"100%"
   }
   });
 
@@ -25,9 +24,7 @@ class Login extends React.Component{
         const { classes } = this.props;
         const { spacing } = this.state;
         return(
-            <div>
-
-            <Grid container className={classes.root}>
+            <Grid container className={classes.loginComponent}>
                 <Grid item xs={6}>
                   <div className={classes.loginSection}>
 
@@ -37,7 +34,6 @@ class Login extends React.Component{
                     Login
                 </Grid>
             </Grid>
-            </div>
         )
     }
 }
