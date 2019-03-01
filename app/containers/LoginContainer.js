@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Login from '../components/Login';
+import Login from '../components/Login/Login';
 import { loginFormActions } from '../actions/loginFormActions';
 import { authenticationActions } from '../actions/authenticationActions';
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
