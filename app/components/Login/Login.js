@@ -3,26 +3,17 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Background from '../../assets/page.jpg';
 
-var sectionStyle = {
-
-  backgroundImage: `url(${Background})`,
-  height: "100%",
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "center",
-};
-
 const styles = theme => ({
     root: {
       flexGrow: 1,
     },
-  loginSection:{
-    width: "100%",
-    height: "600px",
-    backgroundImage: `url(${Background})`,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "100% 100%",
+    loginSection:{
+      width: "100%",
+      height: "600px",
+      backgroundImage: `url(${Background})`,
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 100%",
   }
   });
 
@@ -32,7 +23,7 @@ class Login extends React.Component{
     };
     render(){
         const { classes } = this.props;
-    const { spacing } = this.state;
+        const { spacing } = this.state;
         return(
             <div>
 
