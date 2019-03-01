@@ -11,7 +11,6 @@ import type {AuthenticationStateType} from "../types/state/AuthenticationStateTy
 type State = {
   loginForm: LoginFormStateType,
   authentication: AuthenticationStateType
-
 };
 
 // Map the stuff we want from the global application state in redux to the props
