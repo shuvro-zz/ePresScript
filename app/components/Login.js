@@ -164,7 +164,7 @@ class Login extends React.Component{
                     this.handleSubmit(event, target);
                     }}
                     >
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Username</InputLabel>
                         <Input id="email" name="email" autoComplete="email" autoFocus value={currentUserName}
                             onChange={(event: any, target: any) => {
@@ -173,7 +173,7 @@ class Login extends React.Component{
                         
                         />
                     </FormControl>
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input name="password" type="password" id="password" autoComplete="current-password" value={currentPassword}
                         onChange={(event: any, target: any) => {
