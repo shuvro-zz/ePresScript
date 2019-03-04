@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Switch, Route } from 'react-router';
-import TreatmentContainer from '../components/Treatmentx';
+import TreatmentContainer from'../containers/TreatmentContainer';
 import LoginContainer from '../containers/LoginContainer';
-import MedicineContainer from '../containers/MedicineContainer'
+import MedicineContainer from '../containers/MedicineContainer';
 import DashboardContentContainer from '../containers/DashboardContentContainer'
 import ProtectedRoute from '../features/protectedRoute/ProtectedRoute';
 import RootContainer from '../containers/RootContainer';
