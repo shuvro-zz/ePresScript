@@ -19,8 +19,9 @@ type Props = {
   history: {}
 };
 const styles = theme => ({
-  root: {
+  rootContainer: {
     display: 'flex',
+    height:'100%'
   },
   content: {
     marginTop: 50,
@@ -73,7 +74,7 @@ class RootContainer extends PureComponent{
     console.log(this.props);
     return (
       <MuiThemeProvider theme={muiTheme}>
-      <div className={classes.root}>
+      <div className={classes.rootContainer}>
         {loggedIn // render the bars if we're logged in
         && (
 

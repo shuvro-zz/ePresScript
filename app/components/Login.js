@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import {Link} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,64 +9,103 @@ import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import { withStyles } from '@material-ui/core/styles';
+import Background from '../assets/page.jpg';
 
 import type {LoginFormStateType} from "../types/state/LoginFormStateType";
 import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
 
+
 const styles = theme => ({
-  loginComponent: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+    root: {
+      flexGrow: 1,
+      marginTop: "-65px",
+      marginLeft:"-15px",
+      marginBottom: "-65px",
     },
-  },
-  loginPaper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
-});
-
-type Props = {
-  loginForm: LoginFormStateType,
-  authentication: AuthenticationStateType,
-  logout: () => void,
-  login: (username: string, passwors: string) => void,
-  setUserName: (username: string) => void,
-  setPassword: (password: string) => void,
-  setSubmitted: (submitted: boolean) => void
-};
-
-class Login extends React.Component<Props, any> {
-
-  constructor(props: Props, state: any) {
-    super(props);
-    console.log('in Login constructor');
-    this.props.logout(false);
-    this.props.setUserName("");
-    this.props.setPassword("");
-    this.props.setSubmitted(false);
-  }
-
+    loginComponent: {
+        width: 'auto',
+        display: 'block', // Fix IE 11 issue.
+        marginTop: '8%',
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+          width: 400,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        },
+    },
+    loginSection:{
+      width: "100%",
+      height: "690px",
+      backgroundImage: `url(${Background})`,
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 100%",
+      backgroundAttachment: "fixed"
+    },
+    loginPaper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        boxShadow:'none'
+    },
+    avatar: {
+        margin: theme.spacing.unit,
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '70%', // Fix IE 11 issue.
+        marginTop: theme.spacing.unit,
+    },
+    submit: {
+        marginTop: theme.spacing.unit * 3,
+        width: '40%',
+        //justifyContent: 'center',
+        //alignItems: 'center'
+        
+    },
+    loginTypography:{
+        fontFamily: 'Arial',
+        letterSpacing: '7px',
+        fontWeight: 'bold',
+        color: '#43425D'
+    },
+    loginTypography2:{
+        fontFamily: 'Arial',
+        letterSpacing: '1px',
+        
+        color: '#C4C5C8'
+    },
+    grid2:{
+        fontSize: '13px',
+    },
+  });
+  type Props = {
+    loginForm: LoginFormStateType,
+    authentication: AuthenticationStateType,
+    logout: () => void,
+    login: (username: string, passwors: string) => void,
+    setUserName: (username: string) => void,
+    setPassword: (password: string) => void,
+    setSubmitted: (submitted: boolean) => void
+  };
+  
+class Login extends React.Component{
+    
+    constructor(props: Props, state: any) {
+        super(props);
+        console.log('in Login constructor');
+        this.props.logout(false);
+        this.props.setUserName("");
+        this.props.setPassword("");
+        this.props.setSubmitted(false);
+    }
+  
   handleChange(event: any, target: any) {
     const name = event.target.name;
     const value = event.target.value;
@@ -97,56 +137,77 @@ class Login extends React.Component<Props, any> {
       // No need to do anything as validation will kick in due to submitted status changing
     }
   }
+    render(){
+        const { classes } = this.props;
+        const {currentUserName, currentPassword} = this.props.loginForm;
+        return(
+            <div>
 
-  render() {
-      const {currentUserName, currentPassword} = this.props.loginForm;
-      const { classes } = this.props;
-      return (
-        <main className={classes.loginComponent}>
-          <CssBaseline />
-          <Paper className={classes.loginPaper}>
-            <Avatar className={classes.avatar}>
-              <LockIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={classes.form}
-            onSubmit={(event: any, target: any) => {
-              this.handleSubmit(event, target);
-              }}
-            >
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus value={currentUserName}
-                onChange={(event: any, target: any) => {
-                  this.handleChange(event, target);
-                }}
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input name="password" type="password" id="password" autoComplete="current-password" value={currentPassword}
-                onChange={(event: any, target: any) => {
-                  this.handleChange(event, target);
-                }}
-                />
-              </FormControl>
+            <Grid container className={classes.root}>
+                <Grid item xs={6}>
+                  <div className={classes.loginSection}>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign in
-              </Button>
-            </form>
-          </Paper>
-        </main>
-      );
+                  </div>
+                </Grid>
+                <Grid className={classes.loginComponent} item xs={6}>
+                    <Paper className={classes.loginPaper}>
+                    
+                    <Typography component="h2" variant="h5" className={classes.loginTypography}>
+                    e-Prescription
+                    </Typography>
+                    <Typography component="h5" variant="h5" className={classes.loginTypography2}>
+                    Welcome back! Please login to your account.
+                    </Typography>
+                    
+                    <form className={classes.form}
+                    onSubmit={(event: any, target: any) => {
+                    this.handleSubmit(event, target);
+                    }}
+                    >
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Username</InputLabel>
+                        <Input id="email" name="email" autoComplete="email" autoFocus value={currentUserName}
+                            onChange={(event: any, target: any) => {
+                            this.handleChange(event, target);
+                            }}
+                        
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input name="password" type="password" id="password" autoComplete="current-password" value={currentPassword}
+                        onChange={(event: any, target: any) => {
+                        this.handleChange(event, target);
+                        }}
+                        
+                        />
+                    </FormControl>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <Grid container className={classes.grid2}>
+                        <Grid item xs={8}>
+                            <input type="checkbox" name="remember"/> Remember Me
+                        </Grid>
+                        <Grid item xs={4} style={{marginTop:'3px',}}>
+                            <Link to="">Forget Password</Link>
+                        </Grid>
+                    </Grid>
+                    <center><Button
+                        type="submit"
+                        
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Login
+                    </Button></center>
+                    </form>
+                </Paper>
+                </Grid>
+            </Grid>
+            </div>
+        )
     }
 }
-
 export default withStyles(styles)(Login);

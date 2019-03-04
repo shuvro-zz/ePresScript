@@ -4,9 +4,11 @@
  */
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
-body {
-  color: black;
-  overflow: auto;
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background-color: #fffcfc;
   background-image: linear-gradient(
     45deg,
@@ -14,6 +16,11 @@ body {
     rgba(255, 255, 255, 0.6)
   );
   font-family: Arial, Helvetica, Helvetica Neue, serif;
+}
+
+#root {
+  height: 100%;
+  margin: 0;
 }
 
 h1,
