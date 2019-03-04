@@ -24,24 +24,7 @@ const styles = theme => ({
     height:'100%'
   },
   content: {
-    marginTop: 50,
     flexGrow: 1,
-    padding: theme.spacing.unit,
-  },
-  contentWindow: {
-    marginTop: 64,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: 64,
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
-    padding: 8,
-    paddingTop: 0,
-  },
-
-  contentBeneathTabBar: {
-    paddingTop: 56,
   },
 });
 
@@ -77,9 +60,7 @@ class RootContainer extends PureComponent{
       <div className={classes.rootContainer}>
         {loggedIn // render the bars if we're logged in
         && (
-
               <DashboardElementsContainer />
-
         )
         }
         <main className={classes.content}>

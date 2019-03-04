@@ -21,9 +21,8 @@ import type {AuthenticationStateType} from "../types/state/AuthenticationStateTy
 const styles = theme => ({
     root: {
       flexGrow: 1,
-      marginTop: "-65px",
       marginLeft:"-15px",
-      marginBottom: "-65px",
+      height: "100%",
     },
     loginComponent: {
         width: 'auto',
@@ -39,7 +38,7 @@ const styles = theme => ({
     },
     loginSection:{
       width: "100%",
-      height: "690px",
+      height: "100%",
       backgroundImage: `url(${Background})`,
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -67,7 +66,7 @@ const styles = theme => ({
         width: '40%',
         //justifyContent: 'center',
         //alignItems: 'center'
-        
+
     },
     loginTypography:{
         fontFamily: 'Arial',
@@ -78,7 +77,7 @@ const styles = theme => ({
     loginTypography2:{
         fontFamily: 'Arial',
         letterSpacing: '1px',
-        
+
         color: '#C4C5C8'
     },
     grid2:{
@@ -94,9 +93,9 @@ const styles = theme => ({
     setPassword: (password: string) => void,
     setSubmitted: (submitted: boolean) => void
   };
-  
+
 class Login extends React.Component{
-    
+
     constructor(props: Props, state: any) {
         super(props);
         console.log('in Login constructor');
@@ -105,7 +104,7 @@ class Login extends React.Component{
         this.props.setPassword("");
         this.props.setSubmitted(false);
     }
-  
+
   handleChange(event: any, target: any) {
     const name = event.target.name;
     const value = event.target.value;
@@ -141,8 +140,6 @@ class Login extends React.Component{
         const { classes } = this.props;
         const {currentUserName, currentPassword} = this.props.loginForm;
         return(
-            <div>
-
             <Grid container className={classes.root}>
                 <Grid item xs={6}>
                   <div className={classes.loginSection}>
@@ -151,14 +148,14 @@ class Login extends React.Component{
                 </Grid>
                 <Grid className={classes.loginComponent} item xs={6}>
                     <Paper className={classes.loginPaper}>
-                    
+
                     <Typography component="h2" variant="h5" className={classes.loginTypography}>
                     e-Prescription
                     </Typography>
                     <Typography component="h5" variant="h5" className={classes.loginTypography2}>
                     Welcome back! Please login to your account.
                     </Typography>
-                    
+
                     <form className={classes.form}
                     onSubmit={(event: any, target: any) => {
                     this.handleSubmit(event, target);
@@ -170,7 +167,7 @@ class Login extends React.Component{
                             onChange={(event: any, target: any) => {
                             this.handleChange(event, target);
                             }}
-                        
+
                         />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
@@ -179,7 +176,7 @@ class Login extends React.Component{
                         onChange={(event: any, target: any) => {
                         this.handleChange(event, target);
                         }}
-                        
+
                         />
                     </FormControl>
                     <br/>
@@ -195,7 +192,7 @@ class Login extends React.Component{
                     </Grid>
                     <center><Button
                         type="submit"
-                        
+
                         variant="contained"
                         color="primary"
                         className={classes.submit}
@@ -206,7 +203,6 @@ class Login extends React.Component{
                 </Paper>
                 </Grid>
             </Grid>
-            </div>
         )
     }
 }
