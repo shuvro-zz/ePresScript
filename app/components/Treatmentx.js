@@ -1,7 +1,6 @@
 import React from 'react';
 import {treatmentAction} from "../actions/treatmentAction";
 import { connect } from 'react-redux';
-//import axios from 'axios';
 
 
 class Treatment extends React.Component{
@@ -11,17 +10,15 @@ class Treatment extends React.Component{
         description:''
     } 	
     submitForm = (e) => { 
-        
+        e.preventDefault();
         this.props.dispatch(treatmentAction(this.state));
 		console.log(this.state);
   	}
     handleName=(event)=>{
         this.setState({name:event.target.value});
-        console.log(this.state.name);
     }
     handleDescription=(event)=>{
         this.setState({description:event.target.value});
-        console.log(this.state.description);
     }
     render() {
         const {imgSrc}= this.state;
@@ -41,7 +38,6 @@ class Treatment extends React.Component{
     }
 }
 function mapStateToProps(state) {
-    //console.log(state.treatment);
     return {
       treatment: state.treatment
     };
