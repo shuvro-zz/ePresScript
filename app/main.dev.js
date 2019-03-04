@@ -12,7 +12,7 @@
  */
 import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
-
+const {ipcMain} = require('electron');
 
 // if (process.env.NODE_ENV === 'production') {
 //
@@ -86,7 +86,8 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+    resizable: false
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -112,4 +113,8 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
+});
+
+ipcMain.on('resize-me-please', (event, arg) => {
+  mainWindow.setResizable(true);
 });
