@@ -70,8 +70,7 @@ const muiTheme = createMuiTheme({
         background:'#fffff'
       },
 
-
-    }
+    },
   },
   // this is the colour palette
   palette: {

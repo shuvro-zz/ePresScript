@@ -85,6 +85,7 @@ const styles = theme => ({
     padding: '1em 10%',
   },
   menuButton: {
+    color:'#000000',
     marginLeft: 12,
     marginRight: 36,
   },
@@ -236,16 +237,16 @@ class ResponsiveDrawer extends React.Component {
           })}
         >
           <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-            {/*<IconButton*/}
-              {/*color="inherit"*/}
-              {/*aria-label="Open drawer"*/}
-              {/*onClick={this.handleDrawerOpen}*/}
-              {/*className={classNames(classes.menuButton, {*/}
-                {/*[classes.hide]: this.state.open,*/}
-              {/*})}*/}
-            {/*>*/}
-              {/*<MenuIcon />*/}
-            {/*</IconButton>*/}
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerOpen}
+              className={classNames(classes.menuButton, {
+                [classes.hide]: this.state.open,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
 
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -308,13 +309,13 @@ class ResponsiveDrawer extends React.Component {
             >
               E-Prescription
             </Typography>
-            {/*<IconButton*/}
-              {/*aria-label="More"*/}
-              {/*aria-haspopup="true"*/}
-              {/*onClick={this.handleDrawerClose}*/}
-            {/*>*/}
-              {/*<MoreVertIcon />*/}
-            {/*</IconButton>*/}
+            <IconButton
+              aria-label="More"
+              aria-haspopup="true"
+              onClick={this.handleDrawerClose}
+            >
+              <MoreVertIcon />
+            </IconButton>
           </div>
           <Divider />
           {primaryItems}
