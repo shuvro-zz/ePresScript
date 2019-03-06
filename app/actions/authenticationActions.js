@@ -4,6 +4,9 @@ import {history} from "../store/configureStore";
 import {authenticationConstants} from "../constants";
 import {SNACKBAR_OPEN} from '../features/ui/constants';
 const log = require('electron-log');
+const {ipcRenderer} = require('electron');
+
+
 export const authenticationActions = {
   login,
   logout
@@ -17,6 +20,7 @@ function login(username: string, password: string) {
       .then(
         (user: UserType) => {
           if (user) {
+            ipcRenderer.send('resize-me-please', false);
             dispatch(success(user));
             history.push('/dashboard');
           } else {
@@ -44,11 +48,11 @@ function login(username: string, password: string) {
 }
 
 function logout(isLoggedIn:boolean) {
-  console.log("inside logout()");
-  console.log(isLoggedIn);
+  log.info("Logout request");
   if (isLoggedIn) {
     history.push('/');
   }
+  ipcRenderer.send('resize-me-please', true);
   authenticationService.logout();
   return {
     type: authenticationConstants.LOGOUT };

@@ -116,5 +116,11 @@ app.on('ready', async () => {
 });
 
 ipcMain.on('resize-me-please', (event, arg) => {
-  mainWindow.setResizable(true);
+
+  console.log(mainWindow.isResizable());
+  if (arg) {
+    mainWindow.setSize(1024,728);
+  }
+  mainWindow.setResizable(!arg);
+
 });

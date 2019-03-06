@@ -52,6 +52,26 @@ const muiTheme = createMuiTheme({
         },
       },
     },
+    MuiTypography:{
+      subtitle1:{
+        color:'#fffff'
+      },
+      root:{
+        color:'#fffff'
+      }
+    },
+    MuiListItemIcon:{
+      root:{
+        color:'#fffff'
+      }
+    },
+    MuiToolbar:{
+      root:{
+        background:'#fffff'
+      },
+
+
+    }
   },
   // this is the colour palette
   palette: {
@@ -70,6 +90,7 @@ const muiTheme = createMuiTheme({
     useNextVariants: true,
     fontFamily: 'Roboto',
     fontSize: '1rem',
+
   },
 });
 

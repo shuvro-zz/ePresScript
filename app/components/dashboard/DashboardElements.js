@@ -23,15 +23,16 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+
 
 const drawerWidth = 240;
 
 const styles = theme => ({
-  grow: {
-    flexGrow: 1,
-  },
   dashboardElementComponent: {
     display: 'flex',
+    backgroundColor:'black',
+    color:'white',
   },
   drawer: {
     width: drawerWidth,
@@ -39,6 +40,7 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
+    background: theme.palette.primary.main,
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -46,6 +48,7 @@ const styles = theme => ({
     }),
   },
   drawerClose: {
+    background: theme.palette.primary.main,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -60,6 +63,7 @@ const styles = theme => ({
     width: drawerWidth,
   },
   appBar: {
+    background:'#ffffff',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -67,6 +71,7 @@ const styles = theme => ({
     }),
   },
   appBarShift: {
+    background:'#ffffff',
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -74,12 +79,10 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  toolbar: {
+  drawerHeader: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
     ...theme.mixins.toolbar,
+    padding: '1em 10%',
   },
   menuButton: {
     marginLeft: 12,
@@ -88,13 +91,18 @@ const styles = theme => ({
   hide: {
     display: 'none',
   },
+  drawerElements:{
+    color:'#fffff'
+  },
   sectionDesktop: {
+    color:'#515151',
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
   },
   search: {
+    color:'#515151',
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -105,7 +113,6 @@ const styles = theme => ({
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit,
-      width: 'auto',
     },
   },
   searchIcon: {
@@ -184,7 +191,7 @@ class ResponsiveDrawer extends React.Component {
     const { classes, theme } = this.props;
     const { open , currentPath} = this.state;
     const primaryItems = (
-      <div>
+      <div className={classes.drawerElements}>
         <ListItem button
                   onClick={() => this.handleClick('dashboard')}>
           <ListItemIcon>
@@ -229,26 +236,17 @@ class ResponsiveDrawer extends React.Component {
           })}
         >
           <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, {
-                [classes.hide]: this.state.open,
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              {currentPath}
-              </Typography>
-            <div className={classes.grow} />
+            {/*<IconButton*/}
+              {/*color="inherit"*/}
+              {/*aria-label="Open drawer"*/}
+              {/*onClick={this.handleDrawerOpen}*/}
+              {/*className={classNames(classes.menuButton, {*/}
+                {/*[classes.hide]: this.state.open,*/}
+              {/*})}*/}
+            {/*>*/}
+              {/*<MenuIcon />*/}
+            {/*</IconButton>*/}
+
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -261,7 +259,6 @@ class ResponsiveDrawer extends React.Component {
                 }}
               />
             </div>
-            <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -301,14 +298,23 @@ class ResponsiveDrawer extends React.Component {
               }),
             }}
           open={open}>
-          <div className={classes.toolbar}>
-            <IconButton
-              aria-label="More"
-              aria-haspopup="true"
-              onClick={this.handleDrawerClose}
+          <div className={classes.drawerHeader}>
+            <Typography
+              component="h4"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.title}
             >
-              <MoreVertIcon />
-            </IconButton>
+              E-Prescription
+            </Typography>
+            {/*<IconButton*/}
+              {/*aria-label="More"*/}
+              {/*aria-haspopup="true"*/}
+              {/*onClick={this.handleDrawerClose}*/}
+            {/*>*/}
+              {/*<MoreVertIcon />*/}
+            {/*</IconButton>*/}
           </div>
           <Divider />
           {primaryItems}

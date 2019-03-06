@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Button from '@material-ui/core/Button';
 import {history} from "../../store/configureStore";
 import CloudUploadIcon from '@material-ui/icons/Subject';
-const {ipcRenderer} = require('electron');
 
 const styles = theme => ({
   dashboardComponent: {
@@ -44,7 +43,6 @@ class Dashboard extends React.Component<Props, any> {
     console.log('in Dashboard constructor');
     console.log(props);
     this.handleClick = this.handleClick.bind(this);
-    ipcRenderer.send('resize-me-please');
   }
 
   handleClick = (requestedPath) => {
