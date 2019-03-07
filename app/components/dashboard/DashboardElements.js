@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,6 +18,7 @@ import Healing from '@material-ui/icons/Healing';
 import Person from '@material-ui/icons/Person';
 import LiveHelp from '@material-ui/icons/LiveHelp';
 import Settings from '@material-ui/icons/Settings';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import classNames from 'classnames';
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -117,7 +121,7 @@ const styles = theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    width: '100%',
+    width: '74%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit,
     },
@@ -149,6 +153,22 @@ const styles = theme => ({
       },
     },
   },
+  arrowIcon:{
+    color:'#7f7f7f',
+  },
+  profileName:{
+    color:"#7f7f7f",
+    
+  },
+  menuItems:{
+    marginTop:'30px',
+  },
+  menuItem:{
+    '&:hover':{
+      backgroundColor:'#f2f2f2',
+    }
+  }
+
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -157,6 +177,7 @@ class ResponsiveDrawer extends React.Component {
     this.state = {
       currentPath: 'dashboard',
       open:true,
+      anchorEl: null,
     };
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
@@ -171,7 +192,14 @@ class ResponsiveDrawer extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+  
+  handleClickMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
+  handleCloseMenu = () => {
+    this.setState({ anchorEl: null });
+  };
   handleClick(requestedPath) {
     // get the currently selected item
     const { currentPath } = this.state;
@@ -196,7 +224,8 @@ class ResponsiveDrawer extends React.Component {
   }
   render() {
     const { classes, theme } = this.props;
-    const { open , currentPath} = this.state;
+    const { open , currentPath, anchorEl} = this.state;
+    
     const primaryItems = (
       <div className={classes.drawerElements}>
         <ListItem button
@@ -289,18 +318,37 @@ class ResponsiveDrawer extends React.Component {
             </div>
             <div className={classes.sectionDesktop}>
               <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
 
               {/* still need to fix handleProfileMenuOpen*/}
+              <IconButton 
+                disabled={true}
+                
+              >
+                <h4 className={classes.profileName}>Nakib Hossain</h4>
+              </IconButton>
+              <IconButton
+                aria-owns={anchorEl ? 'simple-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleClickMenu}
+              >
 
+               <KeyboardArrowDown className={classes.arrowIcon}/>
+              </IconButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleCloseMenu}
+                className={classes.menuItems}
+              >
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>Profile</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>My account</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>Logout</MenuItem>
+              </Menu>
               <IconButton
                 aria-owns ='material-appbar'
                 aria-haspopup="true"
