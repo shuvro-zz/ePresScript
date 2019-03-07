@@ -9,6 +9,12 @@ import { withStyles } from '@material-ui/core/styles';
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ControlPoint from "@material-ui/icons/ControlPoint";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import BarChart from '@material-ui/icons/BarChart';
+import LocalHospital from '@material-ui/icons/LocalHospital';
+import Healing from '@material-ui/icons/Healing';
+import Person from '@material-ui/icons/Person';
+import LiveHelp from '@material-ui/icons/LiveHelp';
+import Settings from '@material-ui/icons/Settings';
 import classNames from 'classnames';
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -196,21 +202,28 @@ class ResponsiveDrawer extends React.Component {
         <ListItem button
                   onClick={() => this.handleClick('dashboard')}>
           <ListItemIcon>
-            <DashboardIcon />
+            <BarChart/>
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button
+                  onClick={() => this.handleClick('dashboard')}>
+          <ListItemIcon>
+            <Person/>
+          </ListItemIcon>
+          <ListItemText primary="Patient" />
+        </ListItem>
+        <ListItem button
                   onClick={() => this.handleClick('medicine')}>
           <ListItemIcon>
-            <ControlPoint />
+            <LocalHospital />
           </ListItemIcon>
           <ListItemText primary="Medicine" />
         </ListItem>
         <ListItem button
                   onClick={() => this.handleClick('treatment')}>
           <ListItemIcon>
-            <ControlPoint />
+            <Healing/>
           </ListItemIcon>
           <ListItemText primary="Treatment" />
         </ListItem>
@@ -218,6 +231,20 @@ class ResponsiveDrawer extends React.Component {
     );
     const secondaryItems = (
       <div>
+        <ListItem button
+                  onClick={() => this.handleLogout(event)}>
+          <ListItemIcon>
+            <LiveHelp />
+          </ListItemIcon>
+          <ListItemText primary="Help Center" />
+        </ListItem>
+        <ListItem button
+                  onClick={() => this.handleLogout(event)}>
+          <ListItemIcon>
+            <Settings />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItem>
         <ListItem button
                   onClick={() => this.handleLogout(event)}>
           <ListItemIcon>

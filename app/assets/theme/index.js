@@ -24,13 +24,9 @@ const muiTheme = createMuiTheme({
     },
     MuiIconButton: {
       root: {
-        '&:hover': {
-          backgroundColor: highlightColor,
-          // Reset on touch devices, it doesn't add specificity
-          '@media (hover: none)': {
-            backgroundColor: 'transparent',
-          },
-        },
+        marginLeft:'5px',
+        color:'#fff',
+        padding:'6px',
       },
     },
     MuiGridListTileBar: {
@@ -54,10 +50,18 @@ const muiTheme = createMuiTheme({
     },
     MuiTypography:{
       subtitle1:{
-        color:'#fffff'
+        color:'#fffff',
       },
       root:{
-        color:'#fffff'
+        color:'#fffff',
+        fontSize:'17px',
+      },
+      h6:{
+        fontSize:'20px',
+        marginRight:'62px',
+      },
+      noWrap:{
+        overflow:'visible',
       }
     },
     MuiListItemIcon:{
@@ -69,7 +73,6 @@ const muiTheme = createMuiTheme({
       root:{
         background:'#fffff'
       },
-
     },
   },
   // this is the colour palette
