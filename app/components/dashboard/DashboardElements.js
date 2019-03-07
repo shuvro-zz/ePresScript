@@ -178,6 +178,7 @@ class ResponsiveDrawer extends React.Component {
       currentPath: 'dashboard',
       open:true,
       anchorEl: null,
+      anchorEl2: null,
     };
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
@@ -193,6 +194,13 @@ class ResponsiveDrawer extends React.Component {
     this.setState({ open: false });
   };
   
+  handleClickNotification = event => {
+    this.setState({ anchorEl2: event.currentTarget });
+  };
+
+  handleCloseNotification = () => {
+    this.setState({ anchorEl2: null });
+  };
   handleClickMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -224,7 +232,7 @@ class ResponsiveDrawer extends React.Component {
   }
   render() {
     const { classes, theme } = this.props;
-    const { open , currentPath, anchorEl} = this.state;
+    const { open , currentPath, anchorEl , anchorEl2} = this.state;
     
     const primaryItems = (
       <div className={classes.drawerElements}>
@@ -274,13 +282,7 @@ class ResponsiveDrawer extends React.Component {
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
-        <ListItem button
-                  onClick={() => this.handleLogout(event)}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
-        </ListItem>
+        
       </div>
     );
     return (
@@ -317,12 +319,27 @@ class ResponsiveDrawer extends React.Component {
               />
             </div>
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
+              <IconButton 
+                color="inherit"
+                aria-owns={anchorEl2 ? 'simple-menu2' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleClickNotification}
+              >
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-
+              <Menu
+                id="simple-menu2"
+                anchorEl={anchorEl2}
+                open={Boolean(anchorEl2)}
+                onClose={this.handleCloseNotification}
+                className={classes.menuItems}
+              >
+                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>You have listed a new medicine</MenuItem>
+                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>Your monthly report is ready</MenuItem>
+                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>You have listed a new medicine</MenuItem>
+              </Menu>
               {/* still need to fix handleProfileMenuOpen*/}
               <IconButton 
                 disabled={true}
@@ -347,7 +364,7 @@ class ResponsiveDrawer extends React.Component {
               >
                 <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>Profile</MenuItem>
                 <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>My account</MenuItem>
-                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>Logout</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={() => this.handleLogout(event)}>Logout</MenuItem>
               </Menu>
               <IconButton
                 aria-owns ='material-appbar'
