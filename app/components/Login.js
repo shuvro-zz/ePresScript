@@ -58,7 +58,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '70%', // Fix IE 11 issue.
+        width: '65%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
     },
     submit: {
@@ -70,14 +70,15 @@ const styles = theme => ({
     },
     loginTypography:{
         fontFamily: 'Arial',
+        fontSize: '21px',
         letterSpacing: '7px',
         fontWeight: 'bold',
         color: '#43425D'
     },
     loginTypography2:{
         fontFamily: 'Arial',
-        letterSpacing: '1px',
-
+        
+        fontSize: '14px',
         color: '#C4C5C8'
     },
     grid2:{
