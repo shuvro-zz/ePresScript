@@ -342,8 +342,7 @@ class ResponsiveDrawer extends React.Component {
               </Menu>
               {/* still need to fix handleProfileMenuOpen*/}
               <IconButton 
-                disabled={true}
-                
+                disabled={true}  
               >
                 <h4 className={classes.profileName}>Nakib Hossain</h4>
               </IconButton>
@@ -409,9 +408,9 @@ class ResponsiveDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          {primaryItems}
+            {primaryItems}
           <Divider />
-          {secondaryItems}
+            {secondaryItems}
           </Drawer>
       </div>
     );

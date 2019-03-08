@@ -54,7 +54,7 @@ const muiTheme = createMuiTheme({
       },
       root:{
         color:'#fffff',
-        fontSize:'17px',
+        fontSize:'16px',
       },
       h6:{
         fontSize:'20px',
