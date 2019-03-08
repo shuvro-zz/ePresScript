@@ -64,9 +64,6 @@ const styles = theme => ({
     submit: {
         marginTop: theme.spacing.unit * 3,
         width: '40%',
-        //justifyContent: 'center',
-        //alignItems: 'center'
-
     },
     loginTypography:{
         fontFamily: 'Arial',

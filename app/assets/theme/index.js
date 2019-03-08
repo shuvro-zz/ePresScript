@@ -26,7 +26,7 @@ const muiTheme = createMuiTheme({
       root: {
         marginLeft:'5px',
         color:'#fff',
-        padding:'6px',
+        padding:'7px',
       },
     },
     MuiGridListTileBar: {

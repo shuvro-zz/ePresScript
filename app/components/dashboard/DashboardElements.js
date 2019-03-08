@@ -282,7 +282,6 @@ class ResponsiveDrawer extends React.Component {
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
-        
       </div>
     );
     return (
@@ -305,7 +304,6 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
