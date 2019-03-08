@@ -171,6 +171,7 @@ const styles = theme => ({
 
 });
 
+
 class ResponsiveDrawer extends React.Component {
   constructor(props: Props, state: any) {
     super(props);
@@ -184,7 +185,6 @@ class ResponsiveDrawer extends React.Component {
     console.log("inside Sidebar constructor");
     console.log(this.props);
   }
-
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -352,7 +352,6 @@ class ResponsiveDrawer extends React.Component {
                 aria-haspopup="true"
                 onClick={this.handleClickMenu}
               >
-
                <KeyboardArrowDown className={classes.arrowIcon}/>
               </IconButton>
               <Menu
