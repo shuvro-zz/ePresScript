@@ -41,7 +41,7 @@ class Dashboard extends React.Component<Props, any> {
   constructor(props: Props, state: any) {
     super(props);
     console.log('in Dashboard constructor');
-    console.log(props);
+    console.log(props.location.pathname);
     this.handleClick = this.handleClick.bind(this);
   }
 
