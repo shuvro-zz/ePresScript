@@ -7,6 +7,7 @@ import DashboardContentContainer from '../containers/DashboardContentContainer'
 import ProtectedRoute from '../features/protectedRoute/ProtectedRoute';
 import RootContainer from '../containers/RootContainer';
 import PrescriptionContainer from '../containers/presciption/PrescriptionContainer';
+
 const routes = (
     <Switch>
       <ProtectedRoute path="/prescription" component={PrescriptionContainer} />
