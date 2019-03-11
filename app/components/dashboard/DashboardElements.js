@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link, NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -167,9 +168,14 @@ const styles = theme => ({
     '&:hover':{
       backgroundColor:'#f2f2f2',
     }
+  },
+  active:{
+    backgroundColor: '#1F313F',
+    borderLeft: '3px solid #E22454',
   }
 
 });
+
 
 class ResponsiveDrawer extends React.Component {
   constructor(props: Props, state: any) {
@@ -182,9 +188,8 @@ class ResponsiveDrawer extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
-    console.log(this.props);
+    console.log(this.props.location);
   }
-
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -234,31 +239,45 @@ class ResponsiveDrawer extends React.Component {
     const { classes, theme } = this.props;
     const { open , currentPath, anchorEl , anchorEl2} = this.state;
     
+    let dash = false;
+    let pat = false;
+    let med = false;
+    let treat = false;
+    if(this.state.currentPath == 'dashboard'){
+      dash = true;
+    }
+    else if(this.state.currentPath == 'patient'){
+      pat = true;
+    }
+    else if(this.state.currentPath == 'medicine'){
+      med = true;
+    }
+    else if(this.state.currentPath == 'treatment'){
+      treat = true;
+    }
     const primaryItems = (
       <div className={classes.drawerElements}>
-        <ListItem button
-                  onClick={() => this.handleClick('dashboard')}>
+        <ListItem button onClick={() => this.handleClick('dashboard')} className={ dash?`${classes.active}`:null }>
           <ListItemIcon>
             <BarChart/>
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button
-                  onClick={() => this.handleClick('dashboard')}>
+        <ListItem button onClick={() => this.handleClick('dashboard')} className={ pat?`${classes.active}`:null }>
           <ListItemIcon>
             <Person/>
           </ListItemIcon>
           <ListItemText primary="Patient" />
-        </ListItem>
+          </ListItem>
         <ListItem button
-                  onClick={() => this.handleClick('medicine')}>
+                  onClick={() => this.handleClick('medicine')} className={ med?`${classes.active}`:null }>
           <ListItemIcon>
             <LocalHospital />
           </ListItemIcon>
           <ListItemText primary="Medicine" />
         </ListItem>
         <ListItem button
-                  onClick={() => this.handleClick('treatment')}>
+                  onClick={() => this.handleClick('treatment')} className={ treat?`${classes.active}`:null }>
           <ListItemIcon>
             <Healing/>
           </ListItemIcon>
@@ -269,20 +288,19 @@ class ResponsiveDrawer extends React.Component {
     const secondaryItems = (
       <div>
         <ListItem button
-                  onClick={() => this.handleLogout(event)}>
+                  >
           <ListItemIcon>
             <LiveHelp />
           </ListItemIcon>
           <ListItemText primary="Help Center" />
         </ListItem>
         <ListItem button
-                  onClick={() => this.handleLogout(event)}>
+                  >
           <ListItemIcon>
             <Settings />
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
-        
       </div>
     );
     return (
@@ -305,7 +323,6 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -342,8 +359,7 @@ class ResponsiveDrawer extends React.Component {
               </Menu>
               {/* still need to fix handleProfileMenuOpen*/}
               <IconButton 
-                disabled={true}
-                
+                disabled={true}  
               >
                 <h4 className={classes.profileName}>Nakib Hossain</h4>
               </IconButton>
@@ -352,7 +368,6 @@ class ResponsiveDrawer extends React.Component {
                 aria-haspopup="true"
                 onClick={this.handleClickMenu}
               >
-
                <KeyboardArrowDown className={classes.arrowIcon}/>
               </IconButton>
               <Menu
@@ -410,9 +425,9 @@ class ResponsiveDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          {primaryItems}
+            {primaryItems}
           <Divider />
-          {secondaryItems}
+            {secondaryItems}
           </Drawer>
       </div>
     );

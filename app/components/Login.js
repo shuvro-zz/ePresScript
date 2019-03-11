@@ -67,6 +67,7 @@ const styles = theme => ({
     },
     loginTypography:{
         fontFamily: 'Arial',
+        fontSize: '21px',
         letterSpacing: '7px',
         fontSize: '21px',
         fontWeight: 'bold',

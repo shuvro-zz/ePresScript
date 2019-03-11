@@ -15,6 +15,7 @@ const muiTheme = createMuiTheme({
         '&:hover': {
           textDecoration: 'none',
           backgroundColor: highlightColor,
+          //borderLeft: '3px solid #E22454', This hover is not looking good I think, try it and check. 
           // Reset on touch devices, it doesn't add specificity
           '@media (hover: none)': {
             backgroundColor: 'transparent',
@@ -54,7 +55,7 @@ const muiTheme = createMuiTheme({
       },
       root:{
         color:'#fffff',
-        fontSize:'17px',
+        fontSize:'16px',
       },
       h6:{
         fontSize:'20px',
