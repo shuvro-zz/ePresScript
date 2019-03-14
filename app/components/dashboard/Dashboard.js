@@ -41,7 +41,6 @@ class Dashboard extends React.Component<Props, any> {
   constructor(props: Props, state: any) {
     super(props);
     console.log('in Dashboard constructor');
-    console.log(props.location.pathname);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -51,13 +50,11 @@ class Dashboard extends React.Component<Props, any> {
     // if the clicked item is not the already selected item, it gets selected
     if (currentPath !== requestedPath) {
       const path = `/${requestedPath}`;
-      console.log(path);
      history.push(path);
     }
   };
 
   render() {
-
     console.log("Render Dashboard Components");
     const { classes, theme } = this.props;
     return (

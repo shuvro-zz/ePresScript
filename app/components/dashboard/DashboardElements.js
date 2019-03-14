@@ -188,7 +188,6 @@ class ResponsiveDrawer extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
-    console.log(this.props.location);
   }
 
   handleDrawerOpen = () => {
@@ -246,7 +245,7 @@ class ResponsiveDrawer extends React.Component {
     if(this.state.currentPath == 'dashboard'){
       dash = true;
     }
-    else if(this.state.currentPath == 'patient'){
+    else if(this.state.currentPath == 'patients'){
       pat = true;
     }
     else if(this.state.currentPath == 'medicine'){
@@ -263,11 +262,11 @@ class ResponsiveDrawer extends React.Component {
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button onClick={() => this.handleClick('dashboard')} className={ pat?`${classes.active}`:null }>
+        <ListItem button onClick={() => this.handleClick('patients')} className={ pat?`${classes.active}`:null }>
           <ListItemIcon>
             <Person/>
           </ListItemIcon>
-          <ListItemText primary="Patient" />
+          <ListItemText primary="Patients" />
           </ListItem>
         <ListItem button
                   onClick={() => this.handleClick('medicine')} className={ med?`${classes.active}`:null }>
