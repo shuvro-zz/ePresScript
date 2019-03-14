@@ -217,7 +217,7 @@ class ResponsiveDrawer extends React.Component {
     const { currentPath } = this.state;
 
     // if the clicked item is not the already selected item, it gets selected
-    if (currentPath !== requestedPath) {
+    //if (currentPath !== requestedPath) {
       this.setState({
         currentPath: requestedPath,
       });
@@ -225,7 +225,7 @@ class ResponsiveDrawer extends React.Component {
       const path = `/${requestedPath}`;
       console.log(path);
       this.props.navigate(path, currentPath);
-    }
+    //}
   }
   handleLogout(event){
     const {loggedIn } = this.props.authentication;
