@@ -4,6 +4,7 @@ import {
   primaryColor,
   secondaryColor,
   highlightColor,
+  defaultColor,
 } from '../styleConstants';
 
 // ****************************************** THEME ********************************************* //
@@ -86,6 +87,9 @@ const muiTheme = createMuiTheme({
     },
     highlight: {
       main: highlightColor,
+    },
+    default: {
+      main: defaultColor,
     },
   },
   //text or headlines
