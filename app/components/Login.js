@@ -21,19 +21,14 @@ import type {AuthenticationStateType} from "../types/state/AuthenticationStateTy
 const styles = theme => ({
     root: {
       flexGrow: 1,
-      marginLeft:"-15px",
       height: "100%",
     },
     loginComponent: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
-        marginTop: '8%',
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
+        margin: 'auto',
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
           width: 400,
-          marginLeft: 'auto',
-          marginRight: 'auto',
         },
     },
     loginSection:{
@@ -46,7 +41,8 @@ const styles = theme => ({
       backgroundAttachment: "fixed"
     },
     loginPaper: {
-        marginTop: theme.spacing.unit * 8,
+        backgroundColor: 'inherit',
+        margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

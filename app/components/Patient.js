@@ -5,26 +5,20 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Cancel from '@material-ui/icons/Cancel';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import PatientData from '../fakedata/patient_fake.json';
+
 const styles = theme => ({
 	root:{
-		padding:'5%',
 		paddingTop: '80px',
-		
 		height:'100%',
 	},
 	card: {
@@ -113,7 +107,7 @@ const styles = theme => ({
 		color:'#BBBBBB',
 		fontSize:'14px',
 	}
-});  
+});
 
 class Patient extends React.Component{
 	state = {
@@ -128,7 +122,7 @@ class Patient extends React.Component{
 	};
 	searchKeywords = (event)=>{
 		let keyword = event.target.value;
-		
+
 		let filtered = this.state.patients.filter((item)=>{
 				return item.id.indexOf(keyword) > -1 || item.firstname.indexOf(keyword) > -1 || item.lastname.indexOf(keyword) > -1;
 		});
@@ -146,7 +140,7 @@ class Patient extends React.Component{
 					pathname:'/patient',
 					search:`${item.id}`
 				}}><Card className={classes.card}>
-					<CardHeader 
+					<CardHeader
 						avatar={
 							<Avatar aria-label="Recipe" className={classes.avatar}>
 							{`${item.firstname[0]}`+`${item.lastname[0]}`}
@@ -160,7 +154,7 @@ class Patient extends React.Component{
 						title={
 							<Typography className={classes.cardHead}>{`${item.firstname}`+" "+`${item.lastname}`}</Typography>
 						}
-	
+
 						subheader={
 							<div>
 							<Typography className={classes.cardSubHead}>ID: {`${item.id}`}</Typography>
@@ -175,7 +169,7 @@ class Patient extends React.Component{
 		return(
 			<Grid key={item.id} item xs={6} className={classes.leftGrid}>
 			<Link to={`/patient/${item.id}`}><Card className={classes.card}>
-				<CardHeader 
+				<CardHeader
 					avatar={
 						<Avatar aria-label="Recipe" className={classes.avatar}>
 						{`${item.firstname[0]}`+`${item.lastname[0]}`}
@@ -201,7 +195,7 @@ class Patient extends React.Component{
 			</Grid>
 		)
 });
-	//const filteredItems = 
+	//const filteredItems =
     return (
 		<div className={classes.root}>
 		<Grid container >
@@ -223,10 +217,10 @@ class Patient extends React.Component{
 						/>
 					</div>
 			</Grid>
-			
+
 				{items}
-			
-			
+
+
 		</Grid>
 		</div>
       );

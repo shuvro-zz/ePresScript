@@ -16,7 +16,7 @@ const muiTheme = createMuiTheme({
         '&:hover': {
           textDecoration: 'none',
           backgroundColor: highlightColor,
-          //borderLeft: '3px solid #E22454', This hover is not looking good I think, try it and check. 
+          //borderLeft: '3px solid #E22454', This hover is not looking good I think, try it and check.
           // Reset on touch devices, it doesn't add specificity
           '@media (hover: none)': {
             backgroundColor: 'transparent',
@@ -76,6 +76,11 @@ const muiTheme = createMuiTheme({
         background:'#fffff'
       },
     },
+    MuiGrid:{
+      container:{
+        backgroundColor: "inherit"
+      }
+    }
   },
   // this is the colour palette
   palette: {
