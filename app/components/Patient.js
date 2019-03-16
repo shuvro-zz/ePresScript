@@ -18,6 +18,8 @@ import PatientData from '../fakedata/patient_fake.json';
 
 const styles = theme => ({
 	root:{
+		padding: '5%',
+		backgroundColor: '#f0f1f6',
 		paddingTop: '80px',
 		height:'100%',
 	},
