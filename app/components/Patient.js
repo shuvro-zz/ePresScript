@@ -15,6 +15,14 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import PatientData from '../fakedata/patient_fake.json';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Draggable from 'react-draggable';
 
 const styles = theme => ({
 	root:{
@@ -47,7 +55,10 @@ const styles = theme => ({
 		backgroundColor: '#233645',
 		width: 60,
 		height: 60,
-		fontSize:'25px'
+		fontSize:'25px',
+		'&:hover':{
+			backgroundColor: '#59B0F6',
+		}
 	},
 	leftGrid:{
 		padding: '12px',
@@ -104,21 +115,56 @@ const styles = theme => ({
 			color:'#233645',
 			fontSize:'16px',
 			fontWeight:'bold',
+			'&:hover': {
+				color: '#59B0F6',
+			},
 	},
 	cardSubHead:{
 		color:'#BBBBBB',
 		fontSize:'14px',
+	},
+	deleteButton:{
+		color:'white',
+		backgroundColor:'#DC3545',
+		'&:hover':{
+			backgroundColor:'#C82333',
+		}
+	},
+	cancelButton:{
+		color:'white',
+		backgroundColor:'#17A2B8',
+		'&:hover':{
+			backgroundColor:'#007BFF',
+		}
 	}
 });
+
 
 class Patient extends React.Component{
 	state = {
 		expanded: false,
 		patients: PatientData,
 		filtered:[],
-		searching:false
-	};
+		searching:false,
+		openAlert: false,
+		openDeleteSuccess:false,
+		deleteId:'',
+		patientName:''
 
+	};
+	
+	handleClickdeletePatient=(item,name)=>{
+		console.log(name);
+		this.setState({deleteId:item});
+		this.setState({ openAlert: true,patientName: `${name}` });
+	}
+	handleDelete = () => {
+		console.log(this.state.deleteId);
+    this.setState({ deleteId: '', openAlert:false, openDeleteSuccess: true, });
+  };
+	handleClose = () => {
+    this.setState({ openAlert: false, openDeleteSuccess: false });
+  };
 	handleExpandClick = () => {
 		this.setState(state => ({ expanded: !state.expanded }));
 	};
@@ -133,28 +179,33 @@ class Patient extends React.Component{
 			searching:true
 		})
 	};
+	
 	render(){
 		const { classes } = this.props;
+		
 		const items = !this.state.searching ? this.state.patients.map((item)=>{
 			return(
 				<Grid key={item.id} item xs={6} className={classes.leftGrid}>
-				<Link to={{
-					pathname:'/patient',
-					search:`${item.id}`
-				}}><Card className={classes.card}>
+				<Card className={classes.card}>
 					<CardHeader
 						avatar={
-							<Avatar aria-label="Recipe" className={classes.avatar}>
+							<Link to={{
+								pathname:'/patient',
+								search:`${item.id}`
+							}}><Avatar aria-label="Recipe" className={classes.avatar}>
 							{`${item.firstname[0]}`+`${item.lastname[0]}`}
-							</Avatar>
+							</Avatar></Link>
 						}
 						action={
-							<IconButton className={classes.iconBtn}>
+							<IconButton className={classes.iconBtn} onClick={() => this.handleClickdeletePatient(`${item.id}`,`${item.firstname}`+" "+`${item.lastname}`)}>
 								<Cancel/>
 							</IconButton>
 						}
 						title={
-							<Typography className={classes.cardHead}>{`${item.firstname}`+" "+`${item.lastname}`}</Typography>
+							<Link to={{
+								pathname:'/patient',
+								search:`${item.id}`
+							}}><Typography className={classes.cardHead}>{`${item.firstname}`+" "+`${item.lastname}`}</Typography></Link>
 						}
 
 						subheader={
@@ -164,26 +215,32 @@ class Patient extends React.Component{
 							</div>
 						}
 						/>
-					</Card></Link>
+					</Card>
 				</Grid>
 			)
 	}):this.state.filtered.map((item)=>{
 		return(
 			<Grid key={item.id} item xs={6} className={classes.leftGrid}>
-			<Link to={`/patient/${item.id}`}><Card className={classes.card}>
+			<Card className={classes.card}>
 				<CardHeader
 					avatar={
-						<Avatar aria-label="Recipe" className={classes.avatar}>
+						<Link to={{
+							pathname:'/patient',
+							search:`${item.id}`
+						}}><Avatar aria-label="Recipe" className={classes.avatar}>
 						{`${item.firstname[0]}`+`${item.lastname[0]}`}
-						</Avatar>
+						</Avatar></Link>
 					}
 					action={
-						<IconButton className={classes.iconBtn}>
+						<IconButton className={classes.iconBtn} onClick={this.handleClickdeletePatient}>
 							<Cancel/>
 						</IconButton>
 					}
 					title={
-						<Typography className={classes.cardHead}>{`${item.firstname}`+" "+`${item.lastname}`}</Typography>
+						<Link to={{
+							pathname:'/patient',
+							search:`${item.id}`
+						}}><Typography className={classes.cardHead}>{`${item.firstname}`+" "+`${item.lastname}`}</Typography></Link>
 					}
 
 					subheader={
@@ -193,7 +250,9 @@ class Patient extends React.Component{
 						</div>
 					}
 					/>
-				</Card></Link>
+				</Card>
+				
+				
 			</Grid>
 		)
 });
@@ -219,11 +278,45 @@ class Patient extends React.Component{
 						/>
 					</div>
 			</Grid>
-
 				{items}
-
-
 		</Grid>
+		<Dialog
+					open={this.state.openAlert}
+					onClose={this.handleClose}
+					aria-labelledby="draggable-dialog-title"
+				>
+					<DialogTitle id="draggable-dialog-title" style={{ fontWeight:'bold'}}>Delete</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							Are you sure? You want to Delete patient <Typography style={{fontWeight:'bold'}}>{this.state.patientName}?</Typography>
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={this.handleClose} className={classes.cancelButton}>
+							Cancel
+						</Button>
+						<Button onClick={this.handleDelete} className={classes.deleteButton}>
+							Delete
+						</Button>
+					</DialogActions>
+				</Dialog>
+				<Dialog
+					open={this.state.openDeleteSuccess}
+					onClose={this.handleClose}
+					aria-labelledby="draggable-dialog-title"
+				>
+					<DialogTitle id="draggable-dialog-title" style={{ fontWeight:'bold'}}>Delete</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							The Patient has been deleted!
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={this.handleClose} className={classes.cancelButton}>
+							OK
+						</Button>
+					</DialogActions>
+				</Dialog>
 		</div>
       );
   }
