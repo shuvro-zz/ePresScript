@@ -287,8 +287,8 @@ class Patient extends React.Component{
 				>
 					<DialogTitle id="draggable-dialog-title" style={{ fontWeight:'bold'}}>Delete</DialogTitle>
 					<DialogContent>
-						<DialogContentText>
-							Are you sure? You want to Delete patient <Typography style={{fontWeight:'bold'}}>{this.state.patientName}?</Typography>
+						<DialogContentText style={{fontWeight:'bold'}}>
+							Are you sure? You want to Delete patient {this.state.patientName}?
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
