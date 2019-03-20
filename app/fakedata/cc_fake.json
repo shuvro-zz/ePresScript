@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "name": "Anxiety"
+  },
+  {
+    "id": "2",
+    "name": "Headache"
+  },
+  {
+    "id": "3",
+    "name": "Fever"
+  },
+  {
+    "id": "4",
+    "name": "Neck Pain"
+  },
+  {
+    "id": "5",
+    "name": "Back Pain"
+  },
+  {
+    "id": "6",
+    "name": "Heart Disease"
+  },
+  {
+    "id": "7",
+    "name": "Vomiting"
+  },
+  {
+    "id": "8",
+    "name": "Bloating"
+  }
+]

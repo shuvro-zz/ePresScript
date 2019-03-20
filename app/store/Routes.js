@@ -10,9 +10,10 @@ import PrescriptionContainer from '../containers/presciption/PrescriptionContain
 import ForgetPassword from '../components/forgetPassword';
 import Patients from '../components/Patient';
 import Patient from '../components/PatientProfile';
+import Presciption from '../components/PrescriptionWritting';
 const routes = (
     <Switch>
-      <ProtectedRoute path="/prescription" component={PrescriptionContainer} />
+      <ProtectedRoute path="/prescription" component={Presciption} />
       <ProtectedRoute path="/treatment" component={TreatmentContainer} />
       <ProtectedRoute path="/dashboard" component={DashboardContentContainer} />
       <ProtectedRoute path="/medicine" component={MedicineContainer} />
