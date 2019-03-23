@@ -82,9 +82,9 @@ const styles = theme => ({
 		}
 	},
 	leftGrid:{
-				padding: '2%',
-				paddingTop:'0px',
-        borderRight:'1px solid #D1D2D7',
+		padding: '2%',
+		paddingTop:'0px',
+		borderRight:'1px solid #D1D2D7',
 	},
 	rightGrid:{
 		padding: '2%',
@@ -135,12 +135,12 @@ const styles = theme => ({
 		marginTop:'-32px',
 	},
 	cardHead:{
-			color:'#233645',
-			fontSize:'16px',
-			fontWeight:'bold',
-			'&:hover': {
-				color: '#59B0F6',
-			},
+		color:'#233645',
+		fontSize:'16px',
+		fontWeight:'bold',
+		'&:hover': {
+			color: '#59B0F6',
+		},
 	},
 	cardSubHead:{
 		color:'#BBBBBB',
@@ -163,7 +163,7 @@ const styles = theme => ({
 });
 
 
-class Patient extends React.Component{
+class PrescriptionWrittng extends React.Component{
 	state = {
 		ccFakeData: CCData,
 		ccFiltered:[],
@@ -172,6 +172,7 @@ class Patient extends React.Component{
 		ccOnChange: false
 	};
 	onRemoveItem = i => {
+		console.log(i)
     this.setState(state => {
       const list = state.list.filter((item, j) => i !== j);
       return {
@@ -199,7 +200,28 @@ class Patient extends React.Component{
         value: '',
       };
     });
-	}
+	};
+	onUpdateItem = (val) => {
+		//console.log(val.target.value);
+		let target = val.target;
+    let value = target.value;
+    let name = target.name;
+		//console.log(name);
+    this.setState(state => {
+      const list = state.list.map((item, j) => {
+        if (j == name) {
+					console.log('nakib')
+          return value;
+        } else {
+          return item;
+        }
+      });
+      return {
+        list,
+			};
+		});
+		console.log(this.state.list);
+  };
 	searchKeywords = (event)=>{
 		let keyword = event.target.value;
 		this.setState({ccOnChange:true})
@@ -295,12 +317,28 @@ class Patient extends React.Component{
 				<Grid container >
 					<Grid item xs={3} className={classes.leftGrid}>
 							{this.state.list.map((itemx,index) => (
-								<Chip
-									key={itemx}
-									label={itemx}
-									onDelete={()=>this.onRemoveItem(index)}
-									style={{marginTop:'5px'}}
+								<div key={itemx} style={{margin:'0px', padding:'0px'}}>
+								<TextField
+									id="standard-name"
+									className={classes.cctextField}
+									name={`${index}`}
+									value={itemx}
+									onChange={this.onUpdateItem.bind(this)}
+									margin="normal"
 								/>
+								<IconButton
+									onClick={() => this.onRemoveItem(index)}
+									style={{marginTop:'-40px',marginLeft:'80%'}}
+								>
+									<Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+								</IconButton>
+								</div>
+								// <Chip
+								// 	key={itemx}
+								// 	label={itemx}
+								// 	onDelete={()=>this.onRemoveItem(index)}
+								// 	style={{marginTop:'5px'}}
+								// />
 								// <li key={itemx}>{itemx} <Cancel onClick={() => this.onRemoveItem(index)} style={{color:'#7f7f7f', fontSize:'13px',}}/></li>
 							))}
 						
@@ -312,10 +350,11 @@ class Patient extends React.Component{
 							onChange={this.searchKeywords}
 							margin="normal"
 						/>
+						
 						<IconButton
 							onClick={this.onAddItem}
 							disabled={!this.state.value}
-							style={{marginTop:'-45px',marginLeft:'125px'}}
+							style={{marginTop:'-40px',marginLeft:'80%'}}
 						>
 							<Check style={{color:'#7f7f7f'}}/>
 						</IconButton>
@@ -341,7 +380,7 @@ class Patient extends React.Component{
       );
   }
 }
-Patient.propTypes = {
+PrescriptionWrittng.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 function mapStateToProps(state){
@@ -351,4 +390,4 @@ function mapStateToProps(state){
 	}
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Patient));
+export default connect(mapStateToProps)(withStyles(styles)(PrescriptionWrittng));
