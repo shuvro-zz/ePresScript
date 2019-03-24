@@ -168,7 +168,7 @@ class PrescriptionWrittng extends React.Component{
   state = {
     ccFakeData: CCData,
     ccFiltered:[],
-    list:[{name:'', id:''}],
+    list:[],
     value:'',
     ccOnChange: false
   };
@@ -183,39 +183,41 @@ class PrescriptionWrittng extends React.Component{
     });
   };
 
-  onAddItem = () => {
-    console.log("asd");
+  addCustomItem = () => {
+    console.log("Custom Item add request ");
+    //get the value that user has typed in
+    let customItemValue = this.state.value;
+    //get the latest id in order to avoid conflict with existing id's
+    let latestId = `${this.state.ccFakeData.length + 1}`;
+
+    //we also want to save this custom clinical complain in ccFakeData, since it is obvious that user want this new item in future
     this.setState((prevState) => ({
-      list: [...prevState.list, {value:""}],
+      list: [...prevState.list, {name:customItemValue, id: latestId }],
+      ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
+      value:''
     }));
   };
   addCC=(item)=>{
-    //if no item was sent then use state.value and random id
-    if (item ===null){ // This doesnt work!
-      this.setState((prevState) => ({
-        list: [...prevState.list, {name:this.state.value, id:Math.random()}],
-        value:''
-      }));
-    }else{
+    //since we want to add item along with old items in the list, so we say along with the prev state, we add a new item
       this.setState((prevState) => ({
         list: [...prevState.list, {name:item.name, id:item.id}],
         value:''
       }));
-    }
-
   };
   onUpdateItem = (val) => {
     //console.log(val.target.value);
     let target = val.target;
     let value = target.value;
     let id = target.id;
-    console.log(id);
     let data = this.state.list;
+    //get index of the object using ID
     let commentIndex = data.findIndex(function(c) {
       return c.id === target.id;
     });
+    //update this object with new values
     let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
 
+    //
     let newData = update(data, {
       $splice: [[commentIndex, 1, updatedComment]]
     });
@@ -238,6 +240,7 @@ class PrescriptionWrittng extends React.Component{
   };
   render(){
     console.log(this.state);
+    const listCopy = this.state.list;
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
@@ -316,7 +319,8 @@ class PrescriptionWrittng extends React.Component{
           </Grid>
           <Grid container >
             <Grid item xs={3} className={classes.leftGrid}>
-              {this.state.list.map((itemx,index) => (
+              {listCopy != null ?
+                listCopy.map((itemx,index) => (
                 <div key={index} style={{margin:'0px', padding:'0px'}}>
                   <TextField
                     id={itemx.id}
@@ -340,8 +344,7 @@ class PrescriptionWrittng extends React.Component{
                 // 	style={{marginTop:'5px'}}
                 // />
                 // <li key={itemx}>{itemx} <Cancel onClick={() => this.onRemoveItem(index)} style={{color:'#7f7f7f', fontSize:'13px',}}/></li>
-              ))}
-
+              )) : null}
               <TextField
                 id="standard-name"
                 label="Add New"
@@ -352,7 +355,7 @@ class PrescriptionWrittng extends React.Component{
               />
 
               <IconButton
-                onClick={this.onAddItem}
+                onClick={this.addCustomItem}
                 disabled={!this.state.value}
                 style={{marginTop:'-40px',marginLeft:'80%'}}
               >
