@@ -20,7 +20,6 @@ import CCData from '../fakedata/cc_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
-let update = require('immutability-helper');
 
 const styles = theme => ({
   root:{
@@ -168,7 +167,7 @@ class PrescriptionWrittng extends React.Component{
   state = {
     ccFakeData: CCData,
     ccFiltered:[],
-    list:[{name:'', id:''}],
+    list:[],
     value:'',
     ccOnChange: false
   };
@@ -182,44 +181,45 @@ class PrescriptionWrittng extends React.Component{
       };
     });
   };
-
+  onChangeValue = event => {
+    this.setState({ value: event.target.value });
+  };
   onAddItem = () => {
-    console.log("asd");
     this.setState((prevState) => ({
       list: [...prevState.list, {value:""}],
     }));
+
+
   };
   addCC=(item)=>{
-    //if no item was sent then use state.value and random id
-    if (item ===null){ // This doesnt work!
-      this.setState((prevState) => ({
-        list: [...prevState.list, {name:this.state.value, id:Math.random()}],
-        value:''
-      }));
-    }else{
-      this.setState((prevState) => ({
-        list: [...prevState.list, {name:item.name, id:item.id}],
-        value:''
-      }));
-    }
-
+    this.setState(state => {
+      const list = [...state.list, item];
+      return {
+        list,
+        value: '',
+      };
+    });
   };
   onUpdateItem = (val) => {
     //console.log(val.target.value);
     let target = val.target;
     let value = target.value;
-    let id = target.id;
-    console.log(id);
-    let data = this.state.list;
-    let commentIndex = data.findIndex(function(c) {
-      return c.id === target.id;
+    let name = target.name;
+    //console.log(name);
+    this.setState(state => {
+      const list = state.list.map((item, j) => {
+        if (j == name) {
+          console.log('nakib')
+          return value;
+        } else {
+          return item;
+        }
+      });
+      return {
+        list,
+      };
     });
-    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
-
-    let newData = update(data, {
-      $splice: [[commentIndex, 1, updatedComment]]
-    });
-    this.setState({list: newData});
+    console.log(this.state.list);
   };
   searchKeywords = (event)=>{
     let keyword = event.target.value;
@@ -241,7 +241,7 @@ class PrescriptionWrittng extends React.Component{
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
-        <li key={item.id} onClick={()=>this.addCC(item)} style={{cursor:'pointer'}}>
+        <li key={item.id} onClick={()=>this.addCC(item.name)} style={{cursor:'pointer'}}>
           {item.name}
         </li>
       )
@@ -317,12 +317,12 @@ class PrescriptionWrittng extends React.Component{
           <Grid container >
             <Grid item xs={3} className={classes.leftGrid}>
               {this.state.list.map((itemx,index) => (
-                <div key={index} style={{margin:'0px', padding:'0px'}}>
+                <div key={itemx} style={{margin:'0px', padding:'0px'}}>
                   <TextField
-                    id={itemx.id}
+                    id="standard-name"
                     className={classes.cctextField}
                     name={`${index}`}
-                    value={itemx.name}
+                    value={itemx}
                     onChange={this.onUpdateItem.bind(this)}
                     margin="normal"
                   />

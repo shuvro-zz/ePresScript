@@ -20,7 +20,6 @@ import CCData from '../fakedata/cc_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
-let update = require('immutability-helper');
 
 const styles = theme => ({
   root:{
@@ -168,7 +167,7 @@ class PrescriptionWrittng extends React.Component{
   state = {
     ccFakeData: CCData,
     ccFiltered:[],
-    list:[{name:'', id:''}],
+    list:[{name:"" , id:""}],
     value:'',
     ccOnChange: false
   };
@@ -182,44 +181,30 @@ class PrescriptionWrittng extends React.Component{
       };
     });
   };
-
+  onChangeValue = event => {
+    this.setState({ value: event.target.value });
+  };
   onAddItem = () => {
-    console.log("asd");
     this.setState((prevState) => ({
-      list: [...prevState.list, {value:""}],
+      list: [...prevState.list, {name:""}],
     }));
   };
   addCC=(item)=>{
-    //if no item was sent then use state.value and random id
-    if (item ===null){ // This doesnt work!
-      this.setState((prevState) => ({
-        list: [...prevState.list, {name:this.state.value, id:Math.random()}],
-        value:''
-      }));
-    }else{
-      this.setState((prevState) => ({
-        list: [...prevState.list, {name:item.name, id:item.id}],
-        value:''
-      }));
-    }
-
+    console.log("add item");
+    this.setState((prevState) => ({
+      list: [...prevState.list, item],
+    }));
   };
   onUpdateItem = (val) => {
-    //console.log(val.target.value);
-    let target = val.target;
-    let value = target.value;
-    let id = target.id;
-    console.log(id);
-    let data = this.state.list;
-    let commentIndex = data.findIndex(function(c) {
-      return c.id === target.id;
-    });
-    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
-
-    let newData = update(data, {
-      $splice: [[commentIndex, 1, updatedComment]]
-    });
-    this.setState({list: newData});
+    console.log(val.target);
+    //console.log(name);
+    if (["name", "id"].includes(val.target.className) ) {
+      let list = [...this.state.list];
+      list[val.target.dataset.id][val.target.className] = val.target.value;
+      this.setState({ list }, () => console.log(this.state.list));
+    } else {
+      this.setState({ [val.target.name]: val.target.value.toUpperCase() })
+    }
   };
   searchKeywords = (event)=>{
     let keyword = event.target.value;
@@ -239,6 +224,8 @@ class PrescriptionWrittng extends React.Component{
   render(){
     console.log(this.state);
     const { classes } = this.props;
+    let {list} = this.state;
+
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
         <li key={item.id} onClick={()=>this.addCC(item)} style={{cursor:'pointer'}}>
@@ -316,31 +303,31 @@ class PrescriptionWrittng extends React.Component{
           </Grid>
           <Grid container >
             <Grid item xs={3} className={classes.leftGrid}>
-              {this.state.list.map((itemx,index) => (
-                <div key={index} style={{margin:'0px', padding:'0px'}}>
-                  <TextField
-                    id={itemx.id}
-                    className={classes.cctextField}
-                    name={`${index}`}
-                    value={itemx.name}
-                    onChange={this.onUpdateItem.bind(this)}
-                    margin="normal"
-                  />
-                  <IconButton
-                    onClick={() => this.onRemoveItem(index)}
-                    style={{marginTop:'-40px',marginLeft:'80%'}}
-                  >
-                    <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
-                  </IconButton>
-                </div>
-                // <Chip
-                // 	key={itemx}
-                // 	label={itemx}
-                // 	onDelete={()=>this.onRemoveItem(index)}
-                // 	style={{marginTop:'5px'}}
-                // />
-                // <li key={itemx}>{itemx} <Cancel onClick={() => this.onRemoveItem(index)} style={{color:'#7f7f7f', fontSize:'13px',}}/></li>
-              ))}
+              {
+                list.map((val, idx)=> {
+                  let catId = `cat-${idx}`, ageId = `age-${idx}`
+                  return (
+                    <div key={idx}>
+                      <TextField
+                        name={catId}
+                        data-id={idx}
+                        id={catId}
+                        value={list[idx].name}
+                        onChange={(event: any, target: any) => {
+                          this.onUpdateItem(event);
+                        }}
+                        className="name"
+                      />
+                      <IconButton
+                        onClick={() => this.onRemoveItem(idx)}
+                        style={{marginTop:'-40px',marginLeft:'80%'}}
+                      >
+                        <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                      </IconButton>
+                    </div>
+                  )
+                })
+              }
 
               <TextField
                 id="standard-name"

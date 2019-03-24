@@ -245,6 +245,7 @@
     "electron-updater": "^3.2.3",
     "fs": "^0.0.1-security",
     "history": "^4.7.2",
+    "immutability-helper": "^3.0.0",
     "install": "^0.12.2",
     "material-ui": "^0.20.2",
     "material-ui-pickers": "^2.0.4",

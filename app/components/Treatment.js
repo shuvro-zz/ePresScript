@@ -6,7 +6,7 @@ const styles = theme => ({
   treatment: {
     width: '100%',
     height: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 8,
   }
 });
 type Props = {
@@ -27,11 +27,11 @@ class Treatment extends React.Component<Props, any> {
     console.log(props);
   }
 
-  render() {
+    render() {
     const { classes } = this.props;
     return (
       <div className={classes.treatment}>
-        <h1> Add a Treatment </h1>
+        <h1> Treatment </h1>
         <h2> Code me! </h2>
       </div>
     );
