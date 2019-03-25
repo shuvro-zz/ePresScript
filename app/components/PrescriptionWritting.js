@@ -6,13 +6,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Cancel from '@material-ui/icons/CancelOutlined';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import SearchIcon from "@material-ui/icons/Search";
 import Check from "@material-ui/icons/Check";
 import Info from "@material-ui/icons/info";
 import InputBase from "@material-ui/core/InputBase/InputBase";
@@ -43,44 +39,15 @@ const styles = theme => ({
     width: '45%',
   },
   cctextField:{
-    width:'80%',
+    width:'70%',
     margin:'0px',
     padding:'0px'
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
   },
   card: {
     width: '100%',
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
   actions: {
     display: 'flex',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: '#233645',
-    width: 60,
-    height: 60,
-    fontSize:'25px',
-    '&:hover':{
-      backgroundColor: '#59B0F6',
-    }
   },
   leftGrid:{
     padding: '2%',
@@ -90,77 +57,9 @@ const styles = theme => ({
   rightGrid:{
     padding: '2%',
   },
-  search: {
-    color:'#515151',
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: 'white',
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.65),
-    },
-    width: '100%',
-    boxShadow: '0 0 3px rgba(0,0,0,0.2)',
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 8,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 7,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 180,
-      '&:focus': {
-        width: 200,
-      },
-    },
-  },
   iconBtn:{
     color:'#D9DADF',
   },
-  cardCont:{
-    marginLeft:'56px',
-    marginTop:'-32px',
-  },
-  cardHead:{
-    color:'#233645',
-    fontSize:'16px',
-    fontWeight:'bold',
-    '&:hover': {
-      color: '#59B0F6',
-    },
-  },
-  cardSubHead:{
-    color:'#BBBBBB',
-    fontSize:'14px',
-  },
-  deleteButton:{
-    color:'white',
-    backgroundColor:'#DC3545',
-    '&:hover':{
-      backgroundColor:'#C82333',
-    }
-  },
-  cancelButton:{
-    color:'white',
-    backgroundColor:'#17A2B8',
-    '&:hover':{
-      backgroundColor:'#007BFF',
-    }
-  }
 });
 
 
@@ -170,11 +69,12 @@ class PrescriptionWrittng extends React.Component{
     ccFiltered:[],
     list:[],
     value:'',
-    ccOnChange: false
+    ccOnChange: false,
+    OEvalue:'',
+    OElist:[]
   };
 
   onRemoveItem = i => {
-    console.log(i)
     this.setState(state => {
       const list = state.list.filter((item, j) => i !== j);
       return {
@@ -182,30 +82,41 @@ class PrescriptionWrittng extends React.Component{
       };
     });
   };
+  onRemoveOE = i => {
+    this.setState(state => {
+      const OElist = state.OElist.filter((item, j) => i !== j);
+      return {
+        OElist,
+      };
+    });
+  };
 
   addCustomItem = () => {
-    console.log("Custom Item add request ");
-    //get the value that user has typed in
     let customItemValue = this.state.value;
-    //get the latest id in order to avoid conflict with existing id's
     let latestId = `${this.state.ccFakeData.length + 1}`;
 
-    //we also want to save this custom clinical complain in ccFakeData, since it is obvious that user want this new item in future
     this.setState((prevState) => ({
       list: [...prevState.list, {name:customItemValue, id: latestId }],
       ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
       value:''
     }));
   };
+  addCustomOE=()=>{
+    let customItemValue = this.state.OEvalue;
+    let latestId = `${this.state.OElist.length + 1}`;
+    this.setState((prevState) => ({
+      OElist: [...prevState.OElist, {name:customItemValue, id: latestId }],
+      //ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
+      OEvalue:''
+    }));
+  }
   addCC=(item)=>{
-    //since we want to add item along with old items in the list, so we say along with the prev state, we add a new item
       this.setState((prevState) => ({
         list: [...prevState.list, {name:item.name, id:item.id}],
         value:''
       }));
   };
   onUpdateItem = (val) => {
-    //console.log(val.target.value);
     let target = val.target;
     let value = target.value;
     let id = target.id;
@@ -217,13 +128,29 @@ class PrescriptionWrittng extends React.Component{
     //update this object with new values
     let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
 
-    //
     let newData = update(data, {
       $splice: [[commentIndex, 1, updatedComment]]
     });
     this.setState({list: newData});
   };
-  searchKeywords = (event)=>{
+  onUpdateOE = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.OElist;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({OElist: newData});
+  };
+  CCsearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({ccOnChange:true})
     if( keyword == ""){
@@ -238,9 +165,13 @@ class PrescriptionWrittng extends React.Component{
       ccOnChange:true
     })
   };
+  OEsearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({OEvalue:keyword});
+  }
   render(){
-    console.log(this.state);
     const listCopy = this.state.list;
+    const OElistCopy = this.state.OElist;
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
@@ -252,7 +183,7 @@ class PrescriptionWrittng extends React.Component{
     return (
       <div className={classes.root}>
         <Card>
-          <Grid container style={{width:'100%',padding:'2%', paddingTop:'1%',borderBottom:'1px solid #D1D2D7'}}>
+          <Grid container style={{width:'100%',padding:'0% 1%',borderBottom:'1px solid #D1D2D7'}}>
             <form className={classes.container} noValidate autoComplete="off">
               <Grid item xs={3}>
                 <TextField
@@ -263,9 +194,7 @@ class PrescriptionWrittng extends React.Component{
                   //onChange={this.handleChange('name')}
                   margin="normal"
                 />
-
               </Grid>
-
               <Grid item xs={3}>
                 <TextField
                   id="standard-name"
@@ -284,7 +213,6 @@ class PrescriptionWrittng extends React.Component{
                   margin="normal"
                 />
               </Grid>
-
               <Grid item xs={2}>
                 <TextField
                   id="standard-name"
@@ -319,56 +247,92 @@ class PrescriptionWrittng extends React.Component{
           </Grid>
           <Grid container >
             <Grid item xs={3} className={classes.leftGrid}>
-              {listCopy != null ?
-                listCopy.map((itemx,index) => (
-                <div key={index} style={{margin:'0px', padding:'0px'}}>
-                  <TextField
-                    id={itemx.id}
-                    className={classes.cctextField}
-                    name={`${index}`}
-                    value={itemx.name}
-                    onChange={this.onUpdateItem.bind(this)}
-                    margin="normal"
-                  />
-                  <IconButton
-                    onClick={() => this.onRemoveItem(index)}
-                    style={{marginTop:'-40px',marginLeft:'80%'}}
-                  >
-                    <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
-                  </IconButton>
-                </div>
-                // <Chip
-                // 	key={itemx}
-                // 	label={itemx}
-                // 	onDelete={()=>this.onRemoveItem(index)}
-                // 	style={{marginTop:'5px'}}
-                // />
-                // <li key={itemx}>{itemx} <Cancel onClick={() => this.onRemoveItem(index)} style={{color:'#7f7f7f', fontSize:'13px',}}/></li>
-              )) : null}
-              <TextField
-                id="standard-name"
-                label="Add New"
-                className={classes.cctextField}
-                value={this.state.value}
-                onChange={this.searchKeywords}
-                margin="normal"
-              />
-
-              <IconButton
-                onClick={this.addCustomItem}
-                disabled={!this.state.value}
-                style={{marginTop:'-40px',marginLeft:'80%'}}
-              >
-                <Check style={{color:'#7f7f7f'}}/>
-              </IconButton>
-              {!this.state.value==""?
-                <div style={{maxHeight:'200px', position:'relative', overflowY:'scroll',padding:'0px',marginTop:'-15px'}}>
-                  <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
-                    {!this.state.value==""?CC:null}
-                  </ul>
-                </div>:null
-              }
-
+              <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>C/C</Typography>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'150px',position:'relative',overflowY:'auto'}}>
+                <TextField
+                  id="standard-name"
+                  label="Add New +"
+                  className={classes.cctextField}
+                  value={this.state.value}
+                  onChange={this.CCsearchKeywords}
+                  margin="normal"
+                  style={{fontSize:'14px'}}
+                />
+                <IconButton
+                  onClick={this.addCustomItem}
+                  disabled={!this.state.value}
+                  style={{marginTop:'-40px',marginLeft:'70%'}}
+                >
+                  <Check style={{color:'#7f7f7f'}}/>
+                </IconButton>
+                {!this.state.value==""?
+                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'-15px'}}>
+                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
+                      {!this.state.value==""?CC:null}
+                    </ul>
+                  </div>:null
+                }
+                {listCopy != null ?
+                  listCopy.slice(0).reverse().map((itemx,index) => (
+                  <div key={index} style={{margin:'0px', padding:'0px'}}>
+                    <TextField
+                      id={itemx.id}
+                      className={classes.cctextField}
+                      name={`${index}`}
+                      value={itemx.name}
+                      onChange={this.onUpdateItem.bind(this)}
+                      margin="normal"
+                      style={{fontSize:'14px',marginTop:'-15px'}}
+                    />
+                    <IconButton
+                      onClick={() => this.onRemoveItem(index)}
+                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                    >
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                    </IconButton>
+                  </div>
+                )) : null}
+              </div>
+              <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>O/E</Typography>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'100px',position:'relative',overflowY:'auto'}}>
+                <TextField
+                  id=""
+                  label="Add New"
+                  className={classes.cctextField}
+                  value={this.state.OEvalue}
+                  onChange={this.OEsearchKeywords}
+                  margin="normal"
+                  style={{fontSize:'14px'}}
+                />
+                <IconButton
+                  onClick={this.addCustomOE}
+                  disabled={!this.state.OEvalue}
+                  style={{marginTop:'-40px',marginLeft:'70%'}}
+                >
+                  <Check style={{color:'#7f7f7f'}}/>
+                </IconButton>
+                
+                {OElistCopy != null ?
+                  OElistCopy.map((itemx,index) => (
+                  <div key={index} style={{margin:'0px', padding:'0px'}}>
+                    <TextField
+                      id={itemx.id}
+                      className={classes.cctextField}
+                      name={`${index}`}
+                      value={itemx.name}
+                      onChange={this.onUpdateOE.bind(this)}
+                      margin="normal"
+                      style={{fontSize:'14px',marginTop:'-17px'}}
+                    />
+                    <IconButton
+                      onClick={() => this.onRemoveOE(index)}
+                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                    >
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                    </IconButton>
+                  </div>
+                )) : null}
+              </div>
             </Grid>
             <Grid item xs={6} className={classes.leftGrid} >
 
