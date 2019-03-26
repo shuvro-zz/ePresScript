@@ -23,7 +23,7 @@ const styles = theme => ({
   root:{
     padding: '1%',
     backgroundColor: '#f0f1f6',
-    paddingTop: '80px',
+    paddingTop: '70px',
     height:'100%',
   },
   container: {
@@ -44,6 +44,12 @@ const styles = theme => ({
     margin:'0px',
     padding:'0px'
   },
+  adviceTextField:{
+    width:'95%',
+    margin:'0px',
+    padding:'0px'
+  },
+  
   card: {
     width: '100%',
   },
@@ -78,6 +84,7 @@ class PrescriptionWrittng extends React.Component{
     Testsvalue:'',
     Testslist:[],
     TestsOnChange: false,
+    AdviceValue:''
   };
 
   onRemoveItem = i => {
@@ -239,6 +246,12 @@ class PrescriptionWrittng extends React.Component{
       TestsOnChange:true
     })
   };
+
+  AdviceSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({AdviceValue:keyword});
+  };
+
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
@@ -324,18 +337,18 @@ class PrescriptionWrittng extends React.Component{
             </form>
           </Grid>
           <Grid container >
-            <Grid item xs={3} className={classes.leftGrid}>
+            <Grid item xs={3} className={classes.leftGrid} style={{ height:'535px'}}>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>C/C</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'150px',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'30%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="standard-name"
-                  label="Add New +"
+                  label="Add New"
                   className={classes.cctextField}
                   value={this.state.value}
                   onChange={this.CCsearchKeywords}
                   margin="normal"
                   style={{fontSize:'14px'}}
-                />
+                /> 
                 <IconButton
                   onClick={this.addCustomItem}
                   disabled={!this.state.value}
@@ -372,7 +385,7 @@ class PrescriptionWrittng extends React.Component{
                 )) : null}
               </div>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>O/E</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'100px',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'22%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id=""
                   label="Add New"
@@ -413,7 +426,7 @@ class PrescriptionWrittng extends React.Component{
               </div>
               
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Tests</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'120px',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'23%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="tests"
                   label="Add Tests"
@@ -457,6 +470,20 @@ class PrescriptionWrittng extends React.Component{
                     </IconButton>
                   </div>
                 )) : null}
+              </div>
+              <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Advice</Typography>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'25%',position:'relative',overflowY:'auto'}}>
+                <TextField
+                  id="advice"
+                  label="Add Advice"
+                  multiline
+                  rowsMax="3"
+                  value={this.state.AdviceValue}
+                  onChange={this.AdviceSearchKeywords}
+                  className={classes.adviceTextField}
+                  margin="normal"
+                  style={{fontSize:'14px',marginTop:'-3px'}}
+                />
               </div>      
             </Grid>
             <Grid item xs={6} className={classes.leftGrid} >
