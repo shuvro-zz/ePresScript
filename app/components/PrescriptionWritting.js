@@ -13,6 +13,7 @@ import Check from "@material-ui/icons/Check";
 import Info from "@material-ui/icons/info";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import CCData from '../fakedata/cc_fake.json';
+import TestsData from '../fakedata/Tests_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
@@ -67,26 +68,45 @@ class PrescriptionWrittng extends React.Component{
   state = {
     ccFakeData: CCData,
     ccFiltered:[],
+    TestsFakeData: TestsData,
+    TestsFiltered:[],
     list:[],
     value:'',
     ccOnChange: false,
     OEvalue:'',
-    OElist:[]
+    OElist:[],
+    Testsvalue:'',
+    Testslist:[],
+    TestsOnChange: false,
   };
 
   onRemoveItem = i => {
+    //console.log(i);
+    //console.log((this.state.list.length - i)-1);
+    let x = (this.state.list.length - i)-1;//Since the list is printed in Descending order
     this.setState(state => {
-      const list = state.list.filter((item, j) => i !== j);
+      const list = state.list.filter((item, j) => x !== j);
       return {
         list,
       };
     });
   };
   onRemoveOE = i => {
+    let x = (this.state.OElist.length - i)-1;
     this.setState(state => {
-      const OElist = state.OElist.filter((item, j) => i !== j);
+      const OElist = state.OElist.filter((item, j) => x !== j);
       return {
         OElist,
+      };
+    });
+  };
+  onRemoveTests = i => {
+    let x = (this.state.Testslist.length - i)-1;
+    console.log(x);
+    this.setState(state => {
+      const Testslist = state.Testslist.filter((item, j) => x !== j);
+      return {
+        Testslist,
       };
     });
   };
@@ -110,11 +130,27 @@ class PrescriptionWrittng extends React.Component{
       OEvalue:''
     }));
   }
+  addCustomTests=()=>{
+    let customItemValue = this.state.Testsvalue;
+    let latestId = `${this.state.Testslist.length + 1}`;
+    this.setState((prevState) => ({
+      Testslist: [...prevState.Testslist, {name:customItemValue, id: latestId }],
+      TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+      Testsvalue:''
+    }));
+  }
   addCC=(item)=>{
       this.setState((prevState) => ({
         list: [...prevState.list, {name:item.name, id:item.id}],
         value:''
       }));
+  };
+  
+  addTests=(item)=>{
+    this.setState((prevState) => ({
+      Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
+      Testsvalue:''
+    }));
   };
   onUpdateItem = (val) => {
     let target = val.target;
@@ -150,6 +186,23 @@ class PrescriptionWrittng extends React.Component{
     });
     this.setState({OElist: newData});
   };
+  onUpdateTests = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.Testslist;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({Testslist: newData});
+  };
   CCsearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({ccOnChange:true})
@@ -165,17 +218,42 @@ class PrescriptionWrittng extends React.Component{
       ccOnChange:true
     })
   };
+
   OEsearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({OEvalue:keyword});
-  }
+  };
+
+  TestsSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({TestsOnChange:true})
+    if( keyword == ""){
+      this.setState({TestsOnChange:false})
+    }
+    this.setState({ Testsvalue: event.target.value });
+    let filtered = this.state.TestsFakeData.filter((item)=>{
+      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      TestsFiltered:filtered,
+      TestsOnChange:true
+    })
+  };
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
+    const TestlistCopy = this.state.Testslist;
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
         <li key={item.id} onClick={()=>this.addCC(item)} style={{cursor:'pointer'}}>
+          {item.name}
+        </li>
+      )
+    }):null;
+    const TESTS = this.state.TestsOnChange?this.state.TestsFiltered.map((item)=>{
+      return(
+        <li key={item.id} onClick={()=>this.addTests(item)} style={{cursor:'pointer'}}>
           {item.name}
         </li>
       )
@@ -313,7 +391,7 @@ class PrescriptionWrittng extends React.Component{
                 </IconButton>
                 
                 {OElistCopy != null ?
-                  OElistCopy.map((itemx,index) => (
+                  OElistCopy.slice(0).reverse().map((itemx,index) => (
                   <div key={index} style={{margin:'0px', padding:'0px'}}>
                     <TextField
                       id={itemx.id}
@@ -333,6 +411,53 @@ class PrescriptionWrittng extends React.Component{
                   </div>
                 )) : null}
               </div>
+              
+              <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Tests</Typography>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'120px',position:'relative',overflowY:'auto'}}>
+                <TextField
+                  id="tests"
+                  label="Add Tests"
+                  className={classes.cctextField}
+                  value={this.state.Testsvalue}
+                  onChange={this.TestsSearchKeywords}
+                  margin="normal"
+                  style={{fontSize:'14px'}}
+                />
+                <IconButton
+                  onClick={this.addCustomTests}
+                  disabled={!this.state.Testsvalue}
+                  style={{marginTop:'-40px',marginLeft:'70%'}}
+                >
+                  <Check style={{color:'#7f7f7f'}}/>
+                </IconButton>
+                {!this.state.Testsvalue==""?
+                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'-15px'}}>
+                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
+                      {!this.state.Testsvalue==""?TESTS:null}
+                    </ul>
+                  </div>:null
+                }
+                {TestlistCopy != null ?
+                  TestlistCopy.slice(0).reverse().map((itemx,index) => (
+                  <div key={index} style={{margin:'0px', padding:'0px'}}>
+                    <TextField
+                      id={itemx.id}
+                      className={classes.cctextField}
+                      name={`${index}`}
+                      value={itemx.name}
+                      onChange={this.onUpdateTests.bind(this)}
+                      margin="normal"
+                      style={{fontSize:'14px',marginTop:'-15px'}}
+                    />
+                    <IconButton
+                      onClick={() => this.onRemoveTests(index)}
+                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                    >
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                    </IconButton>
+                  </div>
+                )) : null}
+              </div>      
             </Grid>
             <Grid item xs={6} className={classes.leftGrid} >
 
