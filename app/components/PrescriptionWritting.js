@@ -72,6 +72,12 @@ const styles = theme => ({
 
 class PrescriptionWrittng extends React.Component{
   state = {
+    PatientName:'',
+    Age:'',
+    Sex:'',
+    Mobile:'',
+    Email:'',
+    PatientId:'',
     ccFakeData: CCData,
     ccFiltered:[],
     TestsFakeData: TestsData,
@@ -86,7 +92,36 @@ class PrescriptionWrittng extends React.Component{
     TestsOnChange: false,
     AdviceValue:''
   };
-
+  patientNameHandler=(event)=>{
+      let keyword = event.target.value;
+      this.setState({PatientName:keyword});
+  };
+  
+  patientAgeHandler=(event)=>{
+    let keyword = event.target.value;
+    this.setState({Age:keyword});
+  };
+  
+  patientSexHandler=(event)=>{
+    let keyword = event.target.value;
+    this.setState({Sex:keyword});
+  };
+  
+  patientIDHandler=(event)=>{
+    let keyword = event.target.value;
+    this.setState({PatientId:keyword});
+  };
+  
+  patientMobileHandler=(event)=>{
+    let keyword = event.target.value;
+    this.setState({Mobile:keyword});
+  };
+  
+  patientEmailHandler=(event)=>{
+    let keyword = event.target.value;
+    this.setState({Email:keyword});
+    console.log(keyword)
+  };
   onRemoveItem = i => {
     //console.log(i);
     //console.log((this.state.list.length - i)-1);
@@ -281,8 +316,8 @@ class PrescriptionWrittng extends React.Component{
                   id="standard-name"
                   label="Patient Name"
                   className={classes.textField}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.PatientName}
+                  onChange={this.patientNameHandler}
                   margin="normal"
                 />
               </Grid>
@@ -291,16 +326,16 @@ class PrescriptionWrittng extends React.Component{
                   id="standard-name"
                   label="Age"
                   className={classes.textField2}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.Age}
+                  onChange={this.patientAgeHandler}
                   margin="normal"
                 />
                 <TextField
                   id="standard-name"
                   label="Sex"
                   className={classes.textField2}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.Sex}
+                  onChange={this.patientSexHandler}
                   margin="normal"
                 />
               </Grid>
@@ -309,8 +344,8 @@ class PrescriptionWrittng extends React.Component{
                   id="standard-name"
                   label="Mobile"
                   className={classes.textField}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.Mobile}
+                  onChange={this.patientMobileHandler}
                   margin="normal"
                 />
               </Grid>
@@ -319,8 +354,8 @@ class PrescriptionWrittng extends React.Component{
                   id="standard-name"
                   label="Email"
                   className={classes.textField}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.Email}
+                  onChange={this.patientEmailHandler}
                   margin="normal"
                 />
               </Grid>
@@ -329,8 +364,8 @@ class PrescriptionWrittng extends React.Component{
                   id="standard-name"
                   label="Id"
                   className={classes.textField}
-                  //value={this.state.name}
-                  //onChange={this.handleChange('name')}
+                  value={this.state.PatientId}
+                  onChange={this.patientIDHandler}
                   margin="normal"
                 />
               </Grid>
