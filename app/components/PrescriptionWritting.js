@@ -14,6 +14,7 @@ import Info from "@material-ui/icons/info";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import CCData from '../fakedata/cc_fake.json';
 import TestsData from '../fakedata/Tests_fake.json';
+import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
@@ -44,6 +45,12 @@ const styles = theme => ({
     margin:'0px',
     padding:'0px'
   },
+  medtextField:{
+    width:'80%',
+    margin:'0px',
+    padding:'0px'
+  },
+  
   adviceTextField:{
     width:'95%',
     margin:'0px',
@@ -78,19 +85,43 @@ class PrescriptionWrittng extends React.Component{
     Mobile:'',
     Email:'',
     PatientId:'',
+
     ccFakeData: CCData,
     ccFiltered:[],
-    TestsFakeData: TestsData,
-    TestsFiltered:[],
     list:[],
     value:'',
     ccOnChange: false,
-    OEvalue:'',
-    OElist:[],
+
+    TestsFakeData: TestsData,
+    TestsFiltered:[],
     Testsvalue:'',
     Testslist:[],
     TestsOnChange: false,
-    AdviceValue:''
+    
+    OEvalue:'',
+    OElist:[],
+    
+    AdviceValue:'',
+
+    TempMedValue:'',
+    MedOnchange:false,
+    MedFakeData: MedData,
+    MedFiltered:[],
+    MedList:[],
+    MedFlag:false,
+    
+    TempStrenValue:'',
+    StrenList:[],
+    //StrenOnchange:false,
+    TempTypValue:'',
+    TypeList:[],
+    //TypOnchange:false,
+    TempFreqValue:'',
+    FreqList:[],
+    //FreqOnchange:false,
+    TempRemValue:'',
+    RemList:[],
+    //RemOnchange:false,
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
@@ -152,7 +183,24 @@ class PrescriptionWrittng extends React.Component{
       };
     });
   };
-
+  removeAll = i =>{
+    let x =  i;
+    console.log(x);
+    this.setState(state => {
+      const MedList = state.MedList.filter((item, j) => x !== j);
+      const StrenList = state.StrenList.filter((item, j) => x !== j);
+      const TypeList = state.TypeList.filter((item, j) => x !== j);
+      const FreqList = state.FreqList.filter((item, j) => x !== j);
+      const RemList = state.RemList.filter((item, j) => x !== j);
+      return {
+        MedList,
+        StrenList,
+        TypeList,
+        FreqList,
+        RemList,
+      };
+    });
+  };
   addCustomItem = () => {
     let customItemValue = this.state.value;
     let latestId = `${this.state.ccFakeData.length + 1}`;
@@ -193,6 +241,45 @@ class PrescriptionWrittng extends React.Component{
       Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
       Testsvalue:''
     }));
+  };
+  addMed=(item)=>{
+    //console.log(item);
+    this.setState({
+      TempMedValue:`${item.name}`,
+      MedFlag:true
+    });
+    //console.log(this.state.TempMedValue);
+  };
+  addAll=()=>{
+    let MedVal = this.state.TempMedValue;
+    let StrenVal = this.state.TempStrenValue;
+    if(StrenVal == '')StrenVal = "N/A";
+
+    let TypVal = this.state.TempTypValue;
+    if(TypVal == '')TypVal = "N/A";
+
+    let RemVal = this.state.TempRemValue;
+    if(RemVal == '')RemVal = "N/A";
+
+    let FreqVal = this.state.TempFreqValue;
+    if(FreqVal == '')FreqVal = "N/A";
+
+    let latestId = `${this.state.MedList.length + 1}`;
+    this.setState((prevState) => ({
+      MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
+      StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
+      TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
+      FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
+      RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
+      //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+      TempMedValue:'',
+      TempFreqValue:'',
+      TempRemValue:'',
+      TempStrenValue:'',
+      TempTypValue:'',
+
+    }));
+    //console.log(this.state);
   };
   onUpdateItem = (val) => {
     let target = val.target;
@@ -245,6 +332,91 @@ class PrescriptionWrittng extends React.Component{
     });
     this.setState({Testslist: newData});
   };
+  onUpdateMed = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.MedList;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({MedList: newData});
+  };
+  onUpdateStren = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.StrenList;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({StrenList: newData});
+  };
+  onUpdateType = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.TypeList;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({TypeList: newData});
+  };
+  onUpdateFreq = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.FreqList;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({FreqList: newData});
+  };
+  onUpdateRem = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.RemList;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({RemList: newData});
+  };
   CCsearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({ccOnChange:true})
@@ -286,11 +458,53 @@ class PrescriptionWrittng extends React.Component{
     let keyword = event.target.value;
     this.setState({AdviceValue:keyword});
   };
+  OEsearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({OEvalue:keyword});
+  };
 
+  MedSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({MedOnchange:true, MedFlag:false})
+    if( keyword == ""){
+      this.setState({MedOnchange:false})
+    }
+    this.setState({ TempMedValue: event.target.value });
+    let filtered = this.state.MedFakeData.filter((item)=>{
+      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      MedFiltered:filtered,
+      MedOnchange:true
+    })
+  };
+  StrenSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({TempStrenValue:keyword});
+  };
+  TypeSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({TempTypValue:keyword});
+  };
+  FreqSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({TempFreqValue:keyword});
+  };
+  
+  RemarkSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({TempRemValue:keyword});
+  };
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
     const TestlistCopy = this.state.Testslist;
+    const MedListCopy = this.state.MedList;
+    const StrenListCopy = this.state.StrenList;
+    const TypeListCopy = this.state.TypeList;
+    const FreqListCopy = this.state.FreqList;
+    const RemListCopy = this.state.RemList;
+
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
@@ -302,6 +516,13 @@ class PrescriptionWrittng extends React.Component{
     const TESTS = this.state.TestsOnChange?this.state.TestsFiltered.map((item)=>{
       return(
         <li key={item.id} onClick={()=>this.addTests(item)} style={{cursor:'pointer'}}>
+          {item.name}
+        </li>
+      )
+    }):null;
+    const Med = this.state.MedOnchange?this.state.MedFiltered.map((item)=>{
+      return(
+        <li key={item.id} onClick={()=>this.addMed(item)} style={{cursor:'pointer'}}>
           {item.name}
         </li>
       )
@@ -372,9 +593,9 @@ class PrescriptionWrittng extends React.Component{
             </form>
           </Grid>
           <Grid container >
-            <Grid item xs={3} className={classes.leftGrid} style={{ height:'535px'}}>
+            <Grid item xs={2} className={classes.leftGrid} style={{ height:'535px',paddingRight:'0px'}}>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>C/C</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'30%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'25%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="standard-name"
                   label="Add New"
@@ -412,9 +633,9 @@ class PrescriptionWrittng extends React.Component{
                     />
                     <IconButton
                       onClick={() => this.onRemoveItem(index)}
-                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                      style={{marginTop:'-45px',marginLeft:'70%'}}
                     >
-                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'20px'}}/>
                     </IconButton>
                   </div>
                 )) : null}
@@ -452,9 +673,9 @@ class PrescriptionWrittng extends React.Component{
                     />
                     <IconButton
                       onClick={() => this.onRemoveOE(index)}
-                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                      style={{marginTop:'-45px',marginLeft:'70%'}}
                     >
-                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',marginTop:'-5px'}}/>
                     </IconButton>
                   </div>
                 )) : null}
@@ -474,7 +695,7 @@ class PrescriptionWrittng extends React.Component{
                 <IconButton
                   onClick={this.addCustomTests}
                   disabled={!this.state.Testsvalue}
-                  style={{marginTop:'-40px',marginLeft:'70%'}}
+                  style={{marginTop:'-45px',marginLeft:'70%'}}
                 >
                   <Check style={{color:'#7f7f7f'}}/>
                 </IconButton>
@@ -501,13 +722,13 @@ class PrescriptionWrittng extends React.Component{
                       onClick={() => this.onRemoveTests(index)}
                       style={{marginTop:'-40px',marginLeft:'70%'}}
                     >
-                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',}}/>
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',marginTop:'-5px'}}/>
                     </IconButton>
                   </div>
                 )) : null}
               </div>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Advice</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'25%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'30%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="advice"
                   label="Add Advice"
@@ -521,10 +742,153 @@ class PrescriptionWrittng extends React.Component{
                 />
               </div>      
             </Grid>
-            <Grid item xs={6} className={classes.leftGrid} >
-
+            <Grid item xs={8} className={classes.leftGrid} >
+              <Grid container>
+                <Grid item xs={3}>
+                  <TextField
+                    id=""
+                    label="Medicine Name"
+                    className={classes.medtextField}
+                    value={this.state.TempMedValue}
+                    onChange={this.MedSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                  {!this.state.TempMedValue=="" && !this.state.MedFlag?
+                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'0px'}}>
+                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
+                      {!this.state.TempMedValue=="" && !this.state.MedFlag?Med:null}
+                    </ul>
+                  </div>:null
+                  }
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="strength"
+                    label="Strength"
+                    className={classes.medtextField}
+                    value={this.state.TempStrenValue}
+                    onChange={this.StrenSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="type"
+                    label="Type"
+                    className={classes.medtextField}
+                    value={this.state.TempTypValue}
+                    onChange={this.TypeSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="frequency"
+                    label="Frequency"
+                    className={classes.medtextField}
+                    value={this.state.TempFreqValue}
+                    onChange={this.FreqSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="remark"
+                    label="Remark"
+                    className={classes.medtextField}
+                    value={this.state.TempRemValue}
+                    onChange={this.RemarkSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                  <IconButton
+                    onClick={this.addAll}
+                    disabled={!this.state.TempMedValue}
+                    style={{marginTop:'-40px',marginLeft:'80%'}}
+                  >
+                    <Check style={{color:'#7f7f7f'}}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
+              {MedListCopy != null ?
+                  MedListCopy.map((itemx,index) => (
+                    <Grid container key={index}>
+                      <Grid item xs={3}>
+                        <TextField
+                          id={itemx.id}
+                          name={`${index}`}
+                          //label="Medicine Name"
+                          className={classes.medtextField}
+                          value={itemx.name}
+                          onChange={this.onUpdateMed.bind(this)}
+                          margin="normal"
+                          style={{fontSize:'14px'}}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <TextField
+                          id={itemx.id}
+                          name={`${index}`}
+                          //label="Strength"
+                          className={classes.medtextField}
+                          value={StrenListCopy[index].name}
+                          onChange={this.onUpdateStren.bind(this)}
+                          margin="normal"
+                          style={{fontSize:'14px'}}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <TextField
+                          id={itemx.id}
+                          name={`${index}`}
+                          //label="Type"
+                          className={classes.medtextField}
+                          value={TypeListCopy[index].name}
+                          onChange={this.onUpdateType.bind(this)}
+                          margin="normal"
+                          style={{fontSize:'14px'}}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <TextField
+                          id={itemx.id}
+                          name={`${index}`}
+                          //label="Frequency"
+                          className={classes.medtextField}
+                          value={FreqListCopy[index].name}
+                          onChange={this.onUpdateFreq.bind(this)}
+                          margin="normal"
+                          style={{fontSize:'14px'}}
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <TextField
+                          id={itemx.id}
+                          name={`${index}`}
+                          //label="Remark"
+                          className={classes.medtextField}
+                          value={RemListCopy[index].name}
+                          onChange={this.onUpdateRem.bind(this)}
+                          margin="normal"
+                          style={{fontSize:'14px'}}
+                        />
+                        <IconButton
+                          onClick={() => this.removeAll(index)}
+                          //disabled={!this.state.TempMedValue}
+                          style={{marginTop:'-40px',marginLeft:'80%'}}
+                        >
+                          <Cancel style={{color:'#7f7f7f'}}/>
+                        </IconButton>
+                      </Grid>
+                  </Grid>
+                  ))
+                : null}
             </Grid>
-            <Grid item xs={3} className={classes.rightGrid}>
+            <Grid item xs={2} className={classes.rightGrid}>
               <Info style={{fontSize:'18px',color:'orange'}}/>
               <h5 style={{marginTop:'-21px',marginLeft:'31px'}}>Suggestions</h5>
             </Grid>
