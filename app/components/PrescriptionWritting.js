@@ -14,6 +14,7 @@ import Info from "@material-ui/icons/info";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import CCData from '../fakedata/cc_fake.json';
 import TestsData from '../fakedata/Tests_fake.json';
+import DiagnosisData from '../fakedata/diagnosis_fake.json';
 import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -74,6 +75,16 @@ const styles = theme => ({
   iconBtn:{
     color:'#D9DADF',
   },
+  searchKeyword:{
+    cursor:'pointer',
+    borderBottom:'1px solid #D1D2D7',
+    '&:hover': {
+      color: '#59B0F6',
+    },
+    marginLeft:'-5px',
+    padding:'5px 0px',
+    width:'90%'
+  }
 });
 
 
@@ -98,6 +109,12 @@ class PrescriptionWrittng extends React.Component{
     Testslist:[],
     TestsOnChange: false,
     
+    DiagnosisFakeData: DiagnosisData,
+    DiagnosisFiltered:[],
+    Diagnosisvalue:'',
+    Diagnosislist:[],
+    DiagnosisOnChange: false,
+
     OEvalue:'',
     OElist:[],
     
@@ -183,6 +200,16 @@ class PrescriptionWrittng extends React.Component{
       };
     });
   };
+  onRemoveDiagnosis = i => {
+    let x = (this.state.Diagnosislist.length - i)-1;
+    console.log(x);
+    this.setState(state => {
+      const Diagnosislist = state.Diagnosislist.filter((item, j) => x !== j);
+      return {
+        Diagnosislist,
+      };
+    });
+  };
   removeAll = i =>{
     let x =  i;
     console.log(x);
@@ -229,6 +256,15 @@ class PrescriptionWrittng extends React.Component{
       Testsvalue:''
     }));
   }
+  addCustomDiagnosis=()=>{
+    let customItemValue = this.state.Diagnosisvalue;
+    let latestId = `${this.state.Diagnosislist.length + 1}`;
+    this.setState((prevState) => ({
+      Diagnosislist: [...prevState.Diagnosislist, {name:customItemValue, id: latestId }],
+      DiagnosisFakeData : [...prevState.DiagnosisFakeData, {name:customItemValue, id: latestId }],
+      Diagnosisvalue:''
+    }));
+  }
   addCC=(item)=>{
       this.setState((prevState) => ({
         list: [...prevState.list, {name:item.name, id:item.id}],
@@ -240,6 +276,12 @@ class PrescriptionWrittng extends React.Component{
     this.setState((prevState) => ({
       Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
       Testsvalue:''
+    }));
+  };
+  addDiagnosis=(item)=>{
+    this.setState((prevState) => ({
+      Diagnosislist: [...prevState.Diagnosislist, {name:item.name, id:item.id}],
+      Diagnosisvalue:''
     }));
   };
   addMed=(item)=>{
@@ -331,6 +373,23 @@ class PrescriptionWrittng extends React.Component{
       $splice: [[commentIndex, 1, updatedComment]]
     });
     this.setState({Testslist: newData});
+  };
+  onUpdateDiagnosis = (val) => {
+    let target = val.target;
+    let value = target.value;
+    let id = target.id;
+    let data = this.state.Diagnosislist;
+    //get index of the object using ID
+    let commentIndex = data.findIndex(function(c) {
+      return c.id === target.id;
+    });
+    //update this object with new values
+    let updatedComment = update(data[commentIndex], {name: {$set: value} , id:{$set: id}});
+
+    let newData = update(data, {
+      $splice: [[commentIndex, 1, updatedComment]]
+    });
+    this.setState({Diagnosislist: newData});
   };
   onUpdateMed = (val) => {
     let target = val.target;
@@ -453,7 +512,21 @@ class PrescriptionWrittng extends React.Component{
       TestsOnChange:true
     })
   };
-
+  DiagnosisSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({DiagnosisOnChange:true})
+    if( keyword == ""){
+      this.setState({DiagnosisOnChange:false})
+    }
+    this.setState({ Diagnosisvalue: event.target.value });
+    let filtered = this.state.DiagnosisFakeData.filter((item)=>{
+      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      DiagnosisFiltered:filtered,
+      DiagnosisOnChange:true
+    })
+  };
   AdviceSearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({AdviceValue:keyword});
@@ -499,6 +572,7 @@ class PrescriptionWrittng extends React.Component{
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
     const TestlistCopy = this.state.Testslist;
+    const DiagnosislistCopy = this.state.Diagnosislist;
     const MedListCopy = this.state.MedList;
     const StrenListCopy = this.state.StrenList;
     const TypeListCopy = this.state.TypeList;
@@ -508,21 +582,28 @@ class PrescriptionWrittng extends React.Component{
     const { classes } = this.props;
     const CC = this.state.ccOnChange?this.state.ccFiltered.map((item)=>{
       return(
-        <li key={item.id} onClick={()=>this.addCC(item)} style={{cursor:'pointer'}}>
+        <li key={item.id} onClick={()=>this.addCC(item)} className={classes.searchKeyword}>
           {item.name}
         </li>
       )
     }):null;
     const TESTS = this.state.TestsOnChange?this.state.TestsFiltered.map((item)=>{
       return(
-        <li key={item.id} onClick={()=>this.addTests(item)} style={{cursor:'pointer'}}>
+        <li key={item.id} onClick={()=>this.addTests(item)} className={classes.searchKeyword}>
+          {item.name}
+        </li>
+      )
+    }):null;
+    const Diagnosis = this.state.DiagnosisOnChange?this.state.DiagnosisFiltered.map((item)=>{
+      return(
+        <li key={item.id} onClick={()=>this.addDiagnosis(item)} className={classes.searchKeyword}>
           {item.name}
         </li>
       )
     }):null;
     const Med = this.state.MedOnchange?this.state.MedFiltered.map((item)=>{
       return(
-        <li key={item.id} onClick={()=>this.addMed(item)} style={{cursor:'pointer'}}>
+        <li key={item.id} onClick={()=>this.addMed(item)} className={classes.searchKeyword}>
           {item.name}
         </li>
       )
@@ -593,9 +674,9 @@ class PrescriptionWrittng extends React.Component{
             </form>
           </Grid>
           <Grid container >
-            <Grid item xs={2} className={classes.leftGrid} style={{ height:'535px',paddingRight:'0px'}}>
+            <Grid item xs={2} className={classes.leftGrid} style={{ height:'100%',paddingRight:'0px'}}>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>C/C</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'25%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'20%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="standard-name"
                   label="Add New"
@@ -613,7 +694,7 @@ class PrescriptionWrittng extends React.Component{
                   <Check style={{color:'#7f7f7f'}}/>
                 </IconButton>
                 {!this.state.value==""?
-                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'-15px'}}>
+                  <div style={{maxHeight:'200px', width:'90%', position:'relative', overflow:'auto',padding:'0px',marginTop:'-15px'}}>
                     <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
                       {!this.state.value==""?CC:null}
                     </ul>
@@ -624,6 +705,7 @@ class PrescriptionWrittng extends React.Component{
                   <div key={index} style={{margin:'0px', padding:'0px'}}>
                     <TextField
                       id={itemx.id}
+                      multiline
                       className={classes.cctextField}
                       name={`${index}`}
                       value={itemx.name}
@@ -641,10 +723,11 @@ class PrescriptionWrittng extends React.Component{
                 )) : null}
               </div>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>O/E</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'22%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'20%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id=""
                   label="Add New"
+                  multiline
                   className={classes.cctextField}
                   value={this.state.OEvalue}
                   onChange={this.OEsearchKeywords}
@@ -664,6 +747,7 @@ class PrescriptionWrittng extends React.Component{
                   <div key={index} style={{margin:'0px', padding:'0px'}}>
                     <TextField
                       id={itemx.id}
+                      multiline
                       className={classes.cctextField}
                       name={`${index}`}
                       value={itemx.name}
@@ -680,9 +764,55 @@ class PrescriptionWrittng extends React.Component{
                   </div>
                 )) : null}
               </div>
-              
+              <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Diagnosis</Typography>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'20%',position:'relative',overflowY:'auto'}}>
+                <TextField
+                  id="Diagnosis"
+                  label="Add Diagnosis"
+                  className={classes.cctextField}
+                  value={this.state.Diagnosisvalue}
+                  onChange={this.DiagnosisSearchKeywords}
+                  margin="normal"
+                  style={{fontSize:'14px'}}
+                />
+                <IconButton
+                  onClick={this.addCustomDiagnosis}
+                  disabled={!this.state.Diagnosisvalue}
+                  style={{marginTop:'-45px',marginLeft:'70%'}}
+                >
+                  <Check style={{color:'#7f7f7f'}}/>
+                </IconButton>
+                {!this.state.Diagnosisvalue==""?
+                  <div style={{maxHeight:'200px', width:'90%', position:'relative', overflow:'auto',padding:'0px',marginTop:'-15px'}}>
+                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
+                      {!this.state.Diagnosisvalue==""?Diagnosis:null}
+                    </ul>
+                  </div>:null
+                }
+                {DiagnosislistCopy != null ?
+                  DiagnosislistCopy.slice(0).reverse().map((itemx,index) => (
+                  <div key={index} style={{margin:'0px', padding:'0px'}}>
+                    <TextField
+                      id={itemx.id}
+                      multiline
+                      className={classes.cctextField}
+                      name={`${index}`}
+                      value={itemx.name}
+                      onChange={this.onUpdateDiagnosis.bind(this)}
+                      margin="normal"
+                      style={{fontSize:'14px',marginTop:'-15px'}}
+                    />
+                    <IconButton
+                      onClick={() => this.onRemoveDiagnosis(index)}
+                      style={{marginTop:'-40px',marginLeft:'70%'}}
+                    >
+                      <Cancel  style={{color:'#7f7f7f', fontSize:'18px',marginTop:'-5px'}}/>
+                    </IconButton>
+                  </div>
+                )) : null}
+              </div>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Tests</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'23%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'20%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="tests"
                   label="Add Tests"
@@ -700,7 +830,7 @@ class PrescriptionWrittng extends React.Component{
                   <Check style={{color:'#7f7f7f'}}/>
                 </IconButton>
                 {!this.state.Testsvalue==""?
-                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'-15px'}}>
+                  <div style={{maxHeight:'200px', width:'90%', position:'relative', overflow:'auto',padding:'0px',marginTop:'-15px'}}>
                     <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
                       {!this.state.Testsvalue==""?TESTS:null}
                     </ul>
@@ -711,6 +841,8 @@ class PrescriptionWrittng extends React.Component{
                   <div key={index} style={{margin:'0px', padding:'0px'}}>
                     <TextField
                       id={itemx.id}
+                      multiline
+                      
                       className={classes.cctextField}
                       name={`${index}`}
                       value={itemx.name}
@@ -728,7 +860,7 @@ class PrescriptionWrittng extends React.Component{
                 )) : null}
               </div>
               <Typography style={{marginTop:'5px', color:'#7f7f7f', fontWeight:'bold'}}>Advice</Typography>
-              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'30%',position:'relative',overflowY:'auto'}}>
+              <div style={{margin:'0px',marginTop:'-5px',padding:'0px', height:'20%',position:'relative',overflowY:'auto'}}>
                 <TextField
                   id="advice"
                   label="Add Advice"
@@ -742,81 +874,10 @@ class PrescriptionWrittng extends React.Component{
                 />
               </div>      
             </Grid>
-            <Grid item xs={8} className={classes.leftGrid} >
-              <Grid container>
-                <Grid item xs={3}>
-                  <TextField
-                    id=""
-                    label="Medicine Name"
-                    className={classes.medtextField}
-                    value={this.state.TempMedValue}
-                    onChange={this.MedSearchKeywords}
-                    margin="normal"
-                    style={{fontSize:'14px'}}
-                  />
-                  {!this.state.TempMedValue=="" && !this.state.MedFlag?
-                  <div style={{maxHeight:'200px', position:'relative', overflow:'visible',padding:'0px',marginTop:'0px'}}>
-                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
-                      {!this.state.TempMedValue=="" && !this.state.MedFlag?Med:null}
-                    </ul>
-                  </div>:null
-                  }
-                </Grid>
-                <Grid item xs={2}>
-                  <TextField
-                    id="strength"
-                    label="Strength"
-                    className={classes.medtextField}
-                    value={this.state.TempStrenValue}
-                    onChange={this.StrenSearchKeywords}
-                    margin="normal"
-                    style={{fontSize:'14px'}}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <TextField
-                    id="type"
-                    label="Type"
-                    className={classes.medtextField}
-                    value={this.state.TempTypValue}
-                    onChange={this.TypeSearchKeywords}
-                    margin="normal"
-                    style={{fontSize:'14px'}}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <TextField
-                    id="frequency"
-                    label="Frequency"
-                    className={classes.medtextField}
-                    value={this.state.TempFreqValue}
-                    onChange={this.FreqSearchKeywords}
-                    margin="normal"
-                    style={{fontSize:'14px'}}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    id="remark"
-                    label="Remark"
-                    className={classes.medtextField}
-                    value={this.state.TempRemValue}
-                    onChange={this.RemarkSearchKeywords}
-                    margin="normal"
-                    style={{fontSize:'14px'}}
-                  />
-                  <IconButton
-                    onClick={this.addAll}
-                    disabled={!this.state.TempMedValue}
-                    style={{marginTop:'-40px',marginLeft:'80%'}}
-                  >
-                    <Check style={{color:'#7f7f7f'}}/>
-                  </IconButton>
-                </Grid>
-              </Grid>
-              {MedListCopy != null ?
+            <Grid item xs={7} className={classes.leftGrid} >
+            {MedListCopy != null ?
                   MedListCopy.map((itemx,index) => (
-                    <Grid container key={index}>
+                    <Grid container key={index} style={{marginTop:'10px'}}>
                       <Grid item xs={3}>
                         <TextField
                           id={itemx.id}
@@ -887,8 +948,80 @@ class PrescriptionWrittng extends React.Component{
                   </Grid>
                   ))
                 : null}
+              <Grid container>
+                <Grid item xs={3}>
+                  <TextField
+                    id=""
+                    label="Medicine Name"
+                    className={classes.medtextField}
+                    value={this.state.TempMedValue}
+                    onChange={this.MedSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                  {!this.state.TempMedValue=="" && !this.state.MedFlag?
+                  <div style={{maxHeight:'200px', width:'90%', position:'relative', overflow:'auto',padding:'0px',marginTop:'0px'}}>
+                    <ul style={{marginLeft:'-35px',marginTop:'-1px'}}>
+                      {!this.state.TempMedValue=="" && !this.state.MedFlag?Med:null}
+                    </ul>
+                  </div>:null
+                  }
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="strength"
+                    label="Strength"
+                    className={classes.medtextField}
+                    value={this.state.TempStrenValue}
+                    onChange={this.StrenSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="type"
+                    label="Type"
+                    className={classes.medtextField}
+                    value={this.state.TempTypValue}
+                    onChange={this.TypeSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="frequency"
+                    label="Frequency"
+                    className={classes.medtextField}
+                    value={this.state.TempFreqValue}
+                    onChange={this.FreqSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="remark"
+                    label="Remark"
+                    className={classes.medtextField}
+                    value={this.state.TempRemValue}
+                    onChange={this.RemarkSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                  <IconButton
+                    onClick={this.addAll}
+                    disabled={!this.state.TempMedValue}
+                    style={{marginTop:'-40px',marginLeft:'80%'}}
+                  >
+                    <Check style={{color:'#7f7f7f'}}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
+              
             </Grid>
-            <Grid item xs={2} className={classes.rightGrid}>
+            <Grid item xs={3} className={classes.rightGrid}>
               <Info style={{fontSize:'18px',color:'orange'}}/>
               <h5 style={{marginTop:'-21px',marginLeft:'31px'}}>Suggestions</h5>
             </Grid>
