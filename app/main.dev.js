@@ -87,7 +87,8 @@ app.on('ready', async () => {
     show: false,
     width: 1024,
     height: 728,
-    resizable: false
+    resizable: false,
+    center:true
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -120,7 +121,8 @@ ipcMain.on('resize-me-please', (event, arg) => {
   console.log(mainWindow.isResizable());
   if (arg) {
     mainWindow.setSize(1024,728);
+  }else{
+    mainWindow.maximize();
   }
   mainWindow.setResizable(!arg);
-
 });
