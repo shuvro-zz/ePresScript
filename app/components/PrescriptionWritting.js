@@ -19,6 +19,14 @@ import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import classnames from 'classnames';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Assignment from '@material-ui/icons/Assignment';
 let update = require('immutability-helper');
 
 const styles = theme => ({
@@ -31,6 +39,19 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  actions: {
+    display: 'flex',
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -57,9 +78,13 @@ const styles = theme => ({
     margin:'0px',
     padding:'0px'
   },
-  
   card: {
     width: '100%',
+  },
+  customCard:{
+    width:'100%',
+    marginTop:'20px',
+    padding:'0px'
   },
   actions: {
     display: 'flex',
@@ -84,6 +109,16 @@ const styles = theme => ({
     marginLeft:'-5px',
     padding:'5px 0px',
     width:'90%'
+  },
+  suggestionAdd:{
+    background:'#f2f2f2',
+    marginTop:'-10px',
+    padding:'10px',
+    cursor:'pointer',
+    '&:hover': {
+      background: '#f9f9f9',
+    },
+    
   }
 });
 
@@ -139,32 +174,32 @@ class PrescriptionWrittng extends React.Component{
     TempRemValue:'',
     RemList:[],
     //RemOnchange:false,
+
+    expanded: false
+  };
+  handleExpandClick = () => {
+    this.setState(state => ({ expanded: !state.expanded }));
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
       this.setState({PatientName:keyword});
   };
-  
   patientAgeHandler=(event)=>{
     let keyword = event.target.value;
     this.setState({Age:keyword});
   };
-  
   patientSexHandler=(event)=>{
     let keyword = event.target.value;
     this.setState({Sex:keyword});
   };
-  
   patientIDHandler=(event)=>{
     let keyword = event.target.value;
     this.setState({PatientId:keyword});
   };
-  
   patientMobileHandler=(event)=>{
     let keyword = event.target.value;
     this.setState({Mobile:keyword});
   };
-  
   patientEmailHandler=(event)=>{
     let keyword = event.target.value;
     this.setState({Email:keyword});
@@ -271,7 +306,6 @@ class PrescriptionWrittng extends React.Component{
         value:''
       }));
   };
-  
   addTests=(item)=>{
     this.setState((prevState) => ({
       Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
@@ -491,12 +525,10 @@ class PrescriptionWrittng extends React.Component{
       ccOnChange:true
     })
   };
-
   OEsearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({OEvalue:keyword});
   };
-
   TestsSearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({TestsOnChange:true})
@@ -535,7 +567,6 @@ class PrescriptionWrittng extends React.Component{
     let keyword = event.target.value;
     this.setState({OEvalue:keyword});
   };
-
   MedSearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({MedOnchange:true, MedFlag:false})
@@ -563,11 +594,14 @@ class PrescriptionWrittng extends React.Component{
     let keyword = event.target.value;
     this.setState({TempFreqValue:keyword});
   };
-  
   RemarkSearchKeywords = (event)=>{
     let keyword = event.target.value;
     this.setState({TempRemValue:keyword});
   };
+  handleAddSuggestion = ()=>{
+    console.log("Suggestion added")
+  }
+
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
@@ -1024,6 +1058,46 @@ class PrescriptionWrittng extends React.Component{
             <Grid item xs={3} className={classes.rightGrid}>
               <Info style={{fontSize:'18px',color:'orange'}}/>
               <h5 style={{marginTop:'-21px',marginLeft:'31px'}}>Suggestions</h5>
+              <Card className={classes.customCard}>
+                <CardHeader
+                  style={{
+                    padding:'10px'
+                  }}
+                  avatar={
+                    <Assignment style={{color:'blue',marginTop:'-12px'}}/>
+                  }
+                  action={
+                    <CardActions className={classes.actions} disableActionSpacing>
+                      <IconButton
+                        className={classnames(classes.expand, {
+                          [classes.expandOpen]: this.state.expanded,
+                        })}
+                        onClick={this.handleExpandClick}
+                        aria-expanded={this.state.expanded}
+                        aria-label="Show more"
+                      >
+                        <ExpandMoreIcon style={{color:'blue'}}/>
+                      </IconButton>
+                    </CardActions>
+                  }
+                  title= {
+                    <h5 style={{marginLeft:'-10px'}}>Treatment for Bone Fracture</h5>
+                  }
+                />
+                
+                <Button style={{color:'blue'}} onClick={this.handleAddSuggestion}>Add</Button>
+
+                <Collapse  in={this.state.expanded} timeout="auto" unmountOnExit>
+                  <div style={{marginLeft:'-30px', padding:'5px'}}>
+                    <ul style={{margin:'0px',}}>
+                      <li><h5>1. Napa</h5></li>
+                      <li><h5>2. Deslor</h5></li>
+                      <li><h5>3. Alatrol</h5></li>
+                      <li><h5>4. Ultrafen</h5></li>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Card>
             </Grid>
           </Grid>
         </Card>
