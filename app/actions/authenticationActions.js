@@ -1,8 +1,9 @@
-import {authenticationService} from "../services";
+import {authenticationService, userManagementService} from "../services";
 import type {UserType} from "../types/common/UserType";
 import {history} from "../store/configureStore";
 import {authenticationConstants} from "../constants";
 import {SNACKBAR_OPEN} from '../features/ui/constants';
+
 const log = require('electron-log');
 const {ipcRenderer} = require('electron');
 
@@ -22,7 +23,9 @@ function login(username: string, password: string) {
           if (user) {
             ipcRenderer.send('resize-me-please', false);
             dispatch(success(user));
+            userManagementService.fetchProfile();
             history.push('/dashboard');
+
           } else {
             const errorString = `Please Check Your Credentials!`;
             console.log(errorString);
