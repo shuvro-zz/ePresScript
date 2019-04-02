@@ -15,6 +15,7 @@ import InputBase from "@material-ui/core/InputBase/InputBase";
 import CCData from '../fakedata/cc_fake.json';
 import TestsData from '../fakedata/Tests_fake.json';
 import DiagnosisData from '../fakedata/diagnosis_fake.json';
+import TreatmentData from '../fakedata/Treatment_fake.json';
 import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -175,6 +176,10 @@ class PrescriptionWrittng extends React.Component{
     RemList:[],
     //RemOnchange:false,
 
+    SuggestionsData: TreatmentData,
+    SuggestionOn:false,
+    SuggestionsFiltered:[],
+
     expanded: false
   };
   handleExpandClick = () => {
@@ -299,6 +304,7 @@ class PrescriptionWrittng extends React.Component{
       DiagnosisFakeData : [...prevState.DiagnosisFakeData, {name:customItemValue, id: latestId }],
       Diagnosisvalue:''
     }));
+    this.handleAddSuggestion(customItemValue); 
   }
   addCC=(item)=>{
       this.setState((prevState) => ({
@@ -317,6 +323,7 @@ class PrescriptionWrittng extends React.Component{
       Diagnosislist: [...prevState.Diagnosislist, {name:item.name, id:item.id}],
       Diagnosisvalue:''
     }));
+    this.handleAddSuggestion(1); 
   };
   addMed=(item)=>{
     //console.log(item);
@@ -423,7 +430,7 @@ class PrescriptionWrittng extends React.Component{
     let newData = update(data, {
       $splice: [[commentIndex, 1, updatedComment]]
     });
-    this.setState({Diagnosislist: newData});
+    this.setState({Diagnosislist: newData});    
   };
   onUpdateMed = (val) => {
     let target = val.target;
@@ -598,10 +605,12 @@ class PrescriptionWrittng extends React.Component{
     let keyword = event.target.value;
     this.setState({TempRemValue:keyword});
   };
-  handleAddSuggestion = ()=>{
-    console.log("Suggestion added")
+  handleAddSuggestion = (value)=>{
+    this.state.SuggestionOn = true;
+    console.log("Suggestion added "+ value)
   }
 
+  
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
@@ -640,6 +649,60 @@ class PrescriptionWrittng extends React.Component{
         <li key={item.id} onClick={()=>this.addMed(item)} className={classes.searchKeyword}>
           {item.name}
         </li>
+      )
+    }):null;
+    const SuggestionShow = this.state.SuggestionOn?this.state.Diagnosislist.map((item)=>{
+      let val = item.name;
+      return(
+        this.state.SuggestionsData.map((i)=>{
+        if(val.toUpperCase() == i.name.toUpperCase()){
+          console.log("hi");
+          return(
+          <Card className={classes.customCard} key={i.treatment_id}>
+            <CardHeader
+              style={{
+                padding:'10px'
+              }}
+              avatar={
+                <Assignment style={{color:'blue',marginTop:'-12px'}}/>
+              }
+              action={
+                <CardActions className={classes.actions} disableActionSpacing>
+                  <IconButton
+                    className={classnames(classes.expand, {
+                      [classes.expandOpen]: this.state.expanded,
+                    })}
+                    onClick={this.handleExpandClick}
+                    aria-expanded={this.state.expanded}
+                    aria-label="Show more"
+                  >
+                    <ExpandMoreIcon style={{color:'blue'}}/>
+                  </IconButton>
+                </CardActions>
+              }
+              title= {
+                <h5 style={{marginLeft:'-10px'}}>Treatment for {`${val}`}</h5>
+              }
+            />
+            
+            <Button style={{color:'blue'}} onClick={this.handleAddSuggestion}>Add</Button>
+
+            <Collapse  in={this.state.expanded} timeout="auto" unmountOnExit>
+              <div style={{marginLeft:'-30px', padding:'5px'}}>
+                <ul style={{margin:'0px',}}>
+                  {i.treatment_medicine_list.map((med)=>{
+                    console.log(med.product_name);
+                    return(
+                      <li key={med.medicine_id} style={{marginBottom:"5px"}}><h5>{`${med.product_name}`}</h5></li>  
+                    )
+                  })}
+                </ul>
+              </div>
+            </Collapse>
+          </Card>
+          )
+        }
+      })
       )
     }):null;
     return (
@@ -1058,46 +1121,7 @@ class PrescriptionWrittng extends React.Component{
             <Grid item xs={3} className={classes.rightGrid}>
               <Info style={{fontSize:'18px',color:'orange'}}/>
               <h5 style={{marginTop:'-21px',marginLeft:'31px'}}>Suggestions</h5>
-              <Card className={classes.customCard}>
-                <CardHeader
-                  style={{
-                    padding:'10px'
-                  }}
-                  avatar={
-                    <Assignment style={{color:'blue',marginTop:'-12px'}}/>
-                  }
-                  action={
-                    <CardActions className={classes.actions} disableActionSpacing>
-                      <IconButton
-                        className={classnames(classes.expand, {
-                          [classes.expandOpen]: this.state.expanded,
-                        })}
-                        onClick={this.handleExpandClick}
-                        aria-expanded={this.state.expanded}
-                        aria-label="Show more"
-                      >
-                        <ExpandMoreIcon style={{color:'blue'}}/>
-                      </IconButton>
-                    </CardActions>
-                  }
-                  title= {
-                    <h5 style={{marginLeft:'-10px'}}>Treatment for Bone Fracture</h5>
-                  }
-                />
-                
-                <Button style={{color:'blue'}} onClick={this.handleAddSuggestion}>Add</Button>
-
-                <Collapse  in={this.state.expanded} timeout="auto" unmountOnExit>
-                  <div style={{marginLeft:'-30px', padding:'5px'}}>
-                    <ul style={{margin:'0px',}}>
-                      <li><h5>1. Napa</h5></li>
-                      <li><h5>2. Deslor</h5></li>
-                      <li><h5>3. Alatrol</h5></li>
-                      <li><h5>4. Ultrafen</h5></li>
-                    </ul>
-                  </div>
-                </Collapse>
-              </Card>
+              {SuggestionShow}
             </Grid>
           </Grid>
         </Card>
