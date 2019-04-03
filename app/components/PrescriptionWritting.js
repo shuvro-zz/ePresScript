@@ -626,7 +626,9 @@ class PrescriptionWrittng extends React.Component{
             let RemVal = i.indication;
             if(RemVal == '')RemVal = "N/A";
 
-            let FreqVal = "N/A";
+
+            let FreqVal = i.frequency;
+            if(FreqVal == '')FreqVal = "N/A";
 
             let latestId = `${this.state.MedList.length + 1}`;
             this.setState((prevState) => ({
@@ -700,7 +702,7 @@ class PrescriptionWrittng extends React.Component{
                 padding:'10px'
               }}
               avatar={
-                <Assignment style={{color:'blue',marginTop:'-12px'}}/>
+                <Assignment style={{color:'blue'}}/>
               }
               action={
                 <CardActions className={classes.actions} disableActionSpacing>

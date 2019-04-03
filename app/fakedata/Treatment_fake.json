@@ -10,7 +10,8 @@
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "250mg",
-        "indication": ""
+        "indication": "",
+        "frequency": "1+0+1"
       },
       {
         "medicine_id": 830,
@@ -18,7 +19,8 @@
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "500mg",
-        "indication": ""
+        "indication": "",
+        "frequency": "1+0+1"
       },
       {
         "medicine_id": 748,
@@ -26,7 +28,8 @@
         "type": "tablet",
         "generic": "Aspirin + Clopidogrel ",
         "strength": "75 mg+75 mg",
-        "indication": ""
+        "indication": "",
+        "frequency": "1+0+1"
       }
     ]
   },
@@ -41,7 +44,8 @@
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "250mg",
-        "indication": "After Meal"
+        "indication": "After Meal",
+        "frequency": "1+0+1"
       },
       {
         "medicine_id": 820,
@@ -49,7 +53,8 @@
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "20mg",
-        "indication": "Before Meal"
+        "indication": "Before Meal",
+        "frequency": "1+0+1"
       }
     ]
   },
@@ -64,7 +69,8 @@
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "500mg",
-        "indication": "After Meal"
+        "indication": "After Meal",
+        "frequency": "1+0+1"
       },
       {
         "medicine_id": 820,
@@ -72,7 +78,8 @@
         "type": "tablet",
         "generic": "Pantoprazole",
         "strength": "20mg",
-        "indication": "Before Meal"
+        "indication": "Before Meal",
+        "frequency": "1+0+1"
       }
     ]
   },
@@ -87,7 +94,8 @@
         "type": "tablet",
         "generic": "Metronidazole",
         "strength": "400mg",
-        "indication": "After Meal"
+        "indication": "After Meal",
+        "frequency": "1+0+1"
       },
       {
         "medicine_id": 820,
@@ -95,7 +103,8 @@
         "type": "tablet",
         "generic": "Pantoprazole",
         "strength": "20mg",
-        "indication": "Before Meal"
+        "indication": "Before Meal",
+        "frequency": "1+0+1"
       }
     ]
   }
