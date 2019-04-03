@@ -609,8 +609,44 @@ class PrescriptionWrittng extends React.Component{
     this.state.SuggestionOn = true;
     console.log("Suggestion added "+ value)
   }
+  handleAddSuggestion2 = (val) =>{
+    console.log(val);
+    let filter = this.state.SuggestionsData.map((item)=>{
+        if(item.treatment_id == val){
+          let med = item.treatment_medicine_list.map((i)=>{
 
+            console.log(i.product_name); 
+            let MedVal = i.product_name;
+            let StrenVal = i.strength;
+            if(StrenVal == '')StrenVal = "N/A";
+
+            let TypVal = i.type;
+            if(TypVal == '')TypVal = "N/A";
+
+            let RemVal = i.indication;
+            if(RemVal == '')RemVal = "N/A";
+
+            let FreqVal = "N/A";
+
+            let latestId = `${this.state.MedList.length + 1}`;
+            this.setState((prevState) => ({
+              MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
+              StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
+              TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
+              FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
+              RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
+              //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+              TempMedValue:'',
+              TempFreqValue:'',
+              TempRemValue:'',
+              TempStrenValue:'',
+              TempTypValue:'',
   
+            }));
+        });
+      }
+    })
+  }
   render(){
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
@@ -685,7 +721,7 @@ class PrescriptionWrittng extends React.Component{
               }
             />
             
-            <Button style={{color:'blue'}} onClick={this.handleAddSuggestion}>Add</Button>
+            <Button style={{color:'blue'}} onClick={()=>this.handleAddSuggestion2(i.treatment_id)}>Add</Button>
 
             <Collapse  in={this.state.expanded} timeout="auto" unmountOnExit>
               <div style={{marginLeft:'-30px', padding:'5px'}}>
