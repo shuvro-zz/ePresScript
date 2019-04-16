@@ -2,14 +2,15 @@
  * @flow
  */
 
-import DB from "../models";
-import API_CONFIG from '../store/config/config'
+import DB from "../../models";
+import API_CONFIG from '../../store/config/config'
 const log = require('electron-log');
-export const authenticationService = {
+
+export const services = {
     login: realLoginExample,
     logout : fakelogout
 };
-log.info("In Authentication");
+log.info("In Security service");
 
 function fakelogout() {
   var p: Promise<any> =

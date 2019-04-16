@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -69,22 +69,12 @@ const styles = theme => ({
   }
 });
 
-type Props = {
-  medicineForm: MedicineFormStateType,
-  setForm: (form: string) => void,
-  setName: (name: string) => void,
-  setStrength: (strength: string) => void,
-  setFrequency: (frequency: string) => void,
-  setRemark: (remark: string) => void,
-  setSubmitted: (submitted: boolean) => void
-};
+class Medicine extends React.Component<Props, any>  {
 
-class Medicine extends React.PureComponent<Props, any> {
-
-  constructor(props: Props, state: any) {
+  constructor(props) {
     super(props);
-    console.log('in Medicine constructor');
-    console.log(props);
+    console.log('In Medicine Component');
+    console.log(this.props);
 
     this.state = {
       form:'',
@@ -102,6 +92,13 @@ class Medicine extends React.PureComponent<Props, any> {
 
     this.props.setSubmitted(false);
   }
+
+  componentDidMount() {
+    console.log("Holaaaa");
+    this.props.fetchMedicine(this.props.securityState.user.access_token);
+  }
+
+
   handleClickOpen = () => {
     this.setState({ open: true });
   };
@@ -177,7 +174,7 @@ class Medicine extends React.PureComponent<Props, any> {
      currentMedicineFrequency,
      currentMedicineRemark,
      submitted
-    } = this.props.medicineForm;
+    } = this.props.medicineState;
     const { vertical, horizontal, open , firstline, secondline} = this.state;
 
     const preview =

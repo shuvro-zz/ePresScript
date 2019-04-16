@@ -1,16 +1,16 @@
-import API_CONFIG from '../store/config/config';
+import API_CONFIG from '../../store/config/config';
 const log = require('electron-log');
 
-export const userManagementService = {
+export const services = {
   fetchProfile: fetchProfile
 };
 
-function fetchProfile() {
+function fetchProfile(access_token) {
   console.log("profile fetch request");
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' ,
-      'Authorization' : 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiZGVza3RvcF9hcHBsaWNhdGlvbl92MSJdLCJ1c2VyX25hbWUiOiJ0ZXN0QHRlc3QuY29tIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTU1NDQwMzc4OSwidHlwZSI6IkFETUlOIiwidXNlcmlkIjozLCJhdXRob3JpdGllcyI6WyJlX3ByZXNjcmlwdGlvbl9kZXNrdG9wIl0sImp0aSI6IjcxNjI2OTRiLTQ4YTQtNGQ5OS1hMjE0LTU4Nzc2OWYwNWEzZSIsImN1c3RvbWVybm8iOjQxNDg1NzM2LCJjbGllbnRfaWQiOiJkZXNrdG9wX2FwcGxpY2F0aW9uIn0.etlCyUP9txf5Vw5A0QjxX0UDYRgnBWtewBvTqN5L7cTMt_4Q3x8ySSh9fLSgyzEsPXQ78-zmr1U2t21L-ELedOZSqSCBfPA6N0nLaVrz3YtJgVCWtSjVzy_rcQjRo9Y9Jenf_88XKmFpMrSCX-zXWEnDH6hbBQuXO3G7MWUfBButsvne0VkE4yBi_Lj2hVJHABcJA8JHQLFZ3piBzJEGoGcpvMnyLkjvL1RFlT3ixL1bGXgVph3YG922Q_I_WHworndByuRVQ9g7Wrf25h62hk6FO7WKtk1jOn-plKRbtXaHTFOahJNAG4_efXKfzTNPLUdozOx6oUz0nRwy3u8sXA'}
+      'Authorization' : 'Bearer ' + access_token}
   };
 
   return fetch(API_CONFIG.PROFILE, requestOptions)

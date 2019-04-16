@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV;
+//const env = process.env.NODE_ENV;
 
 //const baseURL = `http://${env === 'production' ? 'api.stority-services.com/api' : 'testapi.stority-services.com'}`;
 const baseURL =`http://a416e0.online-server.cloud`;
@@ -8,6 +8,7 @@ const API_CONFIG = {
 
   LOGIN:`${baseURL}/auth`,
   PROFILE: `${baseURL}/api/v1/user/profile`,
+  MEDICINE: `${baseURL}/api/v1/medicine`,
 };
 
 export default API_CONFIG;
