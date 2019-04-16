@@ -180,10 +180,16 @@ class PrescriptionWrittng extends React.Component{
     SuggestionOn:false,
     SuggestionsFiltered:[],
 
-    expanded: false
+    expanded: {}
   };
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
+  handleExpandClick = (val) => {
+    console.log(val);
+    this.setState({
+      expanded: {...this.state.expanded,
+        [val]: !this.state.expanded[val]},
+       //expanded[val]: !state.expanded[val] 
+    });
+    console.log(this.state.expanded[0]);
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
@@ -708,10 +714,10 @@ class PrescriptionWrittng extends React.Component{
                 <CardActions className={classes.actions} disableActionSpacing>
                   <IconButton
                     className={classnames(classes.expand, {
-                      [classes.expandOpen]: this.state.expanded,
+                      [classes.expandOpen]: this.state.expanded[i.treatment_id],
                     })}
-                    onClick={this.handleExpandClick}
-                    aria-expanded={this.state.expanded}
+                    onClick={()=>this.handleExpandClick(i.treatment_id)}
+                    aria-expanded={this.state.expanded[i.treatment_id]}
                     aria-label="Show more"
                   >
                     <ExpandMoreIcon style={{color:'blue'}}/>
@@ -725,7 +731,7 @@ class PrescriptionWrittng extends React.Component{
             
             <Button style={{color:'blue'}} onClick={()=>this.handleAddSuggestion2(i.treatment_id)}>Add</Button>
 
-            <Collapse  in={this.state.expanded} timeout="auto" unmountOnExit>
+            <Collapse  in={this.state.expanded[i.treatment_id]} timeout="auto" unmountOnExit>
               <div style={{marginLeft:'-30px', padding:'5px'}}>
                 <ul style={{margin:'0px',}}>
                   {i.treatment_medicine_list.map((med)=>{
