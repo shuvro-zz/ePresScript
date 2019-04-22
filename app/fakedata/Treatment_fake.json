@@ -11,7 +11,8 @@
         "generic": "Naproxen",
         "strength": "250mg",
         "indication": "",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       },
       {
         "medicine_id": 830,
@@ -20,7 +21,8 @@
         "generic": "Naproxen",
         "strength": "500mg",
         "indication": "",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       },
       {
         "medicine_id": 748,
@@ -29,7 +31,8 @@
         "generic": "Aspirin + Clopidogrel ",
         "strength": "75 mg+75 mg",
         "indication": "",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       }
     ]
   },
@@ -45,7 +48,8 @@
         "generic": "Naproxen",
         "strength": "250mg",
         "indication": "After Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       },
       {
         "medicine_id": 820,
@@ -54,7 +58,8 @@
         "generic": "Naproxen",
         "strength": "20mg",
         "indication": "Before Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       }
     ]
   },
@@ -70,7 +75,8 @@
         "generic": "Naproxen",
         "strength": "500mg",
         "indication": "After Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       },
       {
         "medicine_id": 820,
@@ -79,7 +85,8 @@
         "generic": "Pantoprazole",
         "strength": "20mg",
         "indication": "Before Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       }
     ]
   },
@@ -95,7 +102,8 @@
         "generic": "Metronidazole",
         "strength": "400mg",
         "indication": "After Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       },
       {
         "medicine_id": 820,
@@ -104,7 +112,8 @@
         "generic": "Pantoprazole",
         "strength": "20mg",
         "indication": "Before Meal",
-        "frequency": "1+0+1"
+        "frequency": "1+0+1",
+        "checked": true
       }
     ]
   }

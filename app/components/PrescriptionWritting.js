@@ -28,6 +28,11 @@ import classnames from 'classnames';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Assignment from '@material-ui/icons/Assignment';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
 let update = require('immutability-helper');
 
 const styles = theme => ({
@@ -180,7 +185,8 @@ class PrescriptionWrittng extends React.Component{
     SuggestionOn:false,
     SuggestionsFiltered:[],
 
-    expanded: {}
+    expanded: {},
+    //checked: {}
   };
   handleExpandClick = (val) => {
     console.log(val);
@@ -190,6 +196,36 @@ class PrescriptionWrittng extends React.Component{
        //expanded[val]: !state.expanded[val] 
     });
     console.log(this.state.expanded[0]);
+  };
+  handleSelectionClick = (val,value) => {
+    console.log(val);
+    
+    //Here I am finding the index of the medicine (that is shown in Suggestion List)
+    let Index1 = this.state.SuggestionsData.findIndex(function(c) {
+      return c.treatment_id === value;
+    });
+    let Index2 = this.state.SuggestionsData[Index1].treatment_medicine_list.findIndex(function(x){
+      return x.medicine_id === val;
+    })
+    let bool = !this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked;
+
+    //Here I am getting the index correctly. Now I just need to modify the state, which I'm unable to do. In the later part I tried many thing but didn't work, which are commented.
+    console.log(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked);
+
+    let updatedCheck = update(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2], {checked: {$set: bool}}); 
+    //console.log(updatedCheck);
+    let data = this.state.SuggestionsData;
+    let newData = update(data[Index1], {treatment_medicine_list: {[Index2]: {$set: updatedCheck}}});
+    //    $splice: [[Index1, 1, updatedCheck]]
+    // });
+    let uData = update(data,{$splice:[[Index1,1,newData]]});
+    //console.log(newData);
+    //console.log(uData);
+    this.setState({SuggestionsData:uData});
+
+    //console.log(this.state.SuggestionsData);
+    
+    
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
@@ -617,40 +653,43 @@ class PrescriptionWrittng extends React.Component{
   }
   handleAddSuggestion2 = (val) =>{
     console.log(val);
+    console.log(this.state.SuggestionsData);
     let filter = this.state.SuggestionsData.map((item)=>{
+        
         if(item.treatment_id == val){
           let med = item.treatment_medicine_list.map((i)=>{
+            if(i.checked === true){
+              console.log(i.product_name); 
+              let MedVal = i.product_name;
+              let StrenVal = i.strength;
+              if(StrenVal == '')StrenVal = "N/A";
 
-            console.log(i.product_name); 
-            let MedVal = i.product_name;
-            let StrenVal = i.strength;
-            if(StrenVal == '')StrenVal = "N/A";
+              let TypVal = i.type;
+              if(TypVal == '')TypVal = "N/A";
 
-            let TypVal = i.type;
-            if(TypVal == '')TypVal = "N/A";
-
-            let RemVal = i.indication;
-            if(RemVal == '')RemVal = "N/A";
+              let RemVal = i.indication;
+              if(RemVal == '')RemVal = "N/A";
 
 
-            let FreqVal = i.frequency;
-            if(FreqVal == '')FreqVal = "N/A";
+              let FreqVal = i.frequency;
+              if(FreqVal == '')FreqVal = "N/A";
 
-            let latestId = `${this.state.MedList.length + 1}`;
-            this.setState((prevState) => ({
-              MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
-              StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
-              TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
-              FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
-              RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
-              //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
-              TempMedValue:'',
-              TempFreqValue:'',
-              TempRemValue:'',
-              TempStrenValue:'',
-              TempTypValue:'',
-  
-            }));
+              let latestId = `${this.state.MedList.length + 1}`;
+              this.setState((prevState) => ({
+                MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
+                StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
+                TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
+                FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
+                RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
+                //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+                TempMedValue:'',
+                TempFreqValue:'',
+                TempRemValue:'',
+                TempStrenValue:'',
+                TempTypValue:'',
+    
+              }));
+          }
         });
       }
     })
@@ -737,7 +776,22 @@ class PrescriptionWrittng extends React.Component{
                   {i.treatment_medicine_list.map((med)=>{
                     console.log(med.product_name);
                     return(
-                      <li key={med.medicine_id} style={{marginBottom:"5px"}}><h5>{`${med.product_name}`}</h5></li>  
+                      <li key={med.medicine_id} style={{marginBottom:"5px"}}>
+                      {/*<h5>{`${med.product_name}`}</h5>*/}
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={med.checked}
+                            onChange={()=>this.handleSelectionClick(med.medicine_id, i.treatment_id)}
+                            
+                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                            //value="checkedI"
+                          />
+                        }
+                        label={`${med.product_name}`}
+                      />
+                      </li>  
                     )
                   })}
                 </ul>
