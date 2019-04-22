@@ -28,6 +28,11 @@ import classnames from 'classnames';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Assignment from '@material-ui/icons/Assignment';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
 let update = require('immutability-helper');
 
 const styles = theme => ({
@@ -180,7 +185,8 @@ class PrescriptionWrittng extends React.Component{
     SuggestionOn:false,
     SuggestionsFiltered:[],
 
-    expanded: {}
+    expanded: {},
+    //checked: {}
   };
   handleExpandClick = (val) => {
     console.log(val);
@@ -190,6 +196,29 @@ class PrescriptionWrittng extends React.Component{
        //expanded[val]: !state.expanded[val] 
     });
     console.log(this.state.expanded[0]);
+  };
+  handleSelectionClick = (val,value) => {
+    console.log(val);
+    
+    //Here I am finding the index of the medicine (that is shown in Suggestion List)
+    let Index1 = this.state.SuggestionsData.findIndex(function(c) {
+      return c.treatment_id === value;
+    });
+    let Index2 = this.state.SuggestionsData[Index1].treatment_medicine_list.findIndex(function(x){
+      return x.medicine_id === val;
+    })
+    //let bool = !this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked;
+
+    //Here I am getting the index correctly. Now I just need to modify the state, which I'm unable to do. In the later part I tried many thing but didn't work, which are commented.
+    console.log(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked);
+
+    // let updatedCheck = update(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2], {checked: {$set: bool}}); 
+    // let newData = update(this.state.SuggestionsData, {
+    //    $splice: [[Index1, 1, updatedCheck]]
+    // });
+    // this.setState({SuggestionsData:newData});
+    
+    
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
@@ -617,7 +646,9 @@ class PrescriptionWrittng extends React.Component{
   }
   handleAddSuggestion2 = (val) =>{
     console.log(val);
+    console.log(this.state.SuggestionsData);
     let filter = this.state.SuggestionsData.map((item)=>{
+        
         if(item.treatment_id == val){
           let med = item.treatment_medicine_list.map((i)=>{
 
@@ -737,7 +768,22 @@ class PrescriptionWrittng extends React.Component{
                   {i.treatment_medicine_list.map((med)=>{
                     console.log(med.product_name);
                     return(
-                      <li key={med.medicine_id} style={{marginBottom:"5px"}}><h5>{`${med.product_name}`}</h5></li>  
+                      <li key={med.medicine_id} style={{marginBottom:"5px"}}>
+                      {/*<h5>{`${med.product_name}`}</h5>*/}
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={med.checked}
+                            onChange={()=>this.handleSelectionClick(med.medicine_id,i.treatment_id)}
+                            
+                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                            //value="checkedI"
+                          />
+                        }
+                        label={`${med.product_name}`}
+                      />
+                      </li>  
                     )
                   })}
                 </ul>
