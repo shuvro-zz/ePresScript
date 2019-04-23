@@ -78,7 +78,7 @@ const styles = theme => ({
     margin:'0px',
     padding:'0px'
   },
-  
+
   adviceTextField:{
     width:'95%',
     margin:'0px',
@@ -124,7 +124,7 @@ const styles = theme => ({
     '&:hover': {
       background: '#f9f9f9',
     },
-    
+
   }
 });
 
@@ -149,7 +149,7 @@ class PrescriptionWrittng extends React.Component{
     Testsvalue:'',
     Testslist:[],
     TestsOnChange: false,
-    
+
     DiagnosisFakeData: DiagnosisData,
     DiagnosisFiltered:[],
     Diagnosisvalue:'',
@@ -158,7 +158,7 @@ class PrescriptionWrittng extends React.Component{
 
     OEvalue:'',
     OElist:[],
-    
+
     AdviceValue:'',
 
     TempMedValue:'',
@@ -167,7 +167,7 @@ class PrescriptionWrittng extends React.Component{
     MedFiltered:[],
     MedList:[],
     MedFlag:false,
-    
+
     TempStrenValue:'',
     StrenList:[],
     //StrenOnchange:false,
@@ -186,21 +186,18 @@ class PrescriptionWrittng extends React.Component{
     SuggestionsFiltered:[],
 
     expanded: {},
-    //checked: {}
   };
   handleExpandClick = (val) => {
     console.log(val);
     this.setState({
       expanded: {...this.state.expanded,
         [val]: !this.state.expanded[val]},
-       //expanded[val]: !state.expanded[val] 
+       //expanded[val]: !state.expanded[val]
     });
     console.log(this.state.expanded[0]);
   };
   handleSelectionClick = (val,value) => {
     console.log(val);
-    
-    //Here I am finding the index of the medicine (that is shown in Suggestion List)
     let Index1 = this.state.SuggestionsData.findIndex(function(c) {
       return c.treatment_id === value;
     });
@@ -209,23 +206,15 @@ class PrescriptionWrittng extends React.Component{
     })
     let bool = !this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked;
 
-    //Here I am getting the index correctly. Now I just need to modify the state, which I'm unable to do. In the later part I tried many thing but didn't work, which are commented.
-    console.log(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2].checked);
-
-    let updatedCheck = update(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2], {checked: {$set: bool}}); 
+    let updatedCheck = update(this.state.SuggestionsData[Index1].treatment_medicine_list[Index2], {checked: {$set: bool}});
     //console.log(updatedCheck);
     let data = this.state.SuggestionsData;
     let newData = update(data[Index1], {treatment_medicine_list: {[Index2]: {$set: updatedCheck}}});
-    //    $splice: [[Index1, 1, updatedCheck]]
-    // });
+
     let uData = update(data,{$splice:[[Index1,1,newData]]});
-    //console.log(newData);
-    //console.log(uData);
+
     this.setState({SuggestionsData:uData});
 
-    //console.log(this.state.SuggestionsData);
-    
-    
   };
   patientNameHandler=(event)=>{
       let keyword = event.target.value;
@@ -346,7 +335,7 @@ class PrescriptionWrittng extends React.Component{
       DiagnosisFakeData : [...prevState.DiagnosisFakeData, {name:customItemValue, id: latestId }],
       Diagnosisvalue:''
     }));
-    this.handleAddSuggestion(customItemValue); 
+    this.handleAddSuggestion(customItemValue);
   }
   addCC=(item)=>{
       this.setState((prevState) => ({
@@ -365,7 +354,7 @@ class PrescriptionWrittng extends React.Component{
       Diagnosislist: [...prevState.Diagnosislist, {name:item.name, id:item.id}],
       Diagnosisvalue:''
     }));
-    this.handleAddSuggestion(1); 
+    this.handleAddSuggestion(1);
   };
   addMed=(item)=>{
     //console.log(item);
@@ -389,21 +378,35 @@ class PrescriptionWrittng extends React.Component{
     let FreqVal = this.state.TempFreqValue;
     if(FreqVal == '')FreqVal = "N/A";
 
-    let latestId = `${this.state.MedList.length + 1}`;
-    this.setState((prevState) => ({
-      MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
-      StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
-      TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
-      FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
-      RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
-      //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
-      TempMedValue:'',
-      TempFreqValue:'',
-      TempRemValue:'',
-      TempStrenValue:'',
-      TempTypValue:'',
+    let fl = 1;
+    let loopMed = this.state.MedList.map((j)=>{
+      if(j.name.toUpperCase() == MedVal.toUpperCase()){
+        fl = 0;
+      }
+    })
+    
+    let loopStren = this.state.StrenList.map((k)=>{
+      if(k.name.toUpperCase() == MedVal.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl == 1){
+      let latestId = `${this.state.MedList.length + 1}`;
+      this.setState((prevState) => ({
+        MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
+        StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
+        TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
+        FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
+        RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
+        //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+        TempMedValue:'',
+        TempFreqValue:'',
+        TempRemValue:'',
+        TempStrenValue:'',
+        TempTypValue:'',
 
-    }));
+      }));
+    } 
     //console.log(this.state);
   };
   onUpdateItem = (val) => {
@@ -472,7 +475,7 @@ class PrescriptionWrittng extends React.Component{
     let newData = update(data, {
       $splice: [[commentIndex, 1, updatedComment]]
     });
-    this.setState({Diagnosislist: newData});    
+    this.setState({Diagnosislist: newData});
   };
   onUpdateMed = (val) => {
     let target = val.target;
@@ -655,11 +658,11 @@ class PrescriptionWrittng extends React.Component{
     console.log(val);
     console.log(this.state.SuggestionsData);
     let filter = this.state.SuggestionsData.map((item)=>{
-        
+
         if(item.treatment_id == val){
           let med = item.treatment_medicine_list.map((i)=>{
             if(i.checked === true){
-              console.log(i.product_name); 
+              console.log(i.product_name);
               let MedVal = i.product_name;
               let StrenVal = i.strength;
               if(StrenVal == '')StrenVal = "N/A";
@@ -673,22 +676,35 @@ class PrescriptionWrittng extends React.Component{
 
               let FreqVal = i.frequency;
               if(FreqVal == '')FreqVal = "N/A";
+              let fl = 1;
+              let loopMed = this.state.MedList.map((j)=>{
+                if(j.name.toUpperCase() == MedVal.toUpperCase()){
+                  fl = 0;
+                }
+              })
+              
+              let loopStren = this.state.StrenList.map((k)=>{
+                if(k.name.toUpperCase() == MedVal.toUpperCase()){
+                  fl = 0;
+                }
+              })
+              if(fl == 1){
+                let latestId = `${this.state.MedList.length + 1}`;
+                this.setState((prevState) => ({
+                  MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
+                  StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
+                  TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
+                  FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
+                  RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
 
-              let latestId = `${this.state.MedList.length + 1}`;
-              this.setState((prevState) => ({
-                MedList: [...prevState.MedList, {name:MedVal, id: latestId }],
-                StrenList: [...prevState.StrenList, {name:StrenVal, id: latestId }],
-                TypeList: [...prevState.TypeList, {name:TypVal, id: latestId }],
-                FreqList: [...prevState.FreqList, {name:FreqVal, id: latestId }],
-                RemList: [...prevState.RemList, {name:RemVal, id: latestId }],
-                //TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
-                TempMedValue:'',
-                TempFreqValue:'',
-                TempRemValue:'',
-                TempStrenValue:'',
-                TempTypValue:'',
-    
-              }));
+                  TempMedValue:'',
+                  TempFreqValue:'',
+                  TempRemValue:'',
+                  TempStrenValue:'',
+                  TempTypValue:'',
+
+                }));
+              }
           }
         });
       }
@@ -767,7 +783,7 @@ class PrescriptionWrittng extends React.Component{
                 <h5 style={{marginLeft:'-10px'}}>Treatment for {`${val}`}</h5>
               }
             />
-            
+
             <Button style={{color:'blue'}} onClick={()=>this.handleAddSuggestion2(i.treatment_id)}>Add</Button>
 
             <Collapse  in={this.state.expanded[i.treatment_id]} timeout="auto" unmountOnExit>
@@ -783,7 +799,7 @@ class PrescriptionWrittng extends React.Component{
                           <Checkbox
                             checked={med.checked}
                             onChange={()=>this.handleSelectionClick(med.medicine_id, i.treatment_id)}
-                            
+
                             icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                             checkedIcon={<CheckBoxIcon fontSize="small" />}
                             //value="checkedI"
@@ -791,7 +807,7 @@ class PrescriptionWrittng extends React.Component{
                         }
                         label={`${med.product_name}`}
                       />
-                      </li>  
+                      </li>
                     )
                   })}
                 </ul>
@@ -880,7 +896,7 @@ class PrescriptionWrittng extends React.Component{
                   onChange={this.CCsearchKeywords}
                   margin="normal"
                   style={{fontSize:'14px'}}
-                /> 
+                />
                 <IconButton
                   onClick={this.addCustomItem}
                   disabled={!this.state.value}
@@ -936,7 +952,7 @@ class PrescriptionWrittng extends React.Component{
                 >
                   <Check style={{color:'#7f7f7f'}}/>
                 </IconButton>
-                
+
                 {OElistCopy != null ?
                   OElistCopy.slice(0).reverse().map((itemx,index) => (
                   <div key={index} style={{margin:'0px', padding:'0px'}}>
@@ -1037,7 +1053,7 @@ class PrescriptionWrittng extends React.Component{
                     <TextField
                       id={itemx.id}
                       multiline
-                      
+
                       className={classes.cctextField}
                       name={`${index}`}
                       value={itemx.name}
@@ -1067,7 +1083,7 @@ class PrescriptionWrittng extends React.Component{
                   margin="normal"
                   style={{fontSize:'14px',marginTop:'-3px'}}
                 />
-              </div>      
+              </div>
             </Grid>
             <Grid item xs={7} className={classes.leftGrid} >
             {MedListCopy != null ?
@@ -1214,7 +1230,7 @@ class PrescriptionWrittng extends React.Component{
                   </IconButton>
                 </Grid>
               </Grid>
-              
+
             </Grid>
             <Grid item xs={3} className={classes.rightGrid}>
               <Info style={{fontSize:'18px',color:'orange'}}/>

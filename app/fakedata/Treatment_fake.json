@@ -6,7 +6,7 @@
     "treatment_medicine_list": [
       {
         "medicine_id": 829,
-        "product_name": "Napro-250 Tablet ",
+        "product_name": "Napro-250 Tablet",
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "250mg",
@@ -16,7 +16,7 @@
       },
       {
         "medicine_id": 830,
-        "product_name": "Napro-500 Tablet ",
+        "product_name": "Napro-500 Tablet",
         "type": "tablet",
         "generic": "Naproxen",
         "strength": "500mg",
