@@ -61,6 +61,7 @@ export default function medicineState(state: any = initialState, action){
           ...state,
           medicineList: action.medicineList
         };
+
     default:
       return state;
   }

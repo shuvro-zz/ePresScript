@@ -27,7 +27,6 @@ const muiTheme = createMuiTheme({
     MuiIconButton: {
       root: {
         marginLeft:'5px',
-        color:'#fff',
         padding:'7px',
       },
     },
@@ -80,7 +79,7 @@ const muiTheme = createMuiTheme({
       container:{
         backgroundColor: "inherit"
       }
-    }
+    },
   },
   // this is the colour palette
   palette: {

@@ -1,35 +1,19 @@
 import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
-import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import Grid from "@material-ui/core/Grid/Grid";
-import MedicineTableView from "./MedicineView/MedicineTableView";
+import MedicineViewTest from "./MedicineView/MedicineTableView";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import Draggable from 'react-draggable';
-
-function papercomponent(props) {
-  return (
-    <Draggable>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
 const styles = theme => ({
   medicineComponent: {
     width: 'auto',
@@ -69,7 +53,7 @@ const styles = theme => ({
   }
 });
 
-class Medicine extends React.Component<Props, any>  {
+class Medicine extends Component {
 
   constructor(props) {
     super(props);
@@ -83,8 +67,6 @@ class Medicine extends React.Component<Props, any>  {
       strength:'',
       remark:'',
       open: false,
-      vertical: 'top',
-      horizontal: 'center',
       firstline:'',
       secondline : '',
 
@@ -92,12 +74,6 @@ class Medicine extends React.Component<Props, any>  {
 
     this.props.setSubmitted(false);
   }
-
-  componentDidMount() {
-    console.log("Holaaaa");
-    this.props.fetchMedicine(this.props.securityState.user.access_token);
-  }
-
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -173,9 +149,13 @@ class Medicine extends React.Component<Props, any>  {
      currentMedicineStrength,
      currentMedicineFrequency,
      currentMedicineRemark,
-     submitted
+     submitted,
+     medicineList
     } = this.props.medicineState;
-    const { vertical, horizontal, open , firstline, secondline} = this.state;
+    const {
+      medicineState
+    } = this.props;
+    const {firstline, secondline} = this.state;
 
     const preview =
       <div>
@@ -288,11 +268,6 @@ class Medicine extends React.Component<Props, any>  {
             </DialogActions>
           </Dialog>
         </div>
-
-          {/*<Typography className={classes.instructions}>
-            Displayed as in Prescription
-          </Typography>
-          {preview} */}
           <div>
             <div className={classes.addMedicineBtn}>
             <Tooltip title="Add" aria-label="Add">
@@ -301,7 +276,7 @@ class Medicine extends React.Component<Props, any>  {
               </Fab>
             </Tooltip>
             </div>
-            <MedicineTableView />
+            <MedicineViewTest medicineState={medicineState}/>
           </div>
 
 

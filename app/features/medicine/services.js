@@ -24,3 +24,23 @@ function fetchMedicine(access_token) {
   return fetch(API_CONFIG.MEDICINE, requestOptions)
     .then(handleResponse, handleError);
 }
+function handleResponse(response: any) {
+  return new Promise((resolve: any, reject: any) => {
+    if (response.ok) {
+      console.log("Response : " + response);
+      var contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        response.json().then((json: any) => resolve(json));
+      } else {
+        resolve();
+      }
+    } else {
+      console.log(response);
+      response.text().then((text: string) => reject(text));
+    }
+  });
+}
+
+function handleError(error: any) {
+  return Promise.reject(error && error.message);
+}
