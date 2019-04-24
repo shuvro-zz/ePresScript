@@ -9,6 +9,9 @@ const mapStateToProps = state => ({
   medicineState: state.medicineState,
   securityState: state.securityState,
 });
+const mapDispatchToProps = {
+  setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine
+};
 
 class MedicineContainer extends Component {
   constructor(props) {
@@ -23,7 +26,7 @@ class MedicineContainer extends Component {
     const {
       login,
       loggingIn,
-      setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, medicineState, securityState
+      setSubmitted, saveMedicine, setRemark, setFrequency, fetchMedicine, setStrength, setName, setForm, medicineState, securityState
     } = this.props;
 
     return (
@@ -41,8 +44,5 @@ class MedicineContainer extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine
-};
 
 export default connect(mapStateToProps,mapDispatchToProps)(MedicineContainer);

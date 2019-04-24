@@ -1,184 +1,208 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { AutoSizer, Column, SortDirection, Table } from 'react-virtualized';
-import medicinedata from '../../fakedata/medicine-fake';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TableHead from "@material-ui/core/TableHead/TableHead";
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
 
-const styles = theme => ({
-  table: {
-    fontFamily: theme.typography.fontFamily,
-  },
-  flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-  },
-  tableRow: {
-    cursor: 'pointer',
-  },
-  tableRowHover: {
-    '&:hover': {
-      backgroundColor: theme.palette.grey[200],
-    },
-  },
-  tableCell: {
-    flex: 1,
-  },
-  noClick: {
-    cursor: 'initial',
+const actionsStyles = theme => ({
+  root: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing.unit * 2.5,
   },
 });
 
-class MuiVirtualizedTable extends React.PureComponent {
-  getRowClassName = ({ index }) => {
-    const { classes, rowClassName, onRowClick } = this.props;
-
-    return classNames(classes.tableRow, classes.flexContainer, rowClassName, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
-    });
+class TablePaginationActions extends React.Component {
+  handleFirstPageButtonClick = event => {
+    this.props.onChangePage(event, 0);
   };
 
-  cellRenderer = ({ cellData, columnIndex = null }) => {
-    const { columns, classes, rowHeight, onRowClick } = this.props;
-    return (
-      <TableCell
-        component="div"
-        className={classNames(classes.tableCell, classes.flexContainer, {
-          [classes.noClick]: onRowClick == null,
-        })}
-        variant="body"
-        style={{ height: rowHeight }}
-        align={(columnIndex != null && columns[columnIndex].numeric) || false ? 'right' : 'left'}
-      >
-        {cellData}
-      </TableCell>
-    );
+  handleBackButtonClick = event => {
+    this.props.onChangePage(event, this.props.page - 1);
   };
 
-  headerRenderer = ({ label, columnIndex, dataKey, sortBy, sortDirection }) => {
-    const { headerHeight, columns, classes, sort } = this.props;
-    const direction = {
-      [SortDirection.ASC]: 'asc',
-      [SortDirection.DESC]: 'desc',
-    };
+  handleNextButtonClick = event => {
+    this.props.onChangePage(event, this.props.page + 1);
+  };
 
-    const inner =
-      !columns[columnIndex].disableSort && sort != null ? (
-        <TableSortLabel active={dataKey === sortBy} direction={direction[sortDirection]}>
-          {label}
-        </TableSortLabel>
-      ) : (
-        label
-      );
-
-    return (
-      <TableCell
-        component="div"
-        className={classNames(classes.tableCell, classes.flexContainer, classes.noClick)}
-        variant="head"
-        style={{ height: headerHeight }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
-      >
-        {inner}
-      </TableCell>
+  handleLastPageButtonClick = event => {
+    this.props.onChangePage(
+      event,
+      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
     );
   };
 
   render() {
-    const { classes, columns, ...tableProps } = this.props;
+    const { classes, count, page, rowsPerPage, theme } = this.props;
+
     return (
-
-      <AutoSizer>
-        {({ height, width }) => (
-          <Table
-            className={classes.table}
-            height={height}
-            width={width}
-            {...tableProps}
-            rowClassName={this.getRowClassName}
-          >
-            {columns.map(({ cellContentRenderer = null, className, dataKey, ...other }, index) => {
-              let renderer;
-              if (cellContentRenderer != null) {
-                renderer = cellRendererProps =>
-                  this.cellRenderer({
-                    cellData: cellContentRenderer(cellRendererProps),
-                    columnIndex: index,
-                  });
-              } else {
-                renderer = this.cellRenderer;
-              }
-
-              return (
-                <Column
-                  key={dataKey}
-                  headerRenderer={headerProps =>
-                    this.headerRenderer({
-                      ...headerProps,
-                      columnIndex: index,
-                    })
-                  }
-                  className={classNames(classes.flexContainer, className)}
-                  cellRenderer={renderer}
-                  dataKey={dataKey}
-                  {...other}
-                />
-              );
-            })}
-          </Table>
-        )}
-      </AutoSizer>
+      <div className={classes.root}>
+        <IconButton
+          onClick={this.handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="First Page"
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="Previous Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Next Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Last Page"
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </div>
     );
   }
 }
 
-MuiVirtualizedTable.defaultProps = {
-  headerHeight: 56,
-  rowHeight: 56,
+const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
+  TablePaginationActions,
+);
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 12,
+  },
+  table: {
+    minWidth: 500,
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
+  medicineListSearch: {
+    padding: 10,
+  }
+});
+
+class MedicineTableView extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log('In MedicineView');
+    console.log(props);
+    this.state = {
+      rows: this.props.medicineState.medicineList,
+      page: 0,
+      rowsPerPage: 5,
+    };
+  }
+
+
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value });
+  };
+
+  componentWillUnmount(){
+    this.setState({
+      rows : this.props.medicineState.medicineList
+    });
+  }
+  render() {
+    console.log(this.state.rows);
+    const { classes } = this.props;
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    return (
+      <Paper className={classes.root}>
+        <div className={classes.medicineListSearch}>
+        <InputBase className={classes.input} placeholder="Search Medicine" />
+        <IconButton className={classes.iconButton} aria-label="Search">
+          <SearchIcon />
+        </IconButton>
+        </div>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Strength</TableCell>
+                <TableCell>Indication</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
+                return(
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
+                    <TableCell component="th" scope="row">{medicine.types}</TableCell>
+                    <TableCell component="th" scope="row">{medicine.strength}</TableCell>
+                    <TableCell component="th" scope="row">{medicine.indication}</TableCell>
+                  </TableRow>
+                )
+              })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActionsWrapped}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
+      </Paper>
+    );
+  }
+}
+
+MedicineTableView.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-const WrappedVirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
-const rows = [];
-
-for (let i = 0; i < 10; i += 1) {
-  const randomSelection = medicinedata[Math.floor(Math.random() * medicinedata.length)];
-  rows.push(randomSelection);
-}
-
-function ReactVirtualizedTable() {
-  return (
-    <Paper style={{ height: 400, width: '100%' }}>
-      <WrappedVirtualizedTable
-        rowCount={rows.length}
-        rowGetter={({ index }) => rows[index]}
-        onRowClick={event => console.log(event)}
-        columns={[
-          {
-            width: 120,
-            flexGrow: 1.0,
-            label: 'Generic Name',
-            dataKey: 'generic_name',
-          },
-          {
-            width: 120,
-            flexGrow: 1.0,
-            label: 'Form',
-            dataKey: 'form',
-          },
-          {
-            width: 120,
-            flexGrow: 1.0,
-            label: 'Strength',
-            dataKey: 'strength',
-          },
-        ]}
-      />
-    </Paper>
-  );
-}
-
-export default ReactVirtualizedTable;
+export default withStyles(styles)(MedicineTableView);

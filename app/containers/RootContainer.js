@@ -45,9 +45,6 @@ class RootContainer extends Component{
     console.log("Root Container");
     console.log(this.props);
   }
-  // componentDidMount() {
-  //   this.props.fetchProfile(this.props.securityState.user.access_token);
-  // }
   render() {
     const { classes, theme } = this.props;
     const {logout, history , navigateTo ,  message, snackBarOpen, loggedIn, fetchProfile, profile, securityState} = this.props;

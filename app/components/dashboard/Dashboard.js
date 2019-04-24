@@ -36,11 +36,12 @@ const styles = theme => ({
   },
 });
 
-class Dashboard extends React.Component<Props, any> {
+class Dashboard extends Component{
 
-  constructor(props: Props, state: any) {
+  constructor(props) {
     super(props);
     console.log('in Dashboard constructor');
+    console.log(this.props);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -53,6 +54,9 @@ class Dashboard extends React.Component<Props, any> {
      history.push(path);
     }
   };
+  componentDidMount() {
+    this.props.fetchMedicine(this.props.securityState.user.access_token);
+  }
 
   render() {
     console.log("Render Dashboard Components");
