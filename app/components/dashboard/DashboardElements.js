@@ -1,17 +1,13 @@
 import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ControlPoint from "@material-ui/icons/ControlPoint";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import BarChart from '@material-ui/icons/BarChart';
 import LocalHospital from '@material-ui/icons/LocalHospital';
@@ -34,8 +30,6 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-
 
 const drawerWidth = 240;
 
@@ -159,7 +153,7 @@ const styles = theme => ({
   },
   profileName:{
     color:"#7f7f7f",
-    
+
   },
   menuItems:{
     marginTop:'30px',
@@ -177,8 +171,8 @@ const styles = theme => ({
 });
 
 
-class ResponsiveDrawer extends React.Component {
-  constructor(props: Props, state: any) {
+class DashboardElements extends React.Component<Props, any> {
+  constructor(props) {
     super(props);
     this.state = {
       currentPath: 'dashboard',
@@ -189,6 +183,9 @@ class ResponsiveDrawer extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
   }
+  componentDidMount() {
+    this.props.fetchProfile(this.props.securityState.user.access_token);
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -197,7 +194,7 @@ class ResponsiveDrawer extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
-  
+
   handleClickNotification = event => {
     this.setState({ anchorEl2: event.currentTarget });
   };
@@ -205,6 +202,7 @@ class ResponsiveDrawer extends React.Component {
   handleCloseNotification = () => {
     this.setState({ anchorEl2: null });
   };
+
   handleClickMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -212,6 +210,7 @@ class ResponsiveDrawer extends React.Component {
   handleCloseMenu = () => {
     this.setState({ anchorEl: null });
   };
+
   handleClick(requestedPath) {
     // get the currently selected item
     const { currentPath } = this.state;
@@ -224,20 +223,25 @@ class ResponsiveDrawer extends React.Component {
       // insert a slash before the requested path to make it a path
       const path = `/${requestedPath}`;
       console.log(path);
-      this.props.navigate(path, currentPath);
+      this.props.navigateTo(path, currentPath);
     //}
   }
+
   handleLogout(event){
-    const {loggedIn } = this.props.authentication;
     event.preventDefault();
+    const {loggedIn } = this.props.securityState;
     if (loggedIn) {
       this.props.logout(loggedIn);
     }
   }
+
   render() {
+    console.log(this.props);
+    const {firstname, lastname} = this.props.profile;
+    const username = firstname +` ` +lastname;
     const { classes, theme } = this.props;
     const { open , currentPath, anchorEl , anchorEl2} = this.state;
-    
+
     let dash = false;
     let pat = false;
     let med = false;
@@ -286,15 +290,13 @@ class ResponsiveDrawer extends React.Component {
     );
     const secondaryItems = (
       <div>
-        <ListItem button
-                  >
+        <ListItem button>
           <ListItemIcon>
             <LiveHelp />
           </ListItemIcon>
           <ListItemText primary="Help Center" />
         </ListItem>
-        <ListItem button
-                  >
+        <ListItem button>
           <ListItemIcon>
             <Settings />
           </ListItemIcon>
@@ -335,7 +337,7 @@ class ResponsiveDrawer extends React.Component {
               />
             </div>
             <div className={classes.sectionDesktop}>
-              <IconButton 
+              <IconButton
                 color="inherit"
                 aria-owns={anchorEl2 ? 'simple-menu2' : undefined}
                 aria-haspopup="true"
@@ -357,10 +359,10 @@ class ResponsiveDrawer extends React.Component {
                 <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>You have listed a new medicine</MenuItem>
               </Menu>
               {/* still need to fix handleProfileMenuOpen*/}
-              <IconButton 
-                disabled={true}  
+              <IconButton
+                disabled={true}
               >
-                <h4 className={classes.profileName}>Nakib Hossain</h4>
+                <h4 className={classes.profileName}>{username}</h4>
               </IconButton>
               <IconButton
                 aria-owns={anchorEl ? 'simple-menu' : undefined}
@@ -433,10 +435,10 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-ResponsiveDrawer.propTypes = {
+DashboardElements.propTypes = {
   classes: PropTypes.object.isRequired,
   container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(DashboardElements);

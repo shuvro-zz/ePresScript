@@ -2,37 +2,47 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AddMedicine from '../components/Medicine';
-import { addMedicineActions } from '../actions/medicineFormActions';
-import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
+import Medicine from '../components/Medicine';
+import { setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine } from '../features/medicine';
 
-// type State = {
-//   medicineForm: MedicineFormStateType
-// };
+const mapStateToProps = state => ({
+  medicineState: state.medicineState,
+  securityState: state.securityState,
+});
 
-// Map the stuff we want from the global application state in redux to the props
-function mapStateToProps(state: State) {
-  return {
-    medicineForm: state.medicineForm,
-    authentication: state.authentication
+class MedicineContainer extends Component {
+  constructor(props) {
+    super(props);
+    console.log("Medicine Container");
+    console.log(this.props);
+    // if the accessToken is valid, redirect to homepage
+    //const { accessTokenIsValid, navigateToAlias } = this.props;
+  }
+
+  render() {
+    const {
+      login,
+      loggingIn,
+      setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, medicineState, securityState
+    } = this.props;
+
+    return (
+      <Medicine setSubmitted={setSubmitted}
+                saveMedicine={saveMedicine}
+                setRemark ={setRemark}
+                setFrequency={setFrequency}
+                setStrength={setStrength}
+                setName ={setName}
+                setForm={setForm}
+                medicineState={medicineState}
+                fetchMedicine={fetchMedicine}
+                securityState={securityState}/>
+    );
+  }
+}
+
+const mapDispatchToProps = {
+  setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine
 };
-}
 
-// Map any actions required to the props
-function mapDispatchToProps(dispatch: any) {
-  return bindActionCreators(
-    {
-      setForm: addMedicineActions.setForm,
-      setName: addMedicineActions.setName,
-      setStrength: addMedicineActions.setStrength,
-      setFrequency: addMedicineActions.setFrequency,
-      setRemark: addMedicineActions.setRemark,
-      setSubmitted: addMedicineActions.setSubmitted,
-      saveMedicine: addMedicineActions.saveMedicine
-    },
-    dispatch
-  );
-}
-type Props = {};
-
-export default connect(mapStateToProps,mapDispatchToProps)(AddMedicine);
+export default connect(mapStateToProps,mapDispatchToProps)(MedicineContainer);

@@ -1,25 +1,42 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import Dashboard from '../components/dashboard/Dashboard'
 import navigateTo from "../features/navigation";
-import {bindActionCreators} from "redux";
+import Dashboard from '../components/dashboard/Dashboard'
+import {fetchProfile} from "../features/usermanagement";
 
+const mapStateToProps = state => ({
+  securityState: state.securityState,
+  usermanagementState: state.usermanagementState
+});
 
-// Map the stuff we want from the global application state in redux to the props
-function mapStateToProps(state: State) {
-  return {
-    authentication: state.authentication
-  };
+class DashboardContentContainer extends Component {
+  constructor(props) {
+    super(props);
+    console.log("DashboardContentContainer");
+    console.log(this.props);
+
+    // if the accessToken is valid, redirect to homepage
+    //const { accessTokenIsValid, navigateToAlias } = this.props;
+  }
+  // componentDidMount() {
+  //   this.props.fetchProfile(this.props.securityState.user.access_token);
+  // }
+
+  render() {
+    const {
+      navigateTo, location
+    } = this.props;
+    return (
+      <Dashboard navigateTo={navigateTo} location={location}/>
+    );
+  }
 }
-// Map any actions required to the props
-function mapDispatchToProps(dispatch: any) {
-  return bindActionCreators(
-    {
-      navigate: navigateTo
-    },
-    dispatch
-  );
-}
-export default connect(mapStateToProps, mapDispatchToProps())(Dashboard);
+
+const mapDispatchToProps = {
+  navigateTo,
+  fetchProfile
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardContentContainer);

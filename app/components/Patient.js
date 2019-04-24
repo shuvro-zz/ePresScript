@@ -31,6 +31,9 @@ const styles = theme => ({
 		paddingTop: '80px',
 		height:'100%',
 	},
+    patientContents:{
+	  padding:'5%',
+    },
 	card: {
 	  width: '100%',
 	},
@@ -259,7 +262,7 @@ class Patient extends React.Component{
 	//const filteredItems =
     return (
 		<div className={classes.root}>
-		<Grid container >
+		<Grid container className={classes.patientContents}>
 			<Grid item xs={6} className={classes.leftGrid}>
 				<h2>Patients</h2>
 			</Grid>

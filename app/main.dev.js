@@ -85,10 +85,12 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
-    resizable: false,
-    center:true
+    height:728,
+    width:1024,
+    minHeight:728,
+    minWidth:1024,
+    center:true,
+
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -117,12 +119,12 @@ app.on('ready', async () => {
 });
 
 ipcMain.on('resize-me-please', (event, arg) => {
-
   console.log(mainWindow.isResizable());
   if (arg) {
-    mainWindow.setSize(1024,728);
+    mainWindow.unmaximize();
+    mainWindow.setResizable(false);
   }else{
+    mainWindow.setResizable(true);
     mainWindow.maximize();
   }
-  mainWindow.setResizable(!arg);
 });

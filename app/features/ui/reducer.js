@@ -3,8 +3,6 @@ import {
   SNACKBAR_CLOSED,
 } from './constants';
 
-import {userInterfaceConstants} from '../../constants';
-
 const initialState = {
   snackBarOpen: false,
   message: '',

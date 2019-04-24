@@ -2,13 +2,15 @@
  * @flow
  */
 
-import DB from "../models";
+import DB from "../../models";
+import API_CONFIG from '../../store/config/config'
 const log = require('electron-log');
-export const authenticationService = {
-    login: login,
+
+export const services = {
+    login: realLoginExample,
     logout : fakelogout
 };
-log.info("In Authentication");
+log.info("In Security service");
 
 function fakelogout() {
   var p: Promise<any> =
@@ -38,13 +40,27 @@ async function login(username: string, password: string) {
 }
 
 function realLoginExample(username: string, password: string) {
+  const data = {
+    grant_type: 'password',
+    username: username,
+    password: password,
+  };
+
+  let formBody = [];
+  for (let property in data) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(data[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+        'Authorization' : 'Basic ' + btoa( API_CONFIG.CLIENT_ID + ':' + API_CONFIG.CLIENT_SECRET)},
+        body: formBody
     };
 
-    return fetch('www.mywebsite.com/login', requestOptions)
+    return fetch(API_CONFIG.LOGIN, requestOptions)
         .then(handleResponse, handleError)
         .then((user: any) => {
             if (user && user.token) {
@@ -64,6 +80,7 @@ function handleResponse(response: any) {
                 resolve();
             }
         } else {
+          console.log(response);
             response.text().then((text: string) => reject(text));
         }
     });

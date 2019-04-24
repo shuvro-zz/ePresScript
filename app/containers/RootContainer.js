@@ -1,23 +1,18 @@
 // @flow
-import React, { PureComponent } from 'react';
-import { Provider } from 'react-redux';
+import React, { Component } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
-import type { Store } from '../reducers/types';
 import routes from '../store/Routes';
-import DashboardElementsContainer from './DashboardElementsContainer';
 import PropTypes from "prop-types";
 import {MuiThemeProvider, withStyles} from "@material-ui/core";
 import navigateTo from '../features/navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authenticationActions } from '../actions/authenticationActions';
 import muiTheme from "../assets/theme";
 import SnackBar from '../components/SnackBar';
+import {logout} from "../features/security";
+import {fetchProfile} from "../features/usermanagement";
+import DashboardElements from '../components/dashboard/DashboardElements';
 
-type Props = {
-  store: Store,
-  history: {}
-};
 const styles = theme => ({
   rootContainer: {
     display: 'flex',
@@ -28,31 +23,34 @@ const styles = theme => ({
   },
 });
 
-// Map the stuff we want from the global application state in redux to the props
-function mapStateToProps(state: State) {
-  return {
-    loggedIn: state.authentication.loggedIn,
-    snackBarOpen: state.uiReducer.snackBarOpen,
-    message: state.uiReducer.message
-  };
-}
+const mapStateToProps = state => ({
+  loggedIn: state.securityState.loggedIn,
+  securityState: state.securityState,
+  snackBarOpen: state.uiReducer.snackBarOpen,
+  message: state.uiReducer.message,
+  profile: state.usermanagementState.profile,
+
+});
 
 // Map any actions required to the props
-function mapDispatchToProps(dispatch: any) {
-  return bindActionCreators(
-    {
-      navigate: navigateTo,
-      logout : authenticationActions.logout
-    },
-    dispatch
-  );
-}
+const mapDispatchToProps = {
+  logout,
+  navigateTo,
+  fetchProfile
+};
 
-class RootContainer extends PureComponent{
-
+class RootContainer extends Component{
+  constructor(props) {
+    super(props);
+    console.log("Root Container");
+    console.log(this.props);
+  }
+  // componentDidMount() {
+  //   this.props.fetchProfile(this.props.securityState.user.access_token);
+  // }
   render() {
     const { classes, theme } = this.props;
-    const { history , navigate ,  message, snackBarOpen, loggedIn} = this.props;
+    const {logout, history , navigateTo ,  message, snackBarOpen, loggedIn, fetchProfile, profile, securityState} = this.props;
     console.log("Inside RootContainer");
     console.log(this.props);
     return (
@@ -60,7 +58,13 @@ class RootContainer extends PureComponent{
       <div className={classes.rootContainer}>
         {loggedIn // render the bars if we're logged in
         && (
-              <DashboardElementsContainer />
+              <DashboardElements
+                profile={profile}
+                fetchProfile={fetchProfile}
+                securityState={securityState}
+                logout={logout}
+                navigateTo={navigateTo}
+              />
         )
         }
         <main className={classes.content}>

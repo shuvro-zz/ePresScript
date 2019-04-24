@@ -2,20 +2,16 @@
  * @flow
  */
 
-import { authenticationConstants } from "../constants";
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
-import type {UserType} from "../types/common/UserType";
-import type {AuthenticationActionType} from "../types/action/AuthenticationActionType";
-
+import { constants } from "./constants";
 
 // Initialise the redux store
 // Check if the local storage already has a user saved, otherwise start fresh.
 const userstring: ?string = (localStorage.getItem("user"): ?string);
-var initialState: AuthenticationStateType;
+let initialState;
 
 if (userstring) {
-  const jsonUser = (JSON.parse(userstring): UserType);
-  const user: UserType = jsonUser;
+  const jsonUser = (JSON.parse(userstring));
+  const user = jsonUser;
   initialState = {
     user: user,
     loggedIn: true,
@@ -31,9 +27,9 @@ if (userstring) {
   };
 }
 
-export function authentication(state: any = initialState, action: AuthenticationActionType): AuthenticationStateType {
+export default function securityState(state: any = initialState, action) {
   switch (action.type) {
-    case authenticationConstants.LOGIN_REQUEST:
+    case constants.LOGIN_REQUEST:
       return {
         ...state,
         user: action.user,
@@ -41,7 +37,7 @@ export function authentication(state: any = initialState, action: Authentication
         loggingIn: true,
         error: ""
       };
-    case authenticationConstants.LOGIN_SUCCESS:
+    case constants.LOGIN_SUCCESS:
       return {
         ...state,
         user: action.user,
@@ -49,7 +45,7 @@ export function authentication(state: any = initialState, action: Authentication
         loggingIn: false,
         error: ""
       };
-    case authenticationConstants.LOGIN_FAILURE:
+    case constants.LOGIN_FAILURE:
       return {
         ...state,
         user: null,
@@ -57,7 +53,7 @@ export function authentication(state: any = initialState, action: Authentication
         loggingIn: false,
         error: action.error
       };
-    case authenticationConstants.LOGOUT:
+    case constants.LOGOUT:
       return {
         ...state,
         user: null,

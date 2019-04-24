@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import type {MedicineFormStateType} from "../../../types/state/MedicineFormStateType";
 import {bindActionCreators} from "redux";
-import {addMedicineActions} from "../../../actions/medicineFormActions";
 import CheckUpExamination from '../../../components/prescription/steps/CheckUpExamination';
 
 type State = {
@@ -22,12 +21,6 @@ function mapStateToProps(state: State) {
 function mapDispatchToProps(dispatch: any) {
   return bindActionCreators(
     {
-      setForm: addMedicineActions.setForm,
-      setName: addMedicineActions.setName,
-      setStrength: addMedicineActions.setStrength,
-      setFrequency: addMedicineActions.setFrequency,
-      setRemark: addMedicineActions.setRemark,
-      setSubmitted: addMedicineActions.setSubmitted
     },
     dispatch
   );
