@@ -19,7 +19,6 @@ import TreatmentData from '../fakedata/Treatment_fake.json';
 import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -32,6 +31,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 let update = require('immutability-helper');
 
@@ -78,7 +79,6 @@ const styles = theme => ({
     margin:'0px',
     padding:'0px'
   },
-
   adviceTextField:{
     width:'95%',
     margin:'0px',
@@ -186,7 +186,20 @@ class PrescriptionWrittng extends React.Component{
     SuggestionsFiltered:[],
 
     expanded: {},
+    openSnackbarCC: false,
+    SnackbarMessage:'' 
   };
+
+  handleSnackbar=(msg)=>{
+    this.setState({
+      openSnackbarCC:true,
+      SnackbarMessage:msg
+    })
+  }
+  handleCloseSnackbar = () => {
+    this.setState({ openSnackbarCC: false });
+  };
+
   handleExpandClick = (val) => {
     console.log(val);
     this.setState({
@@ -302,59 +315,141 @@ class PrescriptionWrittng extends React.Component{
   addCustomItem = () => {
     let customItemValue = this.state.value;
     let latestId = `${this.state.ccFakeData.length + 1}`;
-
-    this.setState((prevState) => ({
-      list: [...prevState.list, {name:customItemValue, id: latestId }],
-      ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
-      value:''
-    }));
+    let fl = 1;
+    let loopCC = this.state.list.map((j)=>{
+      if(j.name.toUpperCase() == customItemValue.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      this.setState((prevState) => ({
+        list: [...prevState.list, {name:customItemValue, id: latestId }],
+        ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
+        value:''
+      }));
+    }else{
+      let msg = "This C/C Already Exists!";
+      this.handleSnackbar(msg);
+    }
   };
   addCustomOE=()=>{
     let customItemValue = this.state.OEvalue;
-    let latestId = `${this.state.OElist.length + 1}`;
-    this.setState((prevState) => ({
-      OElist: [...prevState.OElist, {name:customItemValue, id: latestId }],
-      //ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
-      OEvalue:''
-    }));
+    let fl = 1;
+    let loopOE = this.state.OElist.map((j)=>{
+      if(j.name.toUpperCase() == customItemValue.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      let latestId = `${this.state.OElist.length + 1}`;
+      this.setState((prevState) => ({
+        OElist: [...prevState.OElist, {name:customItemValue, id: latestId }],
+        //ccFakeData : [...prevState.ccFakeData, {name:customItemValue, id: latestId }],
+        OEvalue:''
+      }));
+    }
+    else{
+      let msg = "This O/E Already Exists!";
+      this.handleSnackbar(msg);
+    }
   }
   addCustomTests=()=>{
     let customItemValue = this.state.Testsvalue;
-    let latestId = `${this.state.Testslist.length + 1}`;
-    this.setState((prevState) => ({
-      Testslist: [...prevState.Testslist, {name:customItemValue, id: latestId }],
-      TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
-      Testsvalue:''
-    }));
+    let fl = 1;
+    let loopTests = this.state.Testslist.map((j)=>{
+      if(j.name.toUpperCase() == customItemValue.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      let latestId = `${this.state.Testslist.length + 1}`;
+      this.setState((prevState) => ({
+        Testslist: [...prevState.Testslist, {name:customItemValue, id: latestId }],
+        TestsFakeData : [...prevState.TestsFakeData, {name:customItemValue, id: latestId }],
+        Testsvalue:''
+      }));
+    }else{
+      let msg = "This Test Already Exists!";
+      this.handleSnackbar(msg);
+    }
   }
   addCustomDiagnosis=()=>{
     let customItemValue = this.state.Diagnosisvalue;
-    let latestId = `${this.state.Diagnosislist.length + 1}`;
-    this.setState((prevState) => ({
-      Diagnosislist: [...prevState.Diagnosislist, {name:customItemValue, id: latestId }],
-      DiagnosisFakeData : [...prevState.DiagnosisFakeData, {name:customItemValue, id: latestId }],
-      Diagnosisvalue:''
-    }));
-    this.handleAddSuggestion(customItemValue);
+    let fl = 1;
+    let loopDiag = this.state.Diagnosislist.map((j)=>{
+      if(j.name.toUpperCase() == customItemValue.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      let latestId = `${this.state.Diagnosislist.length + 1}`;
+      this.setState((prevState) => ({
+        Diagnosislist: [...prevState.Diagnosislist, {name:customItemValue, id: latestId }],
+        DiagnosisFakeData : [...prevState.DiagnosisFakeData, {name:customItemValue, id: latestId }],
+        Diagnosisvalue:''
+      }));
+      this.handleAddSuggestion(customItemValue);
+    }else{
+      let msg = "This Diagnosis Already Exists!";
+      this.handleSnackbar(msg);
+    }
   }
   addCC=(item)=>{
+    let itemName = item.name;
+    let fl = 1;
+    let loopCC = this.state.list.map((j)=>{
+      if(j.name.toUpperCase() == itemName.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
       this.setState((prevState) => ({
         list: [...prevState.list, {name:item.name, id:item.id}],
         value:''
       }));
+    }else{
+      let msg = "This C/C Already Exists!";
+      this.handleSnackbar(msg);
+    }
   };
   addTests=(item)=>{
-    this.setState((prevState) => ({
-      Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
-      Testsvalue:''
-    }));
+    let itemName = item.name;
+    let fl = 1;
+    let loopTests = this.state.Testslist.map((j)=>{
+      if(j.name.toUpperCase() == itemName.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      this.setState((prevState) => ({
+        Testslist: [...prevState.Testslist, {name:item.name, id:item.id}],
+        Testsvalue:''
+      }));
+    }
+    else{
+      let msg = "This Test Already Exists!";
+      this.handleSnackbar(msg);
+    }
   };
   addDiagnosis=(item)=>{
-    this.setState((prevState) => ({
-      Diagnosislist: [...prevState.Diagnosislist, {name:item.name, id:item.id}],
-      Diagnosisvalue:''
-    }));
-    this.handleAddSuggestion(1);
+    let itemName = item.name;
+    let fl = 1;
+    let loopDiagnosis = this.state.Diagnosislist.map((j)=>{
+      if(j.name.toUpperCase() == itemName.toUpperCase()){
+        fl = 0;
+      }
+    })
+    if(fl==1){
+      this.setState((prevState) => ({
+        Diagnosislist: [...prevState.Diagnosislist, {name:item.name, id:item.id}],
+        Diagnosisvalue:''
+      }));
+      this.handleAddSuggestion(1);
+    }
+    else{
+      let msg = "This Diagnosis Already Exists!";
+      this.handleSnackbar(msg);
+    }
   };
   addMed=(item)=>{
     //console.log(item);
@@ -406,6 +501,10 @@ class PrescriptionWrittng extends React.Component{
         TempTypValue:'',
 
       }));
+    }
+    else{
+      let msg = "Already Exists!";
+      this.handleSnackbar(msg);
     } 
     //console.log(this.state);
   };
@@ -704,6 +803,10 @@ class PrescriptionWrittng extends React.Component{
                   TempTypValue:'',
 
                 }));
+              }
+              else{
+                let msg = "Already exists in the prescription!";
+                this.handleSnackbar(msg);
               }
           }
         });
@@ -1239,6 +1342,30 @@ class PrescriptionWrittng extends React.Component{
             </Grid>
           </Grid>
         </Card>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.openSnackbarCC}
+          autoHideDuration={3000}
+          onClose={this.handleCloseSnackbar}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.SnackbarMessage}</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={this.handleCloseSnackbar}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       </div>
     );
   }
