@@ -30,6 +30,18 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+
 
 const drawerWidth = 240;
 
@@ -166,7 +178,10 @@ const styles = theme => ({
   active:{
     backgroundColor: '#1F313F',
     borderLeft: '3px solid #E22454',
-  }
+  },
+  formControl: {
+    minWidth: '100%',
+  },
 
 });
 
@@ -179,13 +194,28 @@ class DashboardElements extends React.Component<Props, any> {
       open:true,
       anchorEl: null,
       anchorEl2: null,
+      openDialogProfile: false,
+      openDialogMyAccount: false
     };
     this.handleClick = this.handleClick.bind(this);
     console.log("inside Sidebar constructor");
   }
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchProfile(this.props.securityState.user.access_token);
   }
+  handleProfileDialogClickOpen = () => {
+    this.setState({ openDialogProfile: true });
+  };
+  handleProfileDialogClickClose = () => {
+    this.setState({ openDialogProfile: false });
+  };
+  
+  handleMyAccountDialogClickOpen = () => {
+    this.setState({ openDialogMyAccount: true });
+  };
+  handleMyAccountDialogClickClose = () => {
+    this.setState({ openDialogMyAccount: false });
+  };
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -379,17 +409,10 @@ class DashboardElements extends React.Component<Props, any> {
                 onClose={this.handleCloseMenu}
                 className={classes.menuItems}
               >
-                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>Profile</MenuItem>
-                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem}>My account</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={this.handleProfileDialogClickOpen}>Profile</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={this.handleMyAccountDialogClickOpen}>My account</MenuItem>
                 <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={() => this.handleLogout(event)}>Logout</MenuItem>
               </Menu>
-              <IconButton
-                aria-owns ='material-appbar'
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-              </IconButton>
             </div>
           </Toolbar>
         </AppBar>
@@ -430,6 +453,159 @@ class DashboardElements extends React.Component<Props, any> {
           <Divider />
             {secondaryItems}
           </Drawer>
+          <Dialog
+          open={this.state.openDialogProfile}
+          onClose={this.handleProfileDialogClickClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Profile</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="First Name"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Last Name"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Contact"
+              type="Text"
+              fullWidth
+            />
+            <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="Sex">Sex</InputLabel>
+            <Select
+              value={this.state.age}
+              onChange={this.handleChange}
+              inputProps={{
+                name: 'age',
+                id: 'age-simple',
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Male"}>Male</MenuItem>
+              <MenuItem value={"Female"}>Female</MenuItem>
+            </Select>
+            </FormControl>  
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleProfileDialogClickClose} color="secondary">
+              Update
+            </Button>
+            <Button onClick={this.handleProfileDialogClickClose} color="primary">
+              Close 
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDialogMyAccount}
+          onClose={this.handleMyAccountDialogClickClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Account</DialogTitle>
+          <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Enter New Email"
+                type="text"
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="name"
+                label="Enter Password"
+                type="text"
+                fullWidth
+              />
+              <Button style={{background:'blue',color:'white'}}>Save Changes</Button>
+          
+              <br/>
+              <br/>
+
+            <TextField
+                margin="dense"
+                id="name"
+                label="Current Password"
+                type="text"
+                fullWidth
+              />
+             
+              <TextField
+                margin="dense"
+                id="name"
+                label="New Password"
+                type="text"
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="name"
+                label="Confirm Password"
+                type="text"
+                fullWidth
+              />
+              <Button style={{background:'blue',color:'white'}}>Save Changes</Button>
+            
+            {/* <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="First Name"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Last Name"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="name"
+              label="Contact"
+              type="Text"
+              fullWidth
+            />
+            <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="Sex">Sex</InputLabel>
+            <Select
+              value={this.state.age}
+              onChange={this.handleChange}
+              inputProps={{
+                name: 'age',
+                id: 'age-simple',
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Male"}>Male</MenuItem>
+              <MenuItem value={"Female"}>Female</MenuItem>
+            </Select>
+            </FormControl>   */}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleMyAccountDialogClickClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
