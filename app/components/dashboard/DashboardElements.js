@@ -186,23 +186,26 @@ const styles = theme => ({
 });
 
 
-class DashboardElements extends React.Component<Props, any> {
-  constructor(props) {
-    super(props);
-    this.state = {
+class DashboardElements extends React.Component {
+  
+    state = {
       currentPath: 'dashboard',
       open:true,
       anchorEl: null,
       anchorEl2: null,
       openDialogProfile: false,
-      openDialogMyAccount: false
+      openDialogMyAccount: false,
+      firstname:''
     };
-    this.handleClick = this.handleClick.bind(this);
-    console.log("inside Sidebar constructor");
-  }
-  componentWillMount() {
+    
+  
+  componentDidMount() {
     this.props.fetchProfile(this.props.securityState.user.access_token);
+    this.setState({
+      firstname:this.props.profile.firstname
+    })
   }
+  
   handleProfileDialogClickOpen = () => {
     this.setState({ openDialogProfile: true });
   };
@@ -271,7 +274,7 @@ class DashboardElements extends React.Component<Props, any> {
     const username = firstname +` ` +lastname;
     const { classes, theme } = this.props;
     const { open , currentPath, anchorEl , anchorEl2} = this.state;
-
+    console.log(this.state);
     let dash = false;
     let pat = false;
     let med = false;
@@ -517,7 +520,6 @@ class DashboardElements extends React.Component<Props, any> {
           <DialogTitle id="form-dialog-title">Account</DialogTitle>
           <DialogContent>
               <TextField
-                autoFocus
                 margin="dense"
                 id="name"
                 label="Enter New Email"
@@ -531,11 +533,14 @@ class DashboardElements extends React.Component<Props, any> {
                 type="text"
                 fullWidth
               />
-              <Button style={{background:'blue',color:'white'}}>Save Changes</Button>
+              <br/>
+              <Button style={{background:'#59B0F6',color:'white'}}>Save Changes</Button>
           
               <br/>
               <br/>
-
+              
+              <br/>
+              <br/>
             <TextField
                 margin="dense"
                 id="name"
@@ -558,7 +563,8 @@ class DashboardElements extends React.Component<Props, any> {
                 type="text"
                 fullWidth
               />
-              <Button style={{background:'blue',color:'white'}}>Save Changes</Button>
+              <br/>
+              <Button style={{background:'#59B0F6',color:'white'}}>Save Changes</Button>
             
             {/* <TextField
               autoFocus
