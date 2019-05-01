@@ -369,8 +369,9 @@ class DashboardElements extends React.Component<Props, any> {
                 aria-haspopup="true"
                 onClick={this.handleClickMenu}
               >
-               <KeyboardArrowDown className={classes.arrowIcon}/>
+                <AccountCircle />
               </IconButton>
+
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -388,7 +389,6 @@ class DashboardElements extends React.Component<Props, any> {
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
               </IconButton>
             </div>
           </Toolbar>
