@@ -39,8 +39,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 
 
 const drawerWidth = 240;
@@ -195,7 +196,10 @@ class DashboardElements extends React.Component {
       anchorEl2: null,
       openDialogProfile: false,
       openDialogMyAccount: false,
-      firstname:''
+      fname:'',
+      lname:'',
+      cont:'',
+      sex:''
     };
     
   
@@ -205,9 +209,42 @@ class DashboardElements extends React.Component {
       firstname:this.props.profile.firstname
     })
   }
-  
-  handleProfileDialogClickOpen = () => {
-    this.setState({ openDialogProfile: true });
+  updateFirstName=(event)=>{
+    this.setState({
+      fname:event.target.value
+    })
+  }
+  updateLastName=()=>{
+    this.setState({
+      lname:event.target.value
+    })
+  }
+  updateContact=()=>{
+    this.setState({
+      cont:event.target.value
+    })
+  }
+  updateSex= name => event =>{
+    this.setState({
+      sex:event.target.value
+    })
+  }
+  ProfileSaveChanges=()=>{
+    console.log(this.state.fname);
+    console.log(this.state.lname);
+    console.log(this.state.cont);
+    console.log(this.state.sex);
+  }
+
+  handleProfileDialogClickOpen = (fname,lname,cont,sex) => {
+    this.setState({ 
+      openDialogProfile: true ,
+      fname:`${fname}`,
+      lname:`${lname}`,
+      cont:`${cont}`,
+      sex:`${sex}`
+    });
+     
   };
   handleProfileDialogClickClose = () => {
     this.setState({ openDialogProfile: false });
@@ -270,11 +307,11 @@ class DashboardElements extends React.Component {
 
   render() {
     console.log(this.props);
-    const {firstname, lastname} = this.props.profile;
+    const {firstname, lastname, contact, sex} = this.props.profile;
     const username = firstname +` ` +lastname;
     const { classes, theme } = this.props;
     const { open , currentPath, anchorEl , anchorEl2} = this.state;
-    console.log(this.state);
+    
     let dash = false;
     let pat = false;
     let med = false;
@@ -412,7 +449,7 @@ class DashboardElements extends React.Component {
                 onClose={this.handleCloseMenu}
                 className={classes.menuItems}
               >
-                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={this.handleProfileDialogClickOpen}>Profile</MenuItem>
+                <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={() => this.handleProfileDialogClickOpen(firstname,lastname,contact,sex)}>Profile</MenuItem>
                 <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={this.handleMyAccountDialogClickOpen}>My account</MenuItem>
                 <MenuItem onClick={this.handleCloseMenu} className={classes.menuItem} onClick={() => this.handleLogout(event)}>Logout</MenuItem>
               </Menu>
@@ -469,6 +506,8 @@ class DashboardElements extends React.Component {
               id="name"
               label="First Name"
               type="text"
+              value={this.state.fname}
+              onChange={this.updateFirstName}
               fullWidth
             />
             <TextField
@@ -476,6 +515,8 @@ class DashboardElements extends React.Component {
               id="name"
               label="Last Name"
               type="text"
+              value={this.state.lname}
+              onChange={this.updateLastName}
               fullWidth
             />
             <TextField
@@ -483,28 +524,24 @@ class DashboardElements extends React.Component {
               id="name"
               label="Contact"
               type="Text"
+              value={this.state.cont}
+              onChange={this.updateContact}
               fullWidth
             />
             <FormControl className={classes.formControl}>
             <InputLabel htmlFor="Sex">Sex</InputLabel>
-            <Select
-              value={this.state.age}
-              onChange={this.handleChange}
-              inputProps={{
-                name: 'age',
-                id: 'age-simple',
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"Male"}>Male</MenuItem>
-              <MenuItem value={"Female"}>Female</MenuItem>
-            </Select>
+              <NativeSelect 
+                defaultValue={this.state.sex}
+                input={<Input name="name" id="Sex"/>}
+                onChange={this.updateSex('name')}
+              >
+                <option value={"Male"}>Male</option>
+                <option value={"Female"}>Female</option>
+              </NativeSelect>
             </FormControl>  
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleProfileDialogClickClose} color="secondary">
+            <Button onClick={this.ProfileSaveChanges} color="secondary">
               Update
             </Button>
             <Button onClick={this.handleProfileDialogClickClose} color="primary">
