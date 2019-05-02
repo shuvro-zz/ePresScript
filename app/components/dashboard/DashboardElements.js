@@ -188,8 +188,9 @@ const styles = theme => ({
 
 
 class DashboardElements extends React.Component {
-  
-    state = {
+  constructor(props: Props, state: any) {
+    super(props);
+    this.state = {
       currentPath: 'dashboard',
       open:true,
       anchorEl: null,
@@ -201,6 +202,12 @@ class DashboardElements extends React.Component {
       cont:'',
       sex:''
     };
+    this.handleClick = this.handleClick.bind(this);
+    console.log("inside Sidebar constructor");
+    console.log(this.props);
+  }
+
+    
     
   
   componentDidMount() {
