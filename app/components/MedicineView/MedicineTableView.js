@@ -119,6 +119,8 @@ class MedicineTableView extends React.Component {
       rows: this.props.medicineState.medicineList,
       page: 0,
       rowsPerPage: 5,
+      searchOn:false,
+      filtered:[]
     };
   }
 
@@ -130,7 +132,19 @@ class MedicineTableView extends React.Component {
   handleChangeRowsPerPage = event => {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
-
+  SearchMedicine = event =>{
+    let keyword = event.target.value;
+    this.setState({
+      searchOn:true
+    });
+    let filtered = this.state.rows.filter((item)=>{
+      return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      filtered:filtered,
+      searching:true
+    })
+  }
   componentWillUnmount(){
     this.setState({
       rows : this.props.medicineState.medicineList
@@ -141,11 +155,29 @@ class MedicineTableView extends React.Component {
     const { classes } = this.props;
     const { rows, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+    const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
+      return(
+        <TableRow key={index}>
+          <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
+          <TableCell component="th" scope="row">{medicine.types}</TableCell>
+          <TableCell component="th" scope="row">{medicine.strength}</TableCell>
+          <TableCell component="th" scope="row">{medicine.indication}</TableCell>
+        </TableRow>
+      )
+    }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((medicine, index) => {
+      return(
+        <TableRow key={index}>
+          <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
+          <TableCell component="th" scope="row">{medicine.types}</TableCell>
+          <TableCell component="th" scope="row">{medicine.strength}</TableCell>
+          <TableCell component="th" scope="row">{medicine.indication}</TableCell>
+        </TableRow>
+      )
+    });
     return (
       <Paper className={classes.root}>
         <div className={classes.medicineListSearch}>
-        <InputBase className={classes.input} placeholder="Search Medicine" />
+        <InputBase className={classes.input} placeholder="Search Medicine" onChange={this.SearchMedicine} />
         <IconButton className={classes.iconButton} aria-label="Search">
           <SearchIcon />
         </IconButton>
@@ -161,16 +193,7 @@ class MedicineTableView extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
-                return(
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
-                    <TableCell component="th" scope="row">{medicine.types}</TableCell>
-                    <TableCell component="th" scope="row">{medicine.strength}</TableCell>
-                    <TableCell component="th" scope="row">{medicine.indication}</TableCell>
-                  </TableRow>
-                )
-              })}
+              {medTable}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
                   <TableCell colSpan={6} />
