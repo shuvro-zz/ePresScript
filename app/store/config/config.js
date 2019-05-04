@@ -9,6 +9,7 @@ const API_CONFIG = {
   LOGIN:`${baseURL}/auth`,
   PROFILE: `${baseURL}/api/v1/user/profile`,
   MEDICINE: `${baseURL}/api/v1/medicine`,
+  TREATMENT: `${baseURL}/api/v1/treatment`,
 };
 
 export default API_CONFIG;

@@ -5,6 +5,7 @@ import medicineState  from '../../features/medicine/reducers';
 import securityState  from '../../features/security/reducers';
 import uiReducer from '../../features/ui/reducer';
 import usermanagementState from '../../features/usermanagement/reducers';
+import treatmentState from '../../features/treatment/reducers';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -13,5 +14,6 @@ export default function createRootReducer(history: History) {
     securityState,
     uiReducer,
     usermanagementState,
+    treatmentState
   });
 }

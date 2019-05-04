@@ -4,9 +4,8 @@ import {constants} from "./constants";
 import {SNACKBAR_OPEN} from '../../features/ui/constants';
 import {profileActions} from "../usermanagement/actions";
 import {medicineActions} from "../medicine/actions";
-import navigateTo from "../navigation";
+import {treatmentActions} from  "../treatment/actions";
 
-const log = require('electron-log');
 const {ipcRenderer} = require('electron');
 
 import type { Store } from '../../store/reducers/types';
@@ -83,7 +82,7 @@ function loadDataInBackground() {
 
       dispatch(profileActions.fetchProfile());
       dispatch(medicineActions.fetchMedicine());
-      //dispatch(fetchData());
+      dispatch(treatmentActions.fetchTreatment());
 
       navigateToFirstPage();
     };
@@ -93,7 +92,6 @@ function loadDataInBackground() {
 }
 
 export function logout(isLoggedIn:boolean) {
-  log.info("Logout request");
   if (isLoggedIn) {
     history.push('/');
   }

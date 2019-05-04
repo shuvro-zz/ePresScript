@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withStyles} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import MedicineTableView from '../../MedicineView/MedicineTableView';
+import MedicineTableView from '../../TableViews/MedicineTableView';
 import medicinedata from '../../../fakedata/medicine-fake';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';

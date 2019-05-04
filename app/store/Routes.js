@@ -14,7 +14,7 @@ const routes = (
     <Switch>
       <ProtectedRoute path="/prescription" component={Presciption} /> /*TODO : Create container for this component*/
       <ProtectedRoute path="/treatment" component={TreatmentContainer} />
-      <ProtectedRoute path="/dashboard" component={DashboardContentContainer} />
+      <ProtectedRoute path="/dashboard" component={TreatmentContainer} />
       <ProtectedRoute path="/medicine" component={MedicineContainer} />
       <ProtectedRoute path="/root" component={RootContainer} />
       <ProtectedRoute path="/patients" component={Patients} />
