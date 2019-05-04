@@ -54,9 +54,6 @@ class Dashboard extends Component{
      history.push(path);
     }
   };
-  componentDidMount() {
-    this.props.fetchMedicine(this.props.securityState.user.access_token);
-  }
 
   render() {
     console.log("Render Dashboard Components");

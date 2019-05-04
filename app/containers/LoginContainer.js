@@ -25,7 +25,8 @@ class LoginContainer extends Component {
       loggingIn,
       fetchProfile
     } = this.props;
-
+    console.log("Login container");
+    console.log(this.props);
     return (
       <Login
         login={login}

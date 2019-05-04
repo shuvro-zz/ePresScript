@@ -1,12 +1,11 @@
 import API_CONFIG from '../../store/config/config';
-const log = require('electron-log');
 
 export const services = {
-  fetchProfile: fetchProfile
+  fetchProfile: fetchProfile,
+  updateProfile: updateProfile
 };
 
 function fetchProfile(access_token) {
-  console.log("profile fetch request");
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' ,
@@ -16,11 +15,23 @@ function fetchProfile(access_token) {
   return fetch(API_CONFIG.PROFILE, requestOptions)
     .then(handleResponse, handleError);
 }
+function updateProfile(access_token , profile) {
+  console.log(profile);
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' ,
+      'Authorization' : 'Bearer ' + access_token},
+    body: JSON.stringify(profile)
+  };
+console.log(requestOptions);
 
+  return fetch(API_CONFIG.PROFILE, requestOptions)
+    .then(handleResponse, handleError);
+}
 function handleResponse(response: any) {
   return new Promise((resolve: any, reject: any) => {
+    console.log(response);
     if (response.ok) {
-      console.log("Profile : " + response);
       var contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         response.json().then((json: any) => resolve(json));
@@ -28,7 +39,6 @@ function handleResponse(response: any) {
         resolve();
       }
     } else {
-      console.log(response);
       response.text().then((text: string) => reject(text));
     }
   });

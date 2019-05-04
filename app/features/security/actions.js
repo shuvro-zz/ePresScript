@@ -1,38 +1,48 @@
 import {services} from "./services";
-//import type {UserType} from "../types/common/UserType";
 import {history} from "../../store/configureStore";
 import {constants} from "./constants";
 import {SNACKBAR_OPEN} from '../../features/ui/constants';
-
-import {fetchProfile} from "../usermanagement";
+import {profileActions} from "../usermanagement/actions";
+import {medicineActions} from "../medicine/actions";
+import navigateTo from "../navigation";
 
 const log = require('electron-log');
 const {ipcRenderer} = require('electron');
 
+import type { Store } from '../../store/reducers/types';
 
 export const securityActions = {
   login,
   logout,
   setUserName,
   setPassword,
-  setSubmitted
+  setSubmitted,
+  fetchData
 };
 
-export function login(username: string, password: string) {
-  return (dispatch: any) => {
-    dispatch(request({ username }));
 
+export function login(username: string, password: string) {
+  console.log("login request !");
+
+  return (dispatch , getState: Store) => {
+    dispatch(request({ username }));
     services.login(username, password)
       .then(
         (user) => {
 
           if (user) {
             ipcRenderer.send('resize-me-please', false);
+
+
+
             dispatch(success(user));
+            dispatch(loadDataInBackground());
             //Fetch other necessary stuff
+            //dispatch(profileActions.fetchProfile());
+            //dispatch(medicineActions.fetchMedicine());
 
-            history.push('/dashboard');
 
+            //history.push('/dashboard');
           } else {
             const errorString = `Please Check Your Credentials!`;
             console.log(errorString);
@@ -46,7 +56,9 @@ export function login(username: string, password: string) {
       );
   };
 
-  function request(user: {username: string}) { return { type: constants.LOGIN_REQUEST, user } }
+  function request(user: {username: string}) {
+
+    return { type: constants.LOGIN_REQUEST, user } }
   function success(user: Object ){
 
     return {
@@ -59,6 +71,24 @@ export function login(username: string, password: string) {
       message: error,
       variant: 'error'
     }
+  }
+}
+function navigateToFirstPage() {
+  history.push('/dashboard');
+}
+
+function loadDataInBackground() {
+  try {
+    return (dispatch: any) => {
+
+      dispatch(profileActions.fetchProfile());
+      dispatch(medicineActions.fetchMedicine());
+      //dispatch(fetchData());
+
+      navigateToFirstPage();
+    };
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -86,7 +116,20 @@ export function setUserName(username: string) {
     }
   }
 }
+export function fetchData() {
 
+  return (dispatch: any) => {
+    dispatch(go());
+
+  };
+
+  function go() {
+    return {
+      type: constants.FETCH_DATA_SUCCESS,
+      fetchedData: true
+    }
+  }
+}
 
 export function setPassword(password: string) {
   return (dispatch: any) => {

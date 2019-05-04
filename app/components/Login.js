@@ -13,9 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { withStyles } from '@material-ui/core/styles';
 import Background from '../assets/page.jpg';
-
-import type {LoginFormStateType} from "../types/state/LoginFormStateType";
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const styles = theme => ({
@@ -23,6 +21,9 @@ const styles = theme => ({
       flexGrow: 1,
       height: "100%",
     },
+  circularProgress: {
+    margin: theme.spacing.unit * 2,
+  },
     loginComponent: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
@@ -217,7 +218,13 @@ class Login extends Component{
                     >
                         Login
                     </Button></center>
-                    </form>
+                      {loggingIn
+                        ? (
+                          <CircularProgress className={classes.circularProgress}/>
+                        ) : null
+
+                      }
+                        </form>
                 </Paper>
                 </Grid>
             </Grid>

@@ -1,6 +1,7 @@
 import {
-  fetchProfile} from './actions';
+  fetchProfile , updateProfile} from './actions';
 
 export {
-  fetchProfile
+  fetchProfile,
+  updateProfile
 };

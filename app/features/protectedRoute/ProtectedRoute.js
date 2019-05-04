@@ -13,14 +13,15 @@ class ProtectedRoute extends PureComponent {
     const {
       component: Component,
       loggedIn,
+      location,
       ...rest
     } = this.props;
     return (
       <Route
-        {...rest}
+        {...rest} location={location}
         render={props => (loggedIn
           ? (
-            <Component {...props} />
+            <Component {...props} location={location} />
           )
           : (
             <Redirect
