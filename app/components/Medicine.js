@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import MedicineViewTest from "./MedicineView/MedicineTableView";
+import MedicineViewTest from "./TableViews/MedicineTableView";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
