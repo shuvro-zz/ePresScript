@@ -1,6 +1,7 @@
 import {constants} from './constants';
 import {services} from "./services";
-import {SNACKBAR_OPEN} from "../../features/ui/constants";
+import {SNACKBAR_OPEN} from "../ui/constants";
+import type {Store} from "../../store/reducers/types";
 
 export const medicineActions = {
   setForm,
@@ -121,10 +122,11 @@ export function saveMedicine(value: object) {
   }
 }
 
-export function fetchMedicine(access_token) {
-  console.log("inside fetchMedicine()");
-  console.log(access_token);
-  return (dispatch: any) => {
+export function fetchMedicine() {
+  return (dispatch , getState: Store) => {
+    const { securityState } = getState();
+    const { access_token } = securityState.user;
+
     dispatch(request());
     services.fetchMedicine(access_token)
       .then(

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,10 +25,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Badge from "@material-ui/core/Badge/Badge";
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+
 import Divider from '@material-ui/core/Divider';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Button from '@material-ui/core/Button';
@@ -35,7 +34,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -187,8 +185,8 @@ const styles = theme => ({
 });
 
 
-class DashboardElements extends React.Component {
-  constructor(props: Props, state: any) {
+class DashboardElements extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       currentPath: 'dashboard',
@@ -200,63 +198,83 @@ class DashboardElements extends React.Component {
       fname:'',
       lname:'',
       cont:'',
-      sex:''
+      firstname:'',
+      lastname: '',
+      sex: '',
+      contact: ''
     };
-    this.handleClick = this.handleClick.bind(this);
-    console.log("inside Sidebar constructor");
+    console.log("inside DashboardElements , Props :");
     console.log(this.props);
+    this.handleClick = this.handleClick.bind(this);
+
   }
 
-    
-    
-  
-  componentDidMount() {
-    this.props.fetchProfile(this.props.securityState.user.access_token);
+  componentWillMount(){
     this.setState({
-      firstname:this.props.profile.firstname
+      firstname:this.props.usermanagementState.profile.firstname,
+      lastname:this.props.usermanagementState.profile.lastname,
+      sex:this.props.usermanagementState.profile.sex,
+      contact:this.props.usermanagementState.profile.contact,
     })
   }
+
+  componentDidUpdate(prevProps) {
+    console.log("Updating Dashboard Element Component");
+    if (this.props.usermanagementState.profile !== prevProps.usermanagementState.profile) {
+      this.setState({
+        firstname:this.props.usermanagementState.profile.firstname,
+        lastname:this.props.usermanagementState.profile.lastname,
+        sex:this.props.usermanagementState.profile.sex,
+        contact:this.props.usermanagementState.profile.contact,
+      })
+    }
+  }
+
   updateFirstName=(event)=>{
     this.setState({
       fname:event.target.value
     })
-  }
+  };
   updateLastName=()=>{
     this.setState({
       lname:event.target.value
     })
-  }
+  };
   updateContact=()=>{
     this.setState({
       cont:event.target.value
     })
-  }
+  };
   updateSex= name => event =>{
     this.setState({
       sex:event.target.value
     })
-  }
+  };
   ProfileSaveChanges=()=>{
-    console.log(this.state.fname);
-    console.log(this.state.lname);
-    console.log(this.state.cont);
-    console.log(this.state.sex);
-  }
+    const profile = {
+      firstname: this.state.fname,
+      lastname: this.state.lname,
+      contact: this.state.cont,
+      sex: this.state.sex
+    };
+    this.props.updateProfile(profile);
+    console.log(profile);
+  };
 
   handleProfileDialogClickOpen = (fname,lname,cont,sex) => {
-    this.setState({ 
+    this.setState({
       openDialogProfile: true ,
       fname:`${fname}`,
       lname:`${lname}`,
       cont:`${cont}`,
       sex:`${sex}`
     });
-     
+
   };
   handleProfileDialogClickClose = () => {
     this.setState({ openDialogProfile: false });
   };
-  
+
   handleMyAccountDialogClickOpen = () => {
     this.setState({ openDialogMyAccount: true });
   };
@@ -270,14 +288,6 @@ class DashboardElements extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
-  };
-
-  handleClickNotification = event => {
-    this.setState({ anchorEl2: event.currentTarget });
-  };
-
-  handleCloseNotification = () => {
-    this.setState({ anchorEl2: null });
   };
 
   handleClickMenu = event => {
@@ -313,12 +323,13 @@ class DashboardElements extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    const {firstname, lastname, contact, sex} = this.props.profile;
+    const {firstname, lastname, contact, sex} = this.state;
     const username = firstname +` ` +lastname;
-    const { classes, theme } = this.props;
+
+    const { classes, theme } = this.props; //location doesnt work in this component!
+
     const { open , currentPath, anchorEl , anchorEl2} = this.state;
-    
+
     let dash = false;
     let pat = false;
     let med = false;
@@ -414,28 +425,6 @@ class DashboardElements extends React.Component {
               />
             </div>
             <div className={classes.sectionDesktop}>
-              <IconButton
-                color="inherit"
-                aria-owns={anchorEl2 ? 'simple-menu2' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleClickNotification}
-              >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <Menu
-                id="simple-menu2"
-                anchorEl={anchorEl2}
-                open={Boolean(anchorEl2)}
-                onClose={this.handleCloseNotification}
-                className={classes.menuItems}
-              >
-                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>You have listed a new medicine</MenuItem>
-                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>Your monthly report is ready</MenuItem>
-                <MenuItem onClick={this.handleCloseNotification} className={classes.menuItem}>You have listed a new medicine</MenuItem>
-              </Menu>
-              {/* still need to fix handleProfileMenuOpen*/}
               <IconButton
                 disabled={true}
               >
@@ -537,7 +526,7 @@ class DashboardElements extends React.Component {
             />
             <FormControl className={classes.formControl}>
             <InputLabel htmlFor="Sex">Sex</InputLabel>
-              <NativeSelect 
+              <NativeSelect
                 defaultValue={this.state.sex}
                 input={<Input name="name" id="Sex"/>}
                 onChange={this.updateSex('name')}
@@ -545,14 +534,14 @@ class DashboardElements extends React.Component {
                 <option value={"Male"}>Male</option>
                 <option value={"Female"}>Female</option>
               </NativeSelect>
-            </FormControl>  
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.ProfileSaveChanges} color="secondary">
               Update
             </Button>
             <Button onClick={this.handleProfileDialogClickClose} color="primary">
-              Close 
+              Close
             </Button>
           </DialogActions>
         </Dialog>
@@ -579,10 +568,10 @@ class DashboardElements extends React.Component {
               />
               <br/>
               <Button style={{background:'#59B0F6',color:'white'}}>Save Changes</Button>
-          
+
               <br/>
               <br/>
-              
+
               <br/>
               <br/>
             <TextField
@@ -592,7 +581,7 @@ class DashboardElements extends React.Component {
                 type="text"
                 fullWidth
               />
-             
+
               <TextField
                 margin="dense"
                 id="name"
@@ -609,46 +598,6 @@ class DashboardElements extends React.Component {
               />
               <br/>
               <Button style={{background:'#59B0F6',color:'white'}}>Save Changes</Button>
-            
-            {/* <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="First Name"
-              type="text"
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="name"
-              label="Last Name"
-              type="text"
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="name"
-              label="Contact"
-              type="Text"
-              fullWidth
-            />
-            <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="Sex">Sex</InputLabel>
-            <Select
-              value={this.state.age}
-              onChange={this.handleChange}
-              inputProps={{
-                name: 'age',
-                id: 'age-simple',
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"Male"}>Male</MenuItem>
-              <MenuItem value={"Female"}>Female</MenuItem>
-            </Select>
-            </FormControl>   */}
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleMyAccountDialogClickClose} color="primary">

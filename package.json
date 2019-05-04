@@ -134,6 +134,9 @@
       "jsx",
       "json"
     ],
+    "unmockedModulePathPatterns": [
+      "/qs"
+    ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },

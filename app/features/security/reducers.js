@@ -16,6 +16,7 @@ if (userstring) {
     user: user,
     loggedIn: true,
     loggingIn: false,
+    fetchedData: false,
     error: ""
   };
 } else {
@@ -23,6 +24,7 @@ if (userstring) {
     user: null,
     loggedIn: false,
     loggingIn: false,
+    fetchedData: false,
     error: ""
   };
 }
@@ -35,6 +37,7 @@ export default function securityState(state: any = initialState, action) {
         user: action.user,
         loggedIn: false,
         loggingIn: true,
+        fetchedData: false,
         error: ""
       };
     case constants.LOGIN_SUCCESS:
@@ -43,6 +46,7 @@ export default function securityState(state: any = initialState, action) {
         user: action.user,
         loggedIn: true,
         loggingIn: false,
+        fetchedData: false,
         error: ""
       };
     case constants.LOGIN_FAILURE:
@@ -51,6 +55,7 @@ export default function securityState(state: any = initialState, action) {
         user: null,
         loggedIn: false,
         loggingIn: false,
+        fetchedData: false,
         error: action.error
       };
     case constants.LOGOUT:
@@ -59,8 +64,10 @@ export default function securityState(state: any = initialState, action) {
         user: null,
         loggedIn: false,
         loggingIn: false,
+        fetchedData: false,
         error: ""
       };
+
     default:
       return state;
   }

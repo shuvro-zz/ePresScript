@@ -1,6 +1,8 @@
 import DB from "../../models";
 import API_CONFIG from "../../store/config/config";
+
 const log = require('electron-log');
+
 export const services = {
   saveMedicine: saveMedicine,
   fetchMedicine: fetchMedicine
@@ -14,7 +16,6 @@ async function saveMedicine(value) {
 }
 
 function fetchMedicine(access_token) {
-  console.log("medicine fetch request");
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' ,
@@ -27,7 +28,6 @@ function fetchMedicine(access_token) {
 function handleResponse(response: any) {
   return new Promise((resolve: any, reject: any) => {
     if (response.ok) {
-      console.log("Response : " + response);
       var contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         response.json().then((json: any) => resolve(json));
@@ -35,7 +35,6 @@ function handleResponse(response: any) {
         resolve();
       }
     } else {
-      console.log(response);
       response.text().then((text: string) => reject(text));
     }
   });

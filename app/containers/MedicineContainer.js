@@ -16,8 +16,7 @@ const mapDispatchToProps = {
 class MedicineContainer extends Component {
   constructor(props) {
     super(props);
-    console.log("Medicine Container");
-    console.log(this.props);
+
     // if the accessToken is valid, redirect to homepage
     //const { accessTokenIsValid, navigateToAlias } = this.props;
   }
@@ -28,7 +27,8 @@ class MedicineContainer extends Component {
       loggingIn,
       setSubmitted, saveMedicine, setRemark, setFrequency, fetchMedicine, setStrength, setName, setForm, medicineState, securityState
     } = this.props;
-
+    console.log("Medicine Container");
+    console.log(this.props);
     return (
       <Medicine setSubmitted={setSubmitted}
                 saveMedicine={saveMedicine}
