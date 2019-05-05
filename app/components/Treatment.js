@@ -5,7 +5,6 @@ import TreatmentTableView from './TableViews/TreatmentTableView';
 
 const styles = theme => ({
   treatment: {
-    width: '100%',
     height: '100%',
     marginTop: theme.spacing.unit * 8,
   }
@@ -35,7 +34,6 @@ class Treatment extends React.Component{
       const {treatment } = this.props.treatmentState;
     return (
       <div className={classes.treatment}>
-        <h1> Treatment </h1>
        <TreatmentTableView  treatment={treatment}/>
       </div>
     );

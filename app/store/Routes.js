@@ -10,6 +10,9 @@ import ForgetPassword from '../components/forgetPassword';
 import Patients from '../components/Patient';
 import Patient from '../components/PatientProfile';
 import Presciption from '../components/PrescriptionWritting';
+import SettingsContainer from '../containers/SettingsContainer';
+import HelpContainer from '../containers/HelpContainer';
+
 const routes = (
     <Switch>
       <ProtectedRoute path="/prescription" component={Presciption} /> /*TODO : Create container for this component*/
@@ -19,6 +22,8 @@ const routes = (
       <ProtectedRoute path="/root" component={RootContainer} />
       <ProtectedRoute path="/patients" component={Patients} />
       <ProtectedRoute path="/patient" component={Patient} />/*WHY there are two patient ?? TODO : Create container for this component*/
+      <ProtectedRoute path="/settings" component={SettingsContainer} />
+      <ProtectedRoute path="/help" component={HelpContainer} />
       <Route path="/" exact component={LoginContainer} />
       <Route path="/forgetPassword" exact component={ForgetPassword} />
     </Switch>

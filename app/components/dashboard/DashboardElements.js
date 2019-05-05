@@ -334,8 +334,16 @@ class DashboardElements extends Component {
     let pat = false;
     let med = false;
     let treat = false;
+    let sett = false;
+    let help = false;
     if(this.state.currentPath == 'dashboard'){
       dash = true;
+    }
+    if(this.state.currentPath == 'settings'){
+      sett = true;
+    }
+    if(this.state.currentPath == 'help'){
+      help = true;
     }
     else if(this.state.currentPath == 'patients'){
       pat = true;
@@ -378,13 +386,15 @@ class DashboardElements extends Component {
     );
     const secondaryItems = (
       <div>
-        <ListItem button>
+        <ListItem button
+                  onClick={() => this.handleClick('help')} className={ help?`${classes.active}`:null }>
           <ListItemIcon>
             <LiveHelp />
           </ListItemIcon>
           <ListItemText primary="Help Center" />
         </ListItem>
-        <ListItem button>
+        <ListItem button
+                  onClick={() => this.handleClick('settings')} className={ sett?`${classes.active}`:null }>
           <ListItemIcon>
             <Settings />
           </ListItemIcon>
