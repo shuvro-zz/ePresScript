@@ -178,17 +178,24 @@ class TreatmentTableView extends React.Component {
       treatmentName: name
     });
   }
+
+  componentWillMount(){
+    this.setState({
+      rows: this.props.treatmentState.treatment
+    })
+  }
+
   componentDidUpdate(prevProps){
-    if (this.props.treatment !== prevProps.treatment) {
+    if (this.props.treatmentState.treatment !== prevProps.treatmentState.treatment) {
       this.setState({
-        rows:this.props.treatment
+        rows: this.props.treatmentState.treatment
       })
     }
   }
   render() {
     console.log("Inside Treatment Table View");
     console.log(this.props);
-    console.log(this.state.rows);
+    console.log(this.state);
     const { classes } = this.props;
     const { rows, rowsPerPage, page , medicine , treatmentName} = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -239,7 +246,7 @@ class TreatmentTableView extends React.Component {
         </IconButton>
         </div>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} onRowSelection= {this.handleCellClick} >
+          <Table className={classes.table}>
             <TableHead>
               <TableRow >
                 <TableCell>Name</TableCell>
