@@ -16,25 +16,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   medicineComponent: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit*2,
-    [theme.breakpoints.up(800)]: {
-      width: 'auto',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  absolute: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 3,
-  },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
+    height: 'auto',
+    marginTop: theme.spacing.unit * 8,
   },
   form: {
     width: '100%', // Fix IE 11 issue.

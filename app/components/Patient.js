@@ -29,7 +29,7 @@ const styles = theme => ({
 		padding: '5%',
 		backgroundColor: '#f0f1f6',
 		paddingTop: '80px',
-		height:'100%',
+		height:'auto',
 	},
     patientContents:{
 	  padding:'5%',
@@ -155,7 +155,7 @@ class Patient extends React.Component{
 		patientName:''
 
 	};
-	
+
 	handleClickdeletePatient=(item,name)=>{
 		console.log(name);
 		this.setState({deleteId:item});
@@ -182,10 +182,10 @@ class Patient extends React.Component{
 			searching:true
 		})
 	};
-	
+
 	render(){
 		const { classes } = this.props;
-		
+
 		const items = !this.state.searching ? this.state.patients.map((item)=>{
 			return(
 				<Grid key={item.id} item xs={6} className={classes.leftGrid}>
@@ -254,8 +254,8 @@ class Patient extends React.Component{
 					}
 					/>
 				</Card>
-				
-				
+
+
 			</Grid>
 		)
 });

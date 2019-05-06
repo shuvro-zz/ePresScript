@@ -5,7 +5,6 @@ import TreatmentTableView from './TableViews/TreatmentTableView';
 
 const styles = theme => ({
   treatment: {
-    width: '100%',
     height: '100%',
     marginTop: theme.spacing.unit * 8,
   }
