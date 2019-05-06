@@ -6216,6 +6216,11 @@ ignore@^5.0.4:
   version "5.0.4"
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.0.4.tgz#33168af4a21e99b00c5d41cbadb6a6cb49903a45"
 
+imagemagick@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/imagemagick/-/imagemagick-0.1.3.tgz#7483cea093b4d9f2e2f396857adc8821b537c56a"
+  integrity sha1-dIPOoJO02fLi85aFetyIIbU3xWo=
+
 immutability-helper@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-3.0.0.tgz#a74e989c60e2ddab85a6abeed8078981b2d13271"
@@ -9659,11 +9664,6 @@ pretty-format@^23.6.0:
   dependencies:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
-
-printer@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/printer/-/printer-0.2.2.tgz#830b8f5c97b97fd9b464d4f4e105d43337792296"
-  integrity sha1-gwuPXJe5f9m0ZNT04QXUMzd5IpY=
 
 private@^0.1.6, private@^0.1.8:
   version "0.1.8"
