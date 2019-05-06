@@ -15,28 +15,17 @@ class Treatment extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state={
-      treatment:[]
-    }
   }
 
-  componentDidUpdate(prevProps){
-    if (this.props.treatmentState.treatment !== prevProps.treatmentState.treatment) {
-      this.setState({
-        treatment:this.props.treatmentState.treatment
-      })
-    }
-  }
 
     render() {
     const { classes } = this.props;
       console.log('in Treatment Component');
-      console.log(this.state);
-      const {treatment } = this.props.treatmentState;
+      const {treatmentState } = this.props;
+
     return (
       <div className={classes.treatment}>
-        <h1> Treatment </h1>
-       <TreatmentTableView  treatment={treatment}/>
+       <TreatmentTableView  treatmentState={treatmentState}/>
       </div>
     );
   }
