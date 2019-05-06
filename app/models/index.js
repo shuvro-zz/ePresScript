@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
 //const config = require(__dirname + '/../config/config.json')[env];
 const modelDirectory = path.join(__dirname, '/models');
+
 let dbDirectory = path.join(__dirname, process.env.NODE_ENV ==='development' ? '/db/development.db' : '/db/production.db');
 const log = require('electron-log');
 

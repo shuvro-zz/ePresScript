@@ -12,7 +12,10 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+const { remote } = require('electron');
+const path = require('path');
+
+const env = process.env.NODE_ENV || 'development';
 
 import {IconSettingsPrinter , IconSettingsDocument} from '../assets';
 
@@ -30,9 +33,10 @@ const styles = theme => ({
     display: 'inline-block',
     listStyleType: 'none',
     padding: '20px 10px 20px 10px',
-    width: '400px',
+    width: 'auto',
     height: '200px',
-    position: 'relative'
+    position: 'relative',
+    margin: 'inherit'
   },
   printerElm:{
     textAlign:'center'
@@ -54,6 +58,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
   },
 });
+let printWindow;
 
 
 function TabContainer(props) {
@@ -90,8 +95,13 @@ class Settings extends React.Component{
   }
 
   componentDidMount(){
+    const { BrowserWindow, dialog, shell } = remote;
+    printWindow = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
+    printWindow.loadFile('/db/test.pdf');
+    let list = printWindow.webContents.getPrinters();
+
     this.setState( {
-      printers : []
+      printers : list
     })
   }
 
@@ -101,6 +111,7 @@ class Settings extends React.Component{
 
   handleChange = panel => (event, expanded) => {
     event.preventDefault();
+
     this.setState({
       expanded: expanded ? panel : false,
     });
@@ -109,26 +120,21 @@ class Settings extends React.Component{
   setDefaultPrinter = p => (event) => {
     event.preventDefault();
     this.setState({
-      defaultPrinter: []
+      defaultPrinter: p
     });
-    const test  = printer.getPrinter(p);
-
-    console.log(test);
   };
 
   testPrint = p => (event) => {
     event.preventDefault();
+    let dbDirectory = path.join(__dirname, process.env.NODE_ENV ==='development' ? '/db/test.pdf' : '/db/test.pdf');
 
-    const selectedPrinter  = printer.getPrinter(p);
-    console.log(selectedPrinter);
-    console.log("Sending test print");
-    const { remote } = require('electron');
+    console.log(dbDirectory);
     const { BrowserWindow, dialog, shell } = remote;
-    let printWindow = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
-    printWindow.loadURL("www.google.com");
-    let list = printWindow.webContents.getPrinters();
-    console.log("All printer available are ",list);
-
+     let test = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
+    let contents = test.webContents;
+    contents.loadFile(dbDirectory);
+    console.log(contents);
+    contents.print({ silent: true, printBackground: true, deviceName: p });
 
   };
 
