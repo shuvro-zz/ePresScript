@@ -63,7 +63,7 @@ const muiTheme = createMuiTheme({
       },
       noWrap:{
         overflow:'visible',
-      }
+      },
     },
     MuiListItemIcon:{
       root:{
@@ -80,6 +80,11 @@ const muiTheme = createMuiTheme({
         backgroundColor: "inherit"
       }
     },
+    MuiExpansionPanelSummary:{
+      content:{
+        paddingRight: '0px'
+      }
+    }
   },
   // this is the colour palette
   palette: {

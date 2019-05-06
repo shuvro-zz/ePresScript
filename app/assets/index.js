@@ -1,6 +1,7 @@
-import {IconSettingsPrinter} from './Icons';
+import {IconSettingsPrinter , IconSettingsDocument} from './Icons';
 
 
 export {
-  IconSettingsPrinter
+  IconSettingsPrinter,
+  IconSettingsDocument
 };
