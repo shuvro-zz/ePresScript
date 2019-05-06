@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import printer from 'printer';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -92,7 +91,7 @@ class Settings extends React.Component{
 
   componentDidMount(){
     this.setState( {
-      printers : printer.getPrinters()
+      printers : []
     })
   }
 
@@ -110,7 +109,7 @@ class Settings extends React.Component{
   setDefaultPrinter = p => (event) => {
     event.preventDefault();
     this.setState({
-      defaultPrinter: p
+      defaultPrinter: []
     });
     const test  = printer.getPrinter(p);
 
@@ -123,14 +122,14 @@ class Settings extends React.Component{
     const selectedPrinter  = printer.getPrinter(p);
     console.log(selectedPrinter);
     console.log("Sending test print");
-    printer.printDirect({data:"Print Test!!! From APP!" // or simple String: "some text"
-      , printer: p // printer name, if missing then will print to default printer
-      , type: 'RAW' // type: RAW, TEXT, PDF, JPEG, .. depends on platform
-      , success:function(jobID){
-        console.log("sent to printer with ID: "+jobID);
-      }
-      , error:function(err){console.log(err);}
-    });
+    const { remote } = require('electron');
+    const { BrowserWindow, dialog, shell } = remote;
+    let printWindow = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
+    printWindow.loadURL("www.google.com");
+    let list = printWindow.webContents.getPrinters();
+    console.log("All printer available are ",list);
+
+
   };
 
   render(){
