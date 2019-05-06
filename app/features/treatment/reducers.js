@@ -6,7 +6,7 @@ import {constants} from "./constants";
 
 let initialState = {
   submitted: false,
-  treatment: "",
+  treatment: [],
   isProcessing: false,
   processed: false,
   error: false
