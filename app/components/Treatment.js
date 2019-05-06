@@ -16,14 +16,15 @@ class Treatment extends React.Component{
     super(props);
   }
 
+
     render() {
     const { classes } = this.props;
       console.log('in Treatment Component');
+      const {treatmentState } = this.props;
 
-      const {treatment } = this.props.treatmentState;
     return (
       <div className={classes.treatment}>
-       <TreatmentTableView  treatment={treatment}/>
+       <TreatmentTableView  treatmentState={treatmentState}/>
       </div>
     );
   }
