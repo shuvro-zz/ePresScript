@@ -193,6 +193,12 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  TableCell:{
+    '&:hover': {
+      background:'#f0f0f0',
+      cursor:'pointer',
+    }
+  }
 });
 
 class EnhancedTable extends React.Component {
@@ -293,7 +299,7 @@ class EnhancedTable extends React.Component {
                   const isSelected = this.isSelected(n.id);
                   return (
                     <TableRow
-                      hover
+                      className={classes.TableCell}
                       onClick={event => this.handleClick(event, n.medicine_id)}
                       role="checkbox"
                       aria-checked={isSelected}

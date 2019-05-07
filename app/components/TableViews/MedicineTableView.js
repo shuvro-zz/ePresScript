@@ -89,8 +89,9 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '96%',
     marginTop: theme.spacing.unit * 12,
+    marginLeft:'2%'
   },
   table: {
     minWidth: 500,
@@ -107,7 +108,7 @@ const styles = theme => ({
   },
   medicineListSearch: {
     padding: 10,
-  }
+  },
 });
 
 class MedicineTableView extends React.Component {
@@ -178,7 +179,7 @@ class MedicineTableView extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.medicineListSearch}>
         <InputBase className={classes.input} placeholder="Search Medicine" onChange={this.SearchMedicine} />
-        <IconButton className={classes.iconButton} aria-label="Search">
+        <IconButton className={classes.iconButton} aria-label="Search" disabled>
           <SearchIcon />
         </IconButton>
         </div>
@@ -204,7 +205,7 @@ class MedicineTableView extends React.Component {
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
+                  colSpan={2}
                   count={rows.length}
                   rowsPerPage={rowsPerPage}
                   page={page}

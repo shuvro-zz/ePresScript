@@ -97,8 +97,9 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '96%',
     marginTop: theme.spacing.unit * 12,
+    marginLeft:'2%'
   },
   table: {
     minWidth: 500,
@@ -116,9 +117,11 @@ const styles = theme => ({
   medicineListSearch: {
     padding: 10,
   },
-  medicineView: {
-    minWidth: 450,
-    width: 600
+  TableCell:{
+    '&:hover': {
+      background:'#f0f0f0',
+      cursor:'pointer',
+    }
   }
 });
 
@@ -201,16 +204,16 @@ class TreatmentTableView extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (treatment, index) => {
       return(
-        <TableRow key={index} hover onClick={() => {
+        <TableRow className={classes.TableCell} key={index} onClick={() => {
           this.handleChange(index , treatment);
         }}>
-          <TableCell component="th" scope="row">{treatment.name}</TableCell>
-          <TableCell component="th" scope="row">{treatment.description}</TableCell>
+          <TableCell  component="th" scope="row">{treatment.name}</TableCell>
+          <TableCell  component="th" scope="row">{treatment.description}</TableCell>
         </TableRow>
       )
     }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((treatment, index) => {
       return(
-        <TableRow key={index} hover onClick={() => {
+        <TableRow className={classes.TableCell} key={index} onClick={() => {
           this.handleChange(index , treatment);
         }}>
           <TableCell component="th" scope="row">{treatment.name}</TableCell>
@@ -220,8 +223,10 @@ class TreatmentTableView extends React.Component {
     });
     return (
       <Paper className={classes.root}>
-        <div className={classes.medicineView}>
+        <div>
           <Dialog
+            fullWidth = {true}
+            maxWidth = "xl"
             open={this.state.openMedicineDetail}
             onClose={this.handleClose}
             aria-labelledby="draggable-dialog-title"
@@ -265,7 +270,7 @@ class TreatmentTableView extends React.Component {
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
+                  colSpan={2}
                   count={rows.length}
                   rowsPerPage={rowsPerPage}
                   page={page}

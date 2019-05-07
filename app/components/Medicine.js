@@ -33,6 +33,8 @@ const styles = theme => ({
     position: 'relative',
     zIndex:'100',
     float: 'right',
+    marginRight:'3%',
+    marginTop:'1%'
   }
 });
 
@@ -254,7 +256,7 @@ class Medicine extends Component {
           <div>
             <div className={classes.addMedicineBtn}>
             <Tooltip title="Add" aria-label="Add">
-              <Fab color="secondary" onClick={this.handleClickOpen}>
+              <Fab color="secondary" size="small" onClick={this.handleClickOpen}>
                 <AddIcon />
               </Fab>
             </Tooltip>
