@@ -23,6 +23,7 @@ const styles = theme => ({
     },
   circularProgress: {
     margin: theme.spacing.unit * 2,
+    marginLeft: '125px',
   },
     loginComponent: {
         width: 'auto',
