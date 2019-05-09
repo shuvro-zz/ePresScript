@@ -1,0 +1,120 @@
+[
+  {
+    "treatment_id": 1,
+    "name": "Migrane",
+    "description": "All medicine related to migrane pain",
+    "treatment_medicine_list": [
+      {
+        "medicine_id": 829,
+        "product_name": "Napro-250 Tablet",
+        "type": "tablet",
+        "generic": "Naproxen",
+        "strength": "250mg",
+        "indication": "",
+        "frequency": "1+0+1",
+        "checked": true
+      },
+      {
+        "medicine_id": 830,
+        "product_name": "Napro-500 Tablet",
+        "type": "tablet",
+        "generic": "Naproxen",
+        "strength": "500mg",
+        "indication": "",
+        "frequency": "1+0+1",
+        "checked": true
+      },
+      {
+        "medicine_id": 748,
+        "product_name": "Aspin Plus Tablet",
+        "type": "tablet",
+        "generic": "Aspirin + Clopidogrel ",
+        "strength": "75 mg+75 mg",
+        "indication": "",
+        "frequency": "1+0+1",
+        "checked": true
+      }
+    ]
+  },
+  {
+    "treatment_id": 2,
+    "name": "Irritable Bowel Syndrom",
+    "description": "All medicine related to Irritable Bowel Syndrom",
+    "treatment_medicine_list": [
+      {
+        "medicine_id": 839,
+        "product_name": "Timotor ",
+        "type": "tablet",
+        "generic": "Naproxen",
+        "strength": "250mg",
+        "indication": "After Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      },
+      {
+        "medicine_id": 820,
+        "product_name": "Trupan",
+        "type": "tablet",
+        "generic": "Naproxen",
+        "strength": "20mg",
+        "indication": "Before Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      }
+    ]
+  },
+  {
+    "treatment_id": 3,
+    "name": "Diarrhea",
+    "description": "All medicine related to Diarrhea",
+    "treatment_medicine_list": [
+      {
+        "medicine_id": 839,
+        "product_name": "Siprosin",
+        "type": "tablet",
+        "generic": "Naproxen",
+        "strength": "500mg",
+        "indication": "After Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      },
+      {
+        "medicine_id": 820,
+        "product_name": "Trupan",
+        "type": "tablet",
+        "generic": "Pantoprazole",
+        "strength": "20mg",
+        "indication": "Before Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      }
+    ]
+  },
+  {
+    "treatment_id": 4,
+    "name": "Dysentery",
+    "description": "All medicine related to Dysentery",
+    "treatment_medicine_list": [
+      {
+        "medicine_id": 839,
+        "product_name": "Flagyl",
+        "type": "tablet",
+        "generic": "Metronidazole",
+        "strength": "400mg",
+        "indication": "After Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      },
+      {
+        "medicine_id": 820,
+        "product_name": "Trupan",
+        "type": "tablet",
+        "generic": "Pantoprazole",
+        "strength": "20mg",
+        "indication": "Before Meal",
+        "frequency": "1+0+1",
+        "checked": true
+      }
+    ]
+  }
+]

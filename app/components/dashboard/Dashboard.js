@@ -8,11 +8,10 @@ import {history} from "../../store/configureStore";
 import CloudUploadIcon from '@material-ui/icons/Subject';
 
 const styles = theme => ({
-  main: {
-    width: 'auto',
+  dashboardComponent: {
+    height: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+
     marginTop: theme.spacing.unit * 20,
     [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
@@ -36,12 +35,12 @@ const styles = theme => ({
   },
 });
 
-class Dashboard extends React.Component<Props, any> {
+class Dashboard extends Component{
 
-  constructor(props: Props, state: any) {
+  constructor(props) {
     super(props);
     console.log('in Dashboard constructor');
-    console.log(props);
+    console.log(this.props);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -50,22 +49,16 @@ class Dashboard extends React.Component<Props, any> {
     const { currentPath } = this.props.location;
     // if the clicked item is not the already selected item, it gets selected
     if (currentPath !== requestedPath) {
-      // this.setState({
-      //   currentPath: requestedPath,
-      // });
-      // insert a slash before the requested path to make it a path
       const path = `/${requestedPath}`;
-      console.log(path);
      history.push(path);
     }
   };
 
   render() {
-
     console.log("Render Dashboard Components");
     const { classes, theme } = this.props;
     return (
-      <main className={classes.main}>
+      <main className={classes.dashboardComponent}>
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography component="h4" variant="h5">

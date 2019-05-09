@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "Napa",
+    "generic_name": "Paracetamol",
+    "form": "Tab",
+    "strength": "50mg",
+    "frequency": "1+0+1",
+    "remark": "After Meal",
+    "indication": "Fever and Mild to moderate pain such as osteoarthritis, rheumatoid arthritis, chronic low back pain, Renal stone pain, neuopathic pain, toothache, migraine, postoperative mild to moderate pain."
+  },
+  {
+    "id": "2",
+    "name": "Alatrol",
+    "generic_name": "Cetrizine Hydrochloride",
+    "form": "Tab",
+    "strength": "75mg",
+    "frequency": "1+0+1",
+    "remark": "Before Meal",
+    "indication": "Fever, Headache, Pain/inflammation,Acute coronary syndrome, TIA, MI, Stroke"
+  },
+  {
+    "id": "3",
+    "name": "Deslor",
+    "generic_name": "Cetrizine",
+    "form": "Tab",
+    "strength": "6.5mg",
+    "frequency": "1+0+1",
+    "remark": "After Meal",
+    "indication": "Migraine headache, Acute migraine attack"
+  },
+  {
+    "id": "4",
+    "name": "Ultrafen",
+    "generic_name": "Diclofen",
+    "form": "Tab",
+    "strength": "25mg",
+    "frequency": "1+0+1",
+    "remark": "Before Meal",
+    "indication": "Pain,Dysmenorrhea, Rheumatic disorders"
+  },
+  {
+    "id": "5",
+    "name": "Myolax",
+    "generic_name": "Tolperison Hydrochloride",
+    "form": "Tab",
+    "strength": "25mg",
+    "frequency": "1+0+1",
+    "remark": "Before Meal",
+    "indication": "Pain,Dysmenorrhea, Rheumatic disorders"
+  },
+  {
+    "id": "6",
+    "name": "Alcet",
+    "generic_name": "Levocetrizine",
+    "form": "Tab",
+    "strength": "25mg",
+    "frequency": "1+0+1",
+    "remark": "Before Meal",
+    "indication": "Pain,Dysmenorrhea, Rheumatic disorders"
+  }
+]

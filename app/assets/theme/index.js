@@ -4,6 +4,7 @@ import {
   primaryColor,
   secondaryColor,
   highlightColor,
+  defaultColor,
 } from '../styleConstants';
 
 // ****************************************** THEME ********************************************* //
@@ -15,6 +16,7 @@ const muiTheme = createMuiTheme({
         '&:hover': {
           textDecoration: 'none',
           backgroundColor: highlightColor,
+          //borderLeft: '3px solid #E22454', This hover is not looking good I think, try it and check.
           // Reset on touch devices, it doesn't add specificity
           '@media (hover: none)': {
             backgroundColor: 'transparent',
@@ -24,13 +26,8 @@ const muiTheme = createMuiTheme({
     },
     MuiIconButton: {
       root: {
-        '&:hover': {
-          backgroundColor: highlightColor,
-          // Reset on touch devices, it doesn't add specificity
-          '@media (hover: none)': {
-            backgroundColor: 'transparent',
-          },
-        },
+        marginLeft:'5px',
+        padding:'7px',
       },
     },
     MuiGridListTileBar: {
@@ -52,6 +49,42 @@ const muiTheme = createMuiTheme({
         },
       },
     },
+    MuiTypography:{
+      subtitle1:{
+        color:'#fffff',
+      },
+      root:{
+        color:'#fffff',
+        fontSize:'16px',
+      },
+      h6:{
+        fontSize:'20px',
+        marginRight:'62px',
+      },
+      noWrap:{
+        overflow:'visible',
+      },
+    },
+    MuiListItemIcon:{
+      root:{
+        color:'#fffff'
+      }
+    },
+    MuiToolbar:{
+      root:{
+        background:'#fffff'
+      },
+    },
+    MuiGrid:{
+      container:{
+        backgroundColor: "inherit"
+      }
+    },
+    MuiExpansionPanelSummary:{
+      content:{
+        paddingRight: '0px'
+      }
+    }
   },
   // this is the colour palette
   palette: {
@@ -64,11 +97,16 @@ const muiTheme = createMuiTheme({
     highlight: {
       main: highlightColor,
     },
+    default: {
+      main: defaultColor,
+    },
   },
   //text or headlines
   typography: {
+    useNextVariants: true,
     fontFamily: 'Roboto',
     fontSize: '1rem',
+
   },
 });
 

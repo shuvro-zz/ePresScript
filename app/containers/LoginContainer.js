@@ -3,39 +3,44 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Login from '../components/Login';
-import { loginFormActions } from '../actions/loginFormActions';
-import { authenticationActions } from '../actions/authenticationActions';
-import type {LoginFormStateType} from "../types/state/LoginFormStateType";
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
+import { login , logout, setPassword ,setSubmitted ,setUserName} from '../features/security';
+import {fetchProfile} from "../features/usermanagement";
 
-type State = {
-  loginForm: LoginFormStateType,
-  authentication: AuthenticationStateType
+const mapStateToProps = state => ({
+  loggingIn: state.securityState.loggingIn
+});
 
+
+class LoginContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    // if the accessToken is valid, redirect to homepage
+    //const { accessTokenIsValid, navigateToAlias } = this.props;
+  }
+
+  render() {
+    const {
+      login,
+      loggingIn,
+      fetchProfile
+    } = this.props;
+    console.log("Login container");
+    console.log(this.props);
+    return (
+      <Login
+        login={login}
+        loggingIn={loggingIn}
+        fetchProfile={fetchProfile}
+      />
+    );
+  }
+}
+
+const mapDispatchToProps = {
+  login,
+  setPassword ,setSubmitted ,setUserName, fetchProfile
 };
 
-// Map the stuff we want from the global application state in redux to the props
-function mapStateToProps(state: State) {
-    return {
-      loginForm: state.loginForm,
-      authentication: state.authentication
-    };
-}
 
-// Map any actions required to the props
-function mapDispatchToProps(dispatch: any) {
-  return bindActionCreators(
-    {
-        setUserName: loginFormActions.setUserName,
-        setPassword: loginFormActions.setPassword,
-        setSubmitted: loginFormActions.setSubmitted,
-        login: authenticationActions.login,
-        logout: authenticationActions.logout
-    },
-    dispatch
-  );
-}
-
-type Props = {};
-
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(LoginContainer);

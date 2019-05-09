@@ -12,7 +12,7 @@ import { closeSnackBar } from '../features/ui';
 import green from '@material-ui/core/colors/green';
 
 const styles = theme => ({
-  root: {
+  snackbar: {
     marginTop: 10,
   },
   success: {
@@ -57,7 +57,7 @@ class CustomSnackBar extends PureComponent {
           }}
           autoHideDuration={4000}
           onClose={closeSnackBarAlias}
-          className={classes.root}
+          className={classes.snackbar}
         >
           <SnackbarContent
             className={classNames(classes[variant])}

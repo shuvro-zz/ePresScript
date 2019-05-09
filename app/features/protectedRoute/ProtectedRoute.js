@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
-  loggedIn: state.authentication.loggedIn,
+  loggedIn: state.securityState.loggedIn,
 });
 
 class ProtectedRoute extends PureComponent {
@@ -13,15 +13,15 @@ class ProtectedRoute extends PureComponent {
     const {
       component: Component,
       loggedIn,
+      location,
       ...rest
     } = this.props;
-console.log(this.props);
     return (
       <Route
-        {...rest}
+        {...rest} location={location}
         render={props => (loggedIn
           ? (
-            <Component {...props} />
+            <Component {...props} location={location} />
           )
           : (
             <Redirect

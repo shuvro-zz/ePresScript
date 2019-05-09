@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "Accidental Fracture"
+  },
+  {
+    "id": "2",
+    "name": "Irritable Bowel Syndrom"
+  },
+  {
+    "id": "3",
+    "name": "Tuberculosis"
+  },
+  {
+    "id": "4",
+    "name": "Blood Cancer"
+  },
+  {
+    "id": "5",
+    "name": "Dysentery"
+  },
+  {
+    "id": "6",
+    "name": "Diarrhea"
+  },
+  {
+    "id": "7",
+    "name": "Pneumonia"
+  },
+  {
+    "id": "8",
+    "name": "Lung Cancer"
+  },
+  {
+    "id": "9",
+    "name": "Migrane"
+  }
+]

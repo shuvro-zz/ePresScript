@@ -3,10 +3,9 @@ import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
-import createRootReducer from '../reducers';
-import * as loginFormActions from '../actions/loginFormActions';
-import * as addMedicineActions from '../actions/medicineFormActions';
-import * as authenticationActions from '../actions/authenticationActions';
+import createRootReducer from './reducers';
+import * as medicineActions from '../features/medicine/actions';
+import * as securityActions from '../features/security/actions';
 
 const history = createHashHistory();
 
@@ -38,9 +37,8 @@ const configureStore = initialState => {
   // Redux DevTools Configuration
   const actionCreators = {
     ...routerActions,
-    ...loginFormActions,
-    ...addMedicineActions,
-    ...authenticationActions
+    ...medicineActions,
+    ...securityActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
@@ -61,9 +59,9 @@ const configureStore = initialState => {
 
   if (module.hot) {
     module.hot.accept(
-      '../reducers',
+      './reducers',
       // eslint-disable-next-line global-require
-      () => store.replaceReducer(require('../reducers').default)
+      () => store.replaceReducer(require('./reducers').default)
     );
   }
 

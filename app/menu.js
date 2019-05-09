@@ -195,6 +195,19 @@ export default class MenuBuilder {
             click: () => {
               this.mainWindow.close();
             }
+          },
+          {
+            label:'&Dev',
+            submenu: [
+              {
+                label: '&Open Development Console',
+                accelerator: 'Alt+Command+I',
+                click: () => {
+                  BrowserWindow.getFocusedWindow().toggleDevTools();
+                  // remote.getCurrentWindow().toggleDevTools();
+                }
+              }
+            ]
           }
         ]
       },

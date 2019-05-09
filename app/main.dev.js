@@ -11,17 +11,33 @@
  * @flow
  */
 import { app, BrowserWindow } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 import MenuBuilder from './menu';
+const {ipcMain} = require('electron');
 
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
+// if (process.env.NODE_ENV === 'production') {
+//
+//   updater.init({
+//     checkUpdateOnStart: true,
+//     autoDownload: true,
+//     url: '../updates.json',
+//   });
+//
+//   updater.on('update-downloaded', () => {
+//     menuBuilder.informAboutUpdate();
+//   });
+//
+//   updater.on('checking-for-update', () => {
+//     console.log('Clays Code: checking for updates...');
+//   });
+//
+//   updater.on('update-available', () => {
+//     console.log('Clays Code: update is available!');
+//   });
+//
+//   updater.on('update-downloading', () => {
+//     console.log('Clays Code: downloading update...');
+//   });
+// }
 
 let mainWindow = null;
 
@@ -69,8 +85,12 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    height:728,
+    width:1024,
+    minHeight:728,
+    minWidth:1024,
+    center:true,
+
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -96,7 +116,15 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+});
+
+ipcMain.on('resize-me-please', (event, arg) => {
+  console.log(mainWindow.isResizable());
+  if (arg) {
+    mainWindow.unmaximize();
+    mainWindow.setResizable(false);
+  }else{
+    mainWindow.setResizable(true);
+    mainWindow.maximize();
+  }
 });

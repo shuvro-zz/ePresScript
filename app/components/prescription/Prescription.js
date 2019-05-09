@@ -4,9 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 //import all the prescription steps containers
 import PatientDetailsContainer from '../../containers/presciption/steps/PatientDetailsContainer';
 import PrescribeDrugsContainer from '../../containers/presciption/steps/PrescribeDrugsContainer';
@@ -16,10 +19,10 @@ import CheckUpExaminationContainer from '../../containers/presciption/steps/Chec
 import type {MedicineFormStateType} from "../../types/state/MedicineFormStateType";
 
 const styles = theme => ({
-  root: {
+  rootPrescription: {
     width: '100%',
     height: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 2,
   },
   buttonBack: {
     marginTop: theme.spacing.unit,
@@ -53,6 +56,47 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
   },
 });
+const ExpansionPanel = withStyles({
+  root: {
+    border: '1px solid rgba(0,0,0,.125)',
+    boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+  },
+  expanded: {
+    margin: 'auto',
+  },
+})(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles({
+  root: {
+    backgroundColor: 'rgba(0,0,0,.03)',
+    borderBottom: '1px solid rgba(0,0,0,.125)',
+    marginBottom: -1,
+    minHeight: 40,
+    '&$expanded': {
+      minHeight: 40,
+    },
+  },
+  content: {
+    '&$expanded': {
+      margin: '12px 0',
+    },
+  },
+  expanded: {},
+})(props => <MuiExpansionPanelSummary {...props} />);
+
+ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
+
+const ExpansionPanelDetails = withStyles(theme => ({
+  root: {
+    padding: theme.spacing.unit * 2,
+  },
+}))(MuiExpansionPanelDetails);
 type Props = {
   medicineForm: MedicineFormStateType,
   setForm: (form: string) => void,
@@ -63,24 +107,6 @@ type Props = {
   setSubmitted: (submitted: boolean) => void
 };
 
-function getSteps() {
-  return ['Patient Details', 'Checkup & Examination', 'Prescribe Drugs', 'Overview'];
-}
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-
-      return <PatientDetailsContainer />;
-    case 1:
-      return <CheckUpExaminationContainer/>;
-    case 2:
-      return <PrescribeDrugsContainer />;
-    case 3:
-      return <OverviewContainer />;
-    default:
-      return 'Unknown step';
-  }
-}
 class Prescription extends React.Component<Props, any> {
   constructor(props: Props, state: any) {
     super(props);
@@ -89,7 +115,8 @@ class Prescription extends React.Component<Props, any> {
     this.state = {
       activeStep: 0,
       skipped: new Set(),
-      stepName:''
+      stepName:'',
+      expanded: 'panel1',
     };
   }
 
@@ -116,24 +143,6 @@ class Prescription extends React.Component<Props, any> {
     }));
   };
 
-  // handleSkip = () => {
-  //   const { activeStep } = this.state;
-  //   if (!this.isStepOptional(activeStep)) {
-  //     // You probably want to guard against something like this,
-  //     // it should never occur unless someone's actively trying to break something.
-  //     throw new Error("You can't skip a step that isn't optional.");
-  //   }
-  //
-  //   this.setState(state => {
-  //     const skipped = new Set(state.skipped.values());
-  //     skipped.add(activeStep);
-  //     return {
-  //       activeStep: state.activeStep + 1,
-  //       skipped,
-  //     };
-  //   });
-  // };
-
   handleReset = () => {
     this.setState({
       activeStep: 0,
@@ -143,67 +152,66 @@ class Prescription extends React.Component<Props, any> {
   isStepSkipped(step) {
     return this.state.skipped.has(step);
   }
-
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expanded: expanded ? panel : false,
+    });
+  };
   render() {
     const { classes } = this.props;
-    const steps = getSteps();
-    const { activeStep } = this.state;
-
+    const { expanded } = this.state;
     return (
-      <div className={classes.root}>
-        <Stepper activeStep={activeStep} orientation="vertical" className={classes.stepper}>
-          {steps.map((label, index) => {
-            const props = {};
-            const labelProps = {};
-            if (this.isStepOptional(index)) {
-              labelProps.optional = <Typography variant="caption">Optional</Typography>;
-            }
-            if (this.isStepSkipped(index)) {
-              props.completed = false;
-            }
-            return (
-              <Step key={label} {...props}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        <div className={classes.stepContents}>
-          {/* Check for the current step and show the container */}
-          {getStepContent(activeStep)}
+      <div className={classes.rootPrescription}>
 
+        <ExpansionPanel
+          square
+          expanded={expanded === 'panel1'}
+          onChange={this.handleChange('panel1')}
+        >
+          <ExpansionPanelSummary>
+            <Typography>Patient Details</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <PatientDetailsContainer />;
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel
+          square
+          expanded={expanded === 'panel2'}
+          onChange={this.handleChange('panel2')}
+        >
+          <ExpansionPanelSummary>
+            <Typography>Checkup & Examination</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <CheckUpExaminationContainer/>;
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel
+          square
+          expanded={expanded === 'panel3'}
+          onChange={this.handleChange('panel3')}
+        >
+          <ExpansionPanelSummary>
+            <Typography>Prescribe Drugs</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <PrescribeDrugsContainer />;
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel
+          square
+          expanded={expanded === 'panel4'}
+          onChange={this.handleChange('panel4')}
+        >
+          <ExpansionPanelSummary>
+            <Typography>Overview</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <OverviewContainer />;
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-          {activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Button onClick={this.handleReset} className={classes.button}>
-                Reset
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                  className={classes.buttonBack}
-                >
-                  Back
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={classes.buttonNext}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     );
   }

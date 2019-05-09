@@ -1,66 +1,49 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
-
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
-import type {MedicineFormStateType} from "../types/state/MedicineFormStateType";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import Grid from "@material-ui/core/Grid/Grid";
+import MedicineViewTest from "./TableViews/MedicineTableView";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit * 10,
-    [theme.breakpoints.up(800)]: {
-      width: 700,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
+  medicineComponent: {
+    height: 'auto',
+    marginTop: theme.spacing.unit * 8,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
-  submit: {
-    marginTop: theme.spacing.unit*3,
-  },
+
   addMedReqTextFields: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
 
   },
-  preview:{
+  addMedicineBtn:{
+    position: 'relative',
+    zIndex:'100',
+    float: 'right',
+    marginRight:'3%',
+    marginTop:'1%'
   }
 });
 
-type Props = {
-  medicineForm: MedicineFormStateType,
-  setForm: (form: string) => void,
-  setName: (name: string) => void,
-  setStrength: (strength: string) => void,
-  setFrequency: (frequency: string) => void,
-  setRemark: (remark: string) => void,
-  setSubmitted: (submitted: boolean) => void
-};
+class Medicine extends Component {
 
-class Medicine extends React.PureComponent<Props, any> {
-
-  constructor(props: Props, state: any) {
+  constructor(props) {
     super(props);
-    console.log('in Medicine constructor');
-    console.log(props);
+    console.log('In Medicine Component');
+    console.log(this.props);
 
     this.state = {
       form:'',
@@ -69,14 +52,21 @@ class Medicine extends React.PureComponent<Props, any> {
       strength:'',
       remark:'',
       open: false,
-      vertical: 'top',
-      horizontal: 'center',
       firstline:'',
-      secondline : ''
+      secondline : '',
+
     };
 
     this.props.setSubmitted(false);
   }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleChange(event: any, target: any) {
     const name = event.target.name;
@@ -144,9 +134,13 @@ class Medicine extends React.PureComponent<Props, any> {
      currentMedicineStrength,
      currentMedicineFrequency,
      currentMedicineRemark,
-     submitted
-    } = this.props.medicineForm;
-    const { vertical, horizontal, open , firstline, secondline} = this.state;
+     submitted,
+     medicineList
+    } = this.props.medicineState;
+    const {
+      medicineState
+    } = this.props;
+    const {firstline, secondline} = this.state;
 
     const preview =
       <div>
@@ -160,11 +154,18 @@ class Medicine extends React.PureComponent<Props, any> {
 
     const { classes } = this.props;
     return (
-      <div className={classes.main}>
+      <div className={classes.medicineComponent}>
         <CssBaseline />
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
+        <div className={classes.addMedicineDialogueBox}>
+
+          <Dialog
+            disableBackdropClick
+            disableEscapeKeyDown
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <DialogTitle>Add a new Medicine</DialogTitle>
+            <DialogContent>
               <FormControl margin="normal" required fullWidth>
                 <form className={classes.form}
                       onSubmit={(event: any, target: any) => {
@@ -237,22 +238,34 @@ class Medicine extends React.PureComponent<Props, any> {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
+                    className={classes.saveMedicineBtn}
                   >
                     Add Medicine
                   </Button>
                 </form>
               </FormControl>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} className={classes.preview}>
-            <Typography className={classes.instructions}>
-              Displayed as in Prescription
-            </Typography>
-            {preview}
-          </Grid>
-          </Grid>
-    </div>
+
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+          <div>
+            <div className={classes.addMedicineBtn}>
+            <Tooltip title="Add" aria-label="Add">
+              <Fab color="secondary" size="small" onClick={this.handleClickOpen}>
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+            </div>
+            <MedicineViewTest medicineState={medicineState}/>
+          </div>
+
+
+      </div>
     );
   }
 }

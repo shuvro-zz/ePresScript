@@ -1,38 +1,50 @@
 // @flow
-import React, { PureComponent } from 'react';
-
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import DashboardElements from '../components/dashboard/DashboardElements'
-import type {AuthenticationStateType} from "../types/state/AuthenticationStateType";
-import {bindActionCreators} from "redux";
-import {authenticationActions} from "../actions/authenticationActions"
+import DashboardElements from '../components/dashboard/DashboardElements';
+import {logout} from "../features/security";
 import navigateTo from "../features/navigation";
+import {fetchProfile , updateProfile} from "../features/usermanagement";
 
-
-/**
- *
- * Add navigate
- */
-type State = {
-  authentication: AuthenticationStateType
+const mapStateToProps = state => ({
+  securityState: state.securityState,
+  snackBarOpen: state.uiReducer.snackBarOpen,
+  message: state.uiReducer.message,
+  usermanagementState: state.usermanagementState,
+  loggedIn: state.securityState.loggedIn,
+});
+const mapDispatchToProps = {
+  logout,
+  navigateTo,
+  updateProfile
 };
 
-// Map the stuff we want from the global application state in redux to the props
-function mapStateToProps(state: State) {
-  return {
-    authentication: state.authentication
-  };
+class DashboardElementsContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    // if the accessToken is valid, redirect to homepage
+    //const { accessTokenIsValid, navigateToAlias } = this.props;
+  }
+
+
+  render() {
+    const {logout, history , navigateTo , location , message, snackBarOpen, loggedIn, usermanagementState, securityState, updateProfile } = this.props;
+    console.log("DashboardElementsContainer Container");
+    console.log(this.props);
+    return (
+      <DashboardElements
+        usermanagementState={usermanagementState}
+        securityState={securityState}
+        logout={logout}
+        navigateTo={navigateTo}
+        location={location}
+        updateProfile={updateProfile}
+      />
+    );
+  }
 }
 
-// Map any actions required to the props
-function mapDispatchToProps(dispatch: any) {
-  return bindActionCreators(
-    {
-      logout : authenticationActions.logout,
-      navigate: navigateTo
-    },
-    dispatch
-  );
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardElements);
+export default connect(mapStateToProps,mapDispatchToProps)(DashboardElementsContainer);

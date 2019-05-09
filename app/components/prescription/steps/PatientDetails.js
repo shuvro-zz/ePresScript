@@ -9,12 +9,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Typography from "@material-ui/core/Typography/Typography";
 const styles = theme => ({
-  root: {
+  patientDetailComponent: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    padding: `${theme.spacing.unit }px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing.unit }px ${theme.spacing.unit }px ${theme.spacing.unit }px`,
   },
   patientDetailAge:{
     margin: theme.spacing.unit,
@@ -88,7 +86,7 @@ class PatientDetails extends React.Component<Props, any> {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.patientDetailComponent}>
         <form className={classes.form}
               onSubmit={(event: any, target: any) => {
                 this.handleSubmit(event, target);
@@ -343,7 +341,7 @@ class PatientDetails extends React.Component<Props, any> {
           </Grid>
           </Grid>
         </form>
-      </Paper>
+      </div>
     );
   }
 }

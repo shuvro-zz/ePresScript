@@ -4,18 +4,18 @@
  */
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
-body {
-  position: relative;
-  color: white;
-  height: 100vh;
-  background-color: #fffcfc;
-  background-image: linear-gradient(
-    45deg,
-    rgba(250, 250, 250, 0.2) 10%,
-    rgba(255, 255, 255, 0.6)
-  );
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f1f6;
   font-family: Arial, Helvetica, Helvetica Neue, serif;
-  overflow-y: hidden;
+}
+
+#root {
+  height: 100%;
+  margin: 0;
 }
 
 h1,
@@ -39,7 +39,7 @@ li {
 }
 
 a {
-  color: white;
+  color: black;
   opacity: 0.75;
   text-decoration: none;
 }
@@ -48,4 +48,10 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: grey;
 }
