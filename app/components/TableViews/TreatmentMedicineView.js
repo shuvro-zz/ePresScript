@@ -18,6 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import TextField from '@material-ui/core/TextField';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -282,6 +285,19 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} name={name} />
+        <div style={{marginLeft:'1.4%'}}>
+          <Fab color="secondary" size="small" disabled>
+            <AddIcon />
+          </Fab>
+          <TextField
+            id="NewMed"
+            label="Add New Medicine"
+            value={this.state.Testsvalue}
+            onChange={this.TestsSearchKeywords}
+            margin="normal"
+            style={{fontSize:'14px',marginLeft:'15px', marginTop:'-10px'}}
+          />
+        </div>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
