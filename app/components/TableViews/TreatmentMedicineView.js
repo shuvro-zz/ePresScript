@@ -160,6 +160,7 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
+
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
@@ -212,6 +213,10 @@ class EnhancedTable extends React.Component {
     data: [],
     page: 0,
     rowsPerPage: 5,
+    NewMedicine:'',
+    MOnChange: false,
+    MedFiltered:[],
+    MedData:this.props.medList,
   };
 
   componentDidMount(){
@@ -276,12 +281,28 @@ class EnhancedTable extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+
+  MedicineSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({MOnChange:true})
+    if( keyword == ""){
+      this.setState({MOnChange:false})
+    }
+    this.setState({ NewMedicine: event.target.value });
+    let filtered = this.state.ccFakeData.filter((item)=>{
+      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      MedFiltered:filtered,
+      MOnChange:true
+    })
+  };
   render() {
     const { classes , name} = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     console.log("Inside Treatment Medicine view ");
-    console.log(this.props);
+    console.log(this.state);
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} name={name} />
@@ -292,8 +313,8 @@ class EnhancedTable extends React.Component {
           <TextField
             id="NewMed"
             label="Add New Medicine"
-            value={this.state.Testsvalue}
-            onChange={this.TestsSearchKeywords}
+            value={this.state.NewMedicine}
+            onChange={this.MedicineSearchKeywords}
             margin="normal"
             style={{fontSize:'14px',marginLeft:'15px', marginTop:'-10px'}}
           />
