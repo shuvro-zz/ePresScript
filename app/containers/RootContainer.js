@@ -10,6 +10,7 @@ import muiTheme from "../assets/theme";
 import SnackBar from '../components/SnackBar';
 import {logout} from "../features/security";
 import DashboardElementsContainer from './DashboardElementsContainer';
+import {ipcRenderer} from "electron";
 
 const styles = theme => ({
   rootContainer: {
@@ -37,7 +38,12 @@ const mapDispatchToProps = {
   logout,
   navigateTo
 };
-
+ipcRenderer.on('ping', function (event, data) {
+  // When the message is received...
+  console.log('Message received');
+  // ... change the state of this React component.
+  // self.setState({testValue: 'It worked!'});
+});
 class RootContainer extends Component{
   constructor(props) {
     super(props);
