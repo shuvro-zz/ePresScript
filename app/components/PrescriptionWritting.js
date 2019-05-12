@@ -28,6 +28,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import {setPatientPatientId} from "../features/prescription";
 
 let update = require('immutability-helper');
 
@@ -122,72 +123,89 @@ const styles = theme => ({
 
 
 class PrescriptionWrittng extends React.Component{
-  state = {
-    PatientName:'',
-    Age:'',
-    Sex:'',
-    Mobile:'',
-    Email:'',
-    PatientId:'',
+  constructor(props){
+    super(props);
+    this.state = {
+      ccFakeData: CCData,
+      ccFiltered:[],
+      list:[],
+      value:'',
+      ccOnChange: false,
 
-    ccFakeData: CCData,
-    ccFiltered:[],
-    list:[],
-    value:'',
-    ccOnChange: false,
+      TestsFakeData: TestsData,
+      TestsFiltered:[],
+      Testsvalue:'',
+      Testslist:[],
+      TestsOnChange: false,
 
-    TestsFakeData: TestsData,
-    TestsFiltered:[],
-    Testsvalue:'',
-    Testslist:[],
-    TestsOnChange: false,
+      DiagnosisFakeData: DiagnosisData,
+      DiagnosisFiltered:[],
+      Diagnosisvalue:'',
+      Diagnosislist:[],
+      DiagnosisOnChange: false,
 
-    DiagnosisFakeData: DiagnosisData,
-    DiagnosisFiltered:[],
-    Diagnosisvalue:'',
-    Diagnosislist:[],
-    DiagnosisOnChange: false,
+      OEvalue:'',
+      OElist:[],
 
-    OEvalue:'',
-    OElist:[],
+      AdviceValue:'',
 
-    AdviceValue:'',
+      TempMedValue:'',
+      MedOnchange:false,
+      MedFakeData: MedData,
+      MedFiltered:[],
+      MedList:[],
+      MedFlag:false,
 
-    TempMedValue:'',
-    MedOnchange:false,
-    MedFakeData: MedData,
-    MedFiltered:[],
-    MedList:[],
-    MedFlag:false,
+      TempStrenValue:'',
+      StrenList:[],
+      //StrenOnchange:false,
+      TempTypValue:'',
+      TypeList:[],
+      //TypOnchange:false,
+      TempFreqValue:'',
+      FreqList:[],
+      //FreqOnchange:false,
+      TempRemValue:'',
+      RemList:[],
+      //RemOnchange:false,
 
-    TempStrenValue:'',
-    StrenList:[],
-    //StrenOnchange:false,
-    TempTypValue:'',
-    TypeList:[],
-    //TypOnchange:false,
-    TempFreqValue:'',
-    FreqList:[],
-    //FreqOnchange:false,
-    TempRemValue:'',
-    RemList:[],
-    //RemOnchange:false,
+      SuggestionsData: TreatmentData,
+      SuggestionOn:false,
+      SuggestionsFiltered:[],
 
-    SuggestionsData: TreatmentData,
-    SuggestionOn:false,
-    SuggestionsFiltered:[],
-
-    expanded: {},
-    openSnackbarCC: false,
-    SnackbarMessage:''
+      expanded: {},
+      openSnackbarCC: false,
+      SnackbarMessage:'',
+      PatientName: '',
+      Age: '',
+      Sex: '',
+      Mobile: '',
+      Email: '',
+      PatientId: ''
+    };
+  }
+  handlePatientDetailChange=(event)=>{
+    let value = event.target.value;
+    let id = event.target.id;
+    switch (id) {
+      case 'PatientName': this.props.setPatientName(value);  break;
+      case 'Age': this.props.setPatientAge(value);  break;
+      case 'Sex': this.props.setPatientSex(value);  break;
+      case 'Mobile': this.props.setPatientMobile(value);  break;
+      case 'Email': this.props.setPatientEmail(value);  break;
+      case 'PatientId': this.props.setPatientPatientId(value);  break;
+      default : break;
+    }
+    this.setState({ [id]: value });
   };
+
 
   handleSnackbar=(msg)=>{
     this.setState({
       openSnackbarCC:true,
       SnackbarMessage:msg
     })
-  }
+  };
   handleCloseSnackbar = () => {
     this.setState({ openSnackbarCC: false });
   };
@@ -221,31 +239,8 @@ class PrescriptionWrittng extends React.Component{
     this.setState({SuggestionsData:uData});
 
   };
-  patientNameHandler=(event)=>{
-      let keyword = event.target.value;
-      this.setState({PatientName:keyword});
-  };
-  patientAgeHandler=(event)=>{
-    let keyword = event.target.value;
-    this.setState({Age:keyword});
-  };
-  patientSexHandler=(event)=>{
-    let keyword = event.target.value;
-    this.setState({Sex:keyword});
-  };
-  patientIDHandler=(event)=>{
-    let keyword = event.target.value;
-    this.setState({PatientId:keyword});
-  };
-  patientMobileHandler=(event)=>{
-    let keyword = event.target.value;
-    this.setState({Mobile:keyword});
-  };
-  patientEmailHandler=(event)=>{
-    let keyword = event.target.value;
-    this.setState({Email:keyword});
-    console.log(keyword)
-  };
+
+
   onRemoveItem = i => {
     //console.log(i);
     //console.log((this.state.list.length - i)-1);
@@ -806,6 +801,14 @@ class PrescriptionWrittng extends React.Component{
     })
   }
   render(){
+    const {
+      patientName,
+      patientAge,
+      patientSex,
+      patientMobile,
+      patientEmail,
+      patientPatientId} = this.props.prescriptionState;
+
     const listCopy = this.state.list;
     const OElistCopy = this.state.OElist;
     const TestlistCopy = this.state.Testslist;
@@ -921,59 +924,59 @@ class PrescriptionWrittng extends React.Component{
             <form className={classes.container} noValidate autoComplete="off">
               <Grid item xs={3}>
                 <TextField
-                  id="standard-name"
+                  id="PatientName"
                   label="Patient Name"
                   className={classes.textField}
-                  value={this.state.PatientName}
-                  onChange={this.patientNameHandler}
+                  value={patientName}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  id="standard-name"
+                  id="Age"
                   label="Age"
                   className={classes.textField2}
-                  value={this.state.Age}
-                  onChange={this.patientAgeHandler}
+                  value={patientAge}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
                 <TextField
-                  id="standard-name"
+                  id="Sex"
                   label="Sex"
                   className={classes.textField2}
-                  value={this.state.Sex}
-                  onChange={this.patientSexHandler}
+                  value={patientSex}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  id="standard-name"
+                  id="Mobile"
                   label="Mobile"
                   className={classes.textField}
-                  value={this.state.Mobile}
-                  onChange={this.patientMobileHandler}
+                  value={patientMobile}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  id="standard-name"
+                  id="Email"
                   label="Email"
                   className={classes.textField}
-                  value={this.state.Email}
-                  onChange={this.patientEmailHandler}
+                  value={patientEmail}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  id="standard-name"
+                  id="PatientId"
                   label="Id"
                   className={classes.textField}
-                  value={this.state.PatientId}
-                  onChange={this.patientIDHandler}
+                  value={patientPatientId}
+                  onChange={this.handlePatientDetailChange}
                   margin="normal"
                 />
               </Grid>
@@ -1365,11 +1368,5 @@ class PrescriptionWrittng extends React.Component{
 PrescriptionWrittng.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-function mapStateToProps(state){
-  console.log(state.user)
-  return{
-    user:state.user
-  }
-}
 
-export default connect(mapStateToProps)(withStyles(styles)(PrescriptionWrittng));
+export default (withStyles(styles)(PrescriptionWrittng));

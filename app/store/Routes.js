@@ -9,13 +9,13 @@ import RootContainer from '../containers/RootContainer';
 import ForgetPassword from '../components/forgetPassword';
 import Patients from '../components/Patient';
 import Patient from '../components/PatientProfile';
-import Presciption from '../components/PrescriptionWritting';
+import PrescriptionContainer from '../containers/PrescriptionContainer';
 import SettingsContainer from '../containers/SettingsContainer';
 import HelpContainer from '../containers/HelpContainer';
 
 const routes = (
     <Switch>
-      <ProtectedRoute path="/prescription" component={Presciption} /> /*TODO : Create container for this component*/
+      <ProtectedRoute path="/prescription" component={PrescriptionContainer} /> /*TODO : Create container for this component*/
       <ProtectedRoute path="/treatment" component={TreatmentContainer} />
       <ProtectedRoute path="/dashboard" component={DashboardContentContainer} />
       <ProtectedRoute path="/medicine" component={MedicineContainer} />
