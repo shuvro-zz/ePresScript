@@ -11,8 +11,6 @@ const store = configureStore();
 
 store.dispatch(systemPrinters(ipcRenderer.sendSync('fetch-system-printers', 'printers')));
 
-//ipcRenderer.removeListener("send-to-randerer");
-
 render(
     <Provider store={store}>
       <AppContainer>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-//import { changePass } from '../../actions'
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Cancel from '@material-ui/icons/CancelOutlined';
 import Check from "@material-ui/icons/Check";
 import Info from "@material-ui/icons/info";
-import InputBase from "@material-ui/core/InputBase/InputBase";
 import CCData from '../fakedata/cc_fake.json';
 import TestsData from '../fakedata/Tests_fake.json';
 import DiagnosisData from '../fakedata/diagnosis_fake.json';
@@ -20,12 +17,10 @@ import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import classnames from 'classnames';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Assignment from '@material-ui/icons/Assignment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -91,9 +86,6 @@ const styles = theme => ({
     width:'100%',
     marginTop:'20px',
     padding:'0px'
-  },
-  actions: {
-    display: 'flex',
   },
   leftGrid:{
     padding: '2%',
@@ -187,7 +179,7 @@ class PrescriptionWrittng extends React.Component{
 
     expanded: {},
     openSnackbarCC: false,
-    SnackbarMessage:'' 
+    SnackbarMessage:''
   };
 
   handleSnackbar=(msg)=>{
@@ -479,7 +471,7 @@ class PrescriptionWrittng extends React.Component{
         fl = 0;
       }
     })
-    
+
     let loopStren = this.state.StrenList.map((k)=>{
       if(k.name.toUpperCase() == MedVal.toUpperCase()){
         fl = 0;
@@ -505,7 +497,7 @@ class PrescriptionWrittng extends React.Component{
     else{
       let msg = "Already Exists!";
       this.handleSnackbar(msg);
-    } 
+    }
     //console.log(this.state);
   };
   onUpdateItem = (val) => {
@@ -781,7 +773,7 @@ class PrescriptionWrittng extends React.Component{
                   fl = 0;
                 }
               })
-              
+
               let loopStren = this.state.StrenList.map((k)=>{
                 if(k.name.toUpperCase() == MedVal.toUpperCase()){
                   fl = 0;

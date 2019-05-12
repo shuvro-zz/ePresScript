@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import BarChart from '@material-ui/icons/BarChart';
 import LocalHospital from '@material-ui/icons/LocalHospital';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Healing from '@material-ui/icons/Healing';
 import Person from '@material-ui/icons/Person';
 import LiveHelp from '@material-ui/icons/LiveHelp';
@@ -336,6 +337,7 @@ class DashboardElements extends Component {
     let treat = false;
     let sett = false;
     let help = false;
+    let presp = false;
     if(this.state.currentPath == 'dashboard'){
       dash = true;
     }
@@ -354,6 +356,9 @@ class DashboardElements extends Component {
     else if(this.state.currentPath == 'treatment'){
       treat = true;
     }
+    else if(this.state.currentPath == 'prescription'){
+      presp = true;
+    }
     const primaryItems = (
       <div className={classes.drawerElements}>
         <ListItem button onClick={() => this.handleClick('dashboard')} className={ dash?`${classes.active}`:null }>
@@ -361,6 +366,12 @@ class DashboardElements extends Component {
             <BarChart/>
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button onClick={() => this.handleClick('prescription')} className={ presp?`${classes.active}`:null }>
+          <ListItemIcon>
+            <LibraryBooks/>
+          </ListItemIcon>
+          <ListItemText primary="Prescription" />
         </ListItem>
         <ListItem button onClick={() => this.handleClick('patients')} className={ pat?`${classes.active}`:null }>
           <ListItemIcon>
