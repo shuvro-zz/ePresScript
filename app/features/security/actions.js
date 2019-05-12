@@ -5,6 +5,7 @@ import {SNACKBAR_OPEN} from '../../features/ui/constants';
 import {profileActions} from "../usermanagement/actions";
 import {medicineActions} from "../medicine/actions";
 import {treatmentActions} from  "../treatment/actions";
+import {fetchSettings} from "../settings/actions";
 
 const {ipcRenderer} = require('electron');
 
@@ -83,6 +84,7 @@ function loadDataInBackground() {
       dispatch(profileActions.fetchProfile());
       dispatch(medicineActions.fetchMedicine());
       dispatch(treatmentActions.fetchTreatment());
+      dispatch(fetchSettings());
 
       navigateToFirstPage();
     };

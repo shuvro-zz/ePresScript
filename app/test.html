@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <title>A4</title>
+  <!-- Normalize or reset CSS with your favorite library -->
+  <style>
+    body {
+      background: rgb(204,204,204);
+    }
+    page {
+      background: white;
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 0.5cm;
+      box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+    page[size="A4"] {
+      width: 21cm;
+      height: 29.7cm;
+    }
+
+
+  </style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+
+
+<page size="A4">
+
+  <script>
+    const ipcRenderer = require("electron").ipcRenderer;
+
+    ipcRenderer.on("printPDF", (event, data) => {
+      const {content , options} = data;
+      document.body.innerHTML = content;
+
+      ipcRenderer.send("readyToPrintPDF" , options);
+    });
+  </script>
+</page>
+
+
+</html>
