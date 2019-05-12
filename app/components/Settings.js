@@ -12,12 +12,9 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-const { remote } = require('electron');
-const path = require('path');
-
-const env = process.env.NODE_ENV || 'development';
-
+const ipcRenderer = require("electron").ipcRenderer;
 import {IconSettingsPrinter , IconSettingsDocument} from '../assets';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
   root: {
@@ -58,7 +55,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
   },
 });
-let printWindow;
 
 
 function TabContainer(props) {
@@ -73,7 +69,6 @@ function PrinterElements(props) {
     <div className={props.classes.printerElm}>
     <IconSettingsPrinter />
     <p>{props.printer.name}</p>
-
     </div>
   );
 }
@@ -90,20 +85,37 @@ class Settings extends React.Component{
       value: 0,
       printers: [],
       defaultPrinter: '',
+      backgroundPrint: true,
       expanded: null,
     };
   }
 
   componentDidMount(){
-    const { BrowserWindow, dialog, shell } = remote;
-    printWindow = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
-    printWindow.loadFile('/db/test.pdf');
-    let list = printWindow.webContents.getPrinters();
-
     this.setState( {
-      printers : list
+      printers : this.props.systemEnvState.printers,
+      defaultPrinter: this.props.settingsState.defaultPrinter,
+      backgroundPrint: this.props.settingsState.backgroundPrint
     })
   }
+
+  componentDidUpdate(prevProps){
+
+    if (this.props.settingsState !== prevProps.settingsState) {
+      console.log("updating settings info");
+      this.setState({
+        defaultPrinter: this.props.settingsState.defaultPrinter,
+        backgroundPrint: this.props.settingsState.backgroundPrint
+      })
+    }
+  }
+  handlebackgroundPrintChange = name => event => {
+    const settings ={
+      backgroundPrint: event.target.checked,
+      defaultPrinter: this.state.defaultPrinter
+    };
+    this.props.saveSettings(settings);
+    //this.setState({ [name]: event.target.checked });
+  };
 
   handleTabChange = (event, value) => {
     this.setState({ value });
@@ -119,23 +131,28 @@ class Settings extends React.Component{
 
   setDefaultPrinter = p => (event) => {
     event.preventDefault();
-    this.setState({
-      defaultPrinter: p
-    });
+
+    const settings ={
+      defaultPrinter: p,
+      backgroundPrint: this.state.backgroundPrint
+    };
+
+    this.props.saveSettings(settings);
   };
 
   testPrint = p => (event) => {
     event.preventDefault();
-    let dbDirectory = path.join(__dirname, process.env.NODE_ENV ==='development' ? '/db/test.pdf' : '/db/test.pdf');
+    const printerObj={
+      content: "<h1>TEST PRINT FROM E-DOCTORSCRIPT</h1>",
+      options: {
+        silent: this.state.backgroundPrint, //Don't ask user for print settings. Default is false.
+        printBackground: true, //Also prints the background color and image of the web page. Default is false.
+        deviceName: p
+      }
+    };
 
-    console.log(dbDirectory);
-    const { BrowserWindow, dialog, shell } = remote;
-     let test = new BrowserWindow({ 'auto-hide-menu-bar': true,show:false });
-    let contents = test.webContents;
-    contents.loadFile(dbDirectory);
-    console.log(contents);
-    contents.print({ silent: true, printBackground: true, deviceName: p });
-
+    console.log("Test print request", printerObj);
+    ipcRenderer.send("printPDF", printerObj);
   };
 
   render(){
@@ -158,8 +175,8 @@ class Settings extends React.Component{
             textColor="primary"
           >
 
-            <Tab label="Printer Settings" icon= {<IconSettingsPrinter />} />
-            <Tab label="Item Two" icon={<FavoriteIcon />} />
+            <Tab label="Printers" icon= {<IconSettingsPrinter />} />
+            <Tab label="Print Settings" icon={<FavoriteIcon />} />
             <Tab label="Item Three" icon={<PersonPinIcon />} />
           </Tabs>
         </AppBar>
@@ -184,7 +201,19 @@ class Settings extends React.Component{
         </ul>
         }
 
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 1 &&
+          <div>
+            <span>
+              Background Print
+              <Switch
+                checked={this.state.backgroundPrint}
+                onChange={this.handlebackgroundPrintChange('backgroundPrint')}
+                value="backgroundPrint"
+              />
+            </span>
+
+          </div>
+        }
         {value === 2 && <TabContainer>Item Three</TabContainer>}
       </div>
     )

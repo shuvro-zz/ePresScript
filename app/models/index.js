@@ -44,6 +44,7 @@ const DB = (function () {
 
   let modules = [
     require('./user'),
+    require('./settings'),
     require('./medicine'),
     require('./treatment'),
     require('./treatmentmedicine'),
