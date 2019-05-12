@@ -21,6 +21,8 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
+import Check from "@material-ui/icons/Check";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -202,7 +204,25 @@ const styles = theme => ({
       background:'#f0f0f0',
       cursor:'pointer',
     }
-  }
+  },
+  medtextField:{
+    width:'80%',
+    margin:'0px',
+    padding:'0px',
+    marginLeft:'-30px'
+  },
+  searchKeyword:{
+    cursor:'pointer',
+    borderBottom:'1px solid #D1D2D7',
+    '&:hover': {
+      color: '#59B0F6',
+    },
+    marginLeft:'-5px',
+    padding:'5px 0px',
+    width:'100%',
+    overflowY:'auto',
+    overflowX:'hidden'
+  },
 });
 
 class EnhancedTable extends React.Component {
@@ -214,9 +234,12 @@ class EnhancedTable extends React.Component {
     page: 0,
     rowsPerPage: 5,
     NewMedicine:'',
+    NewMedType:'',
+    NewMedStrength:'',
     MOnChange: false,
     MedFiltered:[],
     MedData:this.props.medList,
+    MedFlag:false
   };
 
   componentDidMount(){
@@ -281,16 +304,28 @@ class EnhancedTable extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-
+  addMed=(item)=>{
+    //console.log(item);
+    this.setState({
+      NewMedicine:`${item.product_name}`,
+      NewMedType:`${item.types}`,
+      NewMedStrength:`${item.strength}`,
+      MedFlag:true
+    });
+  };
+  addAll=()=>{
+    // Have to call an api for saving it to database
+    
+  }
   MedicineSearchKeywords = (event)=>{
     let keyword = event.target.value;
-    this.setState({MOnChange:true})
+    this.setState({MOnChange:true,MedFlag:false})
     if( keyword == ""){
       this.setState({MOnChange:false})
     }
     this.setState({ NewMedicine: event.target.value });
-    let filtered = this.state.ccFakeData.filter((item)=>{
-      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    let filtered = this.state.MedData.filter((item)=>{
+      return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
     });
     this.setState({
       MedFiltered:filtered,
@@ -303,21 +338,92 @@ class EnhancedTable extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     console.log("Inside Treatment Medicine view ");
     console.log(this.state);
+    const Med = this.state.MOnChange?this.state.MedFiltered.map((item)=>{
+      return(
+        <li key={item.id} onClick={()=>this.addMed(item)} className={classes.searchKeyword}>
+          {item.product_name} <span><i> {item.types} </i></span> {item.strength}
+        </li>
+      )
+    }):null;
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} name={name} />
         <div style={{marginLeft:'1.4%'}}>
-          <Fab color="secondary" size="small" disabled>
-            <AddIcon />
-          </Fab>
-          <TextField
-            id="NewMed"
-            label="Add New Medicine"
-            value={this.state.NewMedicine}
-            onChange={this.MedicineSearchKeywords}
-            margin="normal"
-            style={{fontSize:'14px',marginLeft:'15px', marginTop:'-10px'}}
-          />
+            <Grid container>
+                <Grid item xs={1}>
+                  <Fab color="secondary" size="small" disabled style={{marginTop:'10px'}}>
+                    <AddIcon />
+                  </Fab>
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id=""
+                    label="Add New Medicine"
+                    value={this.state.NewMedicine}
+                    onChange={this.MedicineSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px',width:'85%',margin:'0px', padding:'0px',marginLeft:'-30px'}}
+                  />
+                  {!this.state.NewMedicine=="" && !this.state.MedFlag?
+                  <div style={{marginLeft:'-65px',maxHeight:'200px', width:'100%', position:'relative', overflow:'auto',padding:'0px',marginTop:'0px'}}>
+                    <ul style={{marginTop:'-1px'}}>
+                      {!this.state.NewMedicine=="" && !this.state.MedFlag?Med:null}
+                    </ul>
+                  </div>:null
+                  }
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="strength"
+                    label="Strength"
+                    className={classes.medtextField}
+                    value={this.state.NewMedStrength}
+                    onChange={this.StrenSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="type"
+                    label="Type"
+                    className={classes.medtextField}
+                    value={this.state.NewMedType}
+                    onChange={this.TypeSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="frequency"
+                    label="Frequency"
+                    className={classes.medtextField}
+                    value={this.state.TempFreqValue}
+                    onChange={this.FreqSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="remark"
+                    label="Remark"
+                    className={classes.medtextField}
+                    value={this.state.TempRemValue}
+                    onChange={this.RemarkSearchKeywords}
+                    margin="normal"
+                    style={{fontSize:'14px'}}
+                  />
+                  <IconButton
+                    onClick={this.addAll}
+                    disabled={!this.state.TempMedValue}
+                    style={{marginTop:'-40px',marginLeft:'70%'}}
+                  >
+                    <Check style={{color:'#7f7f7f'}}/>
+                  </IconButton>
+                </Grid>
+              </Grid>
         </div>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
