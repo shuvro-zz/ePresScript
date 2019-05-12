@@ -18,6 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import TextField from '@material-ui/core/TextField';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -157,6 +160,7 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
+
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
@@ -209,6 +213,10 @@ class EnhancedTable extends React.Component {
     data: [],
     page: 0,
     rowsPerPage: 5,
+    NewMedicine:'',
+    MOnChange: false,
+    MedFiltered:[],
+    MedData:this.props.medList,
   };
 
   componentDidMount(){
@@ -273,15 +281,44 @@ class EnhancedTable extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+
+  MedicineSearchKeywords = (event)=>{
+    let keyword = event.target.value;
+    this.setState({MOnChange:true})
+    if( keyword == ""){
+      this.setState({MOnChange:false})
+    }
+    this.setState({ NewMedicine: event.target.value });
+    let filtered = this.state.ccFakeData.filter((item)=>{
+      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    });
+    this.setState({
+      MedFiltered:filtered,
+      MOnChange:true
+    })
+  };
   render() {
     const { classes , name} = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     console.log("Inside Treatment Medicine view ");
-    console.log(this.props);
+    console.log(this.state);
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} name={name} />
+        <div style={{marginLeft:'1.4%'}}>
+          <Fab color="secondary" size="small" disabled>
+            <AddIcon />
+          </Fab>
+          <TextField
+            id="NewMed"
+            label="Add New Medicine"
+            value={this.state.NewMedicine}
+            onChange={this.MedicineSearchKeywords}
+            margin="normal"
+            style={{fontSize:'14px',marginLeft:'15px', marginTop:'-10px'}}
+          />
+        </div>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead

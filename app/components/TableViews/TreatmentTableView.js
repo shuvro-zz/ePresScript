@@ -138,7 +138,8 @@ class TreatmentTableView extends React.Component {
       filtered:[],
       openMedicineDetail: false,
       medicine:[],
-      treatmentName: ''
+      treatmentName: '',
+      MedicineList: this.props.medicineState.medicineList,
     };
   }
 
@@ -200,7 +201,7 @@ class TreatmentTableView extends React.Component {
     console.log(this.props);
     console.log(this.state);
     const { classes } = this.props;
-    const { rows, rowsPerPage, page , medicine , treatmentName} = this.state;
+    const { rows, rowsPerPage, page , medicine , treatmentName, MedicineList} = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (treatment, index) => {
       return(
@@ -232,7 +233,7 @@ class TreatmentTableView extends React.Component {
             aria-labelledby="draggable-dialog-title"
           >
             <DialogContent>
-              <TreatmentMedicineView medicine={medicine} name={treatmentName}/>
+              <TreatmentMedicineView medicine={medicine} medList={MedicineList} name={treatmentName}/>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="primary">
