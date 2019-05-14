@@ -13,6 +13,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {openSnackBar} from '../features/ui';
 
 const styles = theme => ({
   medicineComponent: {
@@ -23,7 +25,9 @@ const styles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
-
+  circularProgress: {
+    margin: theme.spacing.unit * 2,
+  },
   addMedReqTextFields: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -49,6 +53,7 @@ class Medicine extends Component {
       strength:'',
       indication:'',
       open: false,
+      loading:false
     };
   }
 
@@ -65,42 +70,58 @@ class Medicine extends Component {
     const value = event.target.value;
 
     // // If the user is editting again submitted must be false...
-    if (value == "") {
-      this.props.setSubmitted(false);
-    }
+    // if (value == "") {
+    //   this.props.setSubmitted(false);
+    // }
 
     switch (name) {
       case "product_name":
-        this.setState({product_name:value});
+        
         this.props.setProductName(value);
+        this.setState({product_name:value});
         break;
 
       case "type":
-        this.setState({type:value});
+        
         this.props.setType(value);
+        this.setState({type:value});
         break;
 
       case "strength":
-        this.setState({strength:value});
+        
         this.props.setStrength(value);
+        this.setState({strength:value});
         break;
       case "generic":
-        this.setState({generic:value});
+        
         this.props.setGeneric(value);
+        this.setState({generic:value});
         break;
       case "indication":
-        this.setState({indication:value});
+        
         this.props.setIndication(value);
+        this.setState({indication:value});
         break;
     }
   }
   //Todo NAKIB : If save medicine is success, then Add Medicine Dialogue schould close automatically and show sucess result using snackbar
-
+  componentWillReceiveProps(nextProps){
+    if(nextProps.medicineState.medicine.responseStatus == "Medicine saved!"){
+			this.setState({
+        loading:false,
+        open:false
+      });
+      //this.props.openSnackBar("New medicine added!",'success');
+		}
+  }
   handleSubmit(event) {
     event.preventDefault();
     const {  product_name, type, generic, strength, indication } = this.state;
     const newMedicine = {product_name:product_name,type:type, generic:generic, indication:indication, strength:strength}; // create a new medicine by passing the values as object to the service
     this.props.saveMedicine(newMedicine);
+    this.setState({
+      loading:true
+    })
   }
 
   render() {
@@ -208,6 +229,11 @@ class Medicine extends Component {
                   </Button>
                 </form>
               </FormControl>
+              {this.state.loading
+                ? (
+                  <CircularProgress className={classes.circularProgress}/>
+                ) : null
+              }
 
             </DialogContent>
             <DialogActions>
