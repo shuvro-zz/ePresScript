@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Treatment from '../components/Treatment';
 import {fetchTreatment , saveTreatment} from "../features/treatment";
+import {saveMedicine} from "../features/medicine";
 
 const mapStateToProps = state => ({
   medicineState: state.medicineState,
@@ -12,7 +13,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchTreatment , saveTreatment
+  fetchTreatment , saveTreatment , saveMedicine
 };
 
 class TreatmentContainer extends Component {
@@ -25,7 +26,7 @@ class TreatmentContainer extends Component {
 
   render() {
     const {
-     medicineState, securityState , treatmentState, saveTreatment, fetchTreatment
+     medicineState, securityState , treatmentState, saveTreatment, fetchTreatment , saveMedicine
     } = this.props;
     console.log("Treatment Container");
     console.log(this.props);
@@ -36,6 +37,7 @@ class TreatmentContainer extends Component {
         treatmentState={treatmentState}
         saveTreatment={saveTreatment}
         fetchTreatment={fetchTreatment}
+        saveMedicine={saveMedicine}
       />
     );
   }

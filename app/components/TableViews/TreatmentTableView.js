@@ -200,7 +200,7 @@ class TreatmentTableView extends React.Component {
     console.log("Inside Treatment Table View");
     console.log(this.props);
     console.log(this.state);
-    const { classes } = this.props;
+    const { classes , saveMedicine} = this.props;
     const { rows, rowsPerPage, page , medicine , treatmentName, MedicineList} = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (treatment, index) => {
@@ -233,7 +233,12 @@ class TreatmentTableView extends React.Component {
             aria-labelledby="draggable-dialog-title"
           >
             <DialogContent>
-              <TreatmentMedicineView medicine={medicine} medList={MedicineList} name={treatmentName}/>
+              <TreatmentMedicineView
+                medicine={medicine}
+                medList={MedicineList}
+                name={treatmentName}
+                saveMedicine={saveMedicine}
+              />
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="primary">

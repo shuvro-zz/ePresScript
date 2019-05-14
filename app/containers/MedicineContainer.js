@@ -3,14 +3,26 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Medicine from '../components/Medicine';
-import { setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine } from '../features/medicine';
+import {setStrength,
+  setProductName,
+  setGeneric,
+  setIndication,
+  setType,
+  saveMedicine,
+  fetchMedicine } from '../features/medicine';
 
 const mapStateToProps = state => ({
   medicineState: state.medicineState,
   securityState: state.securityState,
 });
 const mapDispatchToProps = {
-  setSubmitted, saveMedicine, setRemark, setFrequency, setStrength, setName, setForm, fetchMedicine
+  setStrength,
+  setProductName,
+  setGeneric,
+  setIndication,
+  setType,
+  saveMedicine,
+  fetchMedicine
 };
 
 class MedicineContainer extends Component {
@@ -25,21 +37,30 @@ class MedicineContainer extends Component {
     const {
       login,
       loggingIn,
-      setSubmitted, saveMedicine, setRemark, setFrequency, fetchMedicine, setStrength, setName, setForm, medicineState, securityState
+      medicineState,
+      securityState,
+      setStrength,
+      setProductName,
+      setGeneric,
+      setIndication,
+      setType,
+      saveMedicine,
+      fetchMedicine
     } = this.props;
     console.log("Medicine Container");
     console.log(this.props);
     return (
-      <Medicine setSubmitted={setSubmitted}
+      <Medicine
                 saveMedicine={saveMedicine}
-                setRemark ={setRemark}
-                setFrequency={setFrequency}
                 setStrength={setStrength}
-                setName ={setName}
-                setForm={setForm}
                 medicineState={medicineState}
                 fetchMedicine={fetchMedicine}
-                securityState={securityState}/>
+                securityState={securityState}
+                setProductName={setProductName}
+                setGeneric={setGeneric}
+                setIndication={setIndication}
+                setType={setType}
+      />
     );
   }
 }

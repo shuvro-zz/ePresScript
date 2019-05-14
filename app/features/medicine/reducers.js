@@ -4,41 +4,43 @@
 
 import {constants} from "./constants";
 let initialState = {
-  currentMedicineForm:"",
-  currentMedicineName:"",
-  currentMedicineStrength:"",
-  currentMedicineFrequency:"",
-  currentMedicineRemark:"",
+  product_name:"",
+  type:"",
+  strength:"",
+  generic:"",
+  indication:"",
   medicineList:"",
-  submitted: false
+  submitted: false,
+  medicine:'',
+  saveMedicineSuccess: false
 };
 
 export default function medicineState(state: any = initialState, action){
   switch (action.type) {
-    case constants.SET_FORM:
+    case constants.SET_PRODUCT_NAME:
       return {
         ...state,
-        currentMedicineForm: action.form
+        product_name: action.payload
       };
-    case constants.SET_NAME:
+    case constants.SET_TYPE:
       return {
         ...state,
-        currentMedicineName: action.name
+        type: action.payload
       };
     case constants.SET_STRENGTH:
       return {
         ...state,
-        currentMedicineStrength: action.strength
+        strength: action.payload
       };
-    case constants.SET_FREQUENCY:
+    case constants.SET_GENRIC:
       return {
         ...state,
-        currentMedicineFrequency: action.frequency
+        generic: action.payload
       };
-    case constants.SET_REMARK:
+    case constants.SET_INDICATION:
       return {
         ...state,
-        currentMedicineRemark: action.remark
+        indication: action.payload
       };
       case constants.SET_SUBMITTED:
       return {
@@ -50,11 +52,12 @@ export default function medicineState(state: any = initialState, action){
         ...state,
         medicine: action.medicine,
         error: "",
-        currentMedicineForm:"",
-        currentMedicineName:"",
-        currentMedicineStrength:"",
-        currentMedicineFrequency:"",
-        currentMedicineRemark:""
+        product_name:"",
+        type:"",
+        strength:"",
+        generic:"",
+        indication:"",
+        saveMedicineSuccess: true
       };
     case constants.FETCH_MEDICINE_SUCCESS:
         return{

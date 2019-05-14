@@ -20,11 +20,15 @@ class Treatment extends React.Component{
     render() {
     const { classes } = this.props;
       console.log('in Treatment Component');
-      const {treatmentState, medicineState } = this.props;
+      const {treatmentState, medicineState , saveMedicine} = this.props;
 
     return (
       <div className={classes.treatment}>
-       <TreatmentTableView medicineState={medicineState} treatmentState={treatmentState}/>
+       <TreatmentTableView
+         medicineState={medicineState}
+         treatmentState={treatmentState}
+         saveMedicine={saveMedicine}
+       />
       </div>
     );
   }
