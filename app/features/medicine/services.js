@@ -24,8 +24,7 @@ function saveMedicine(access_token, medicine) {
     body: JSON.stringify(medicine)
   };
 
-  return fetch(API_CONFIG.MEDICINE, requestOptions)
-    .then(handleResponse, handleError);
+  return fetch(API_CONFIG.MEDICINE, requestOptions).then(handleResponse, handleError);;
 }
 
 
@@ -41,6 +40,7 @@ function fetchMedicine(access_token) {
 }
 function handleResponse(response: any) {
   return new Promise((resolve: any, reject: any) => {
+
     if (response.ok) {
       var contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {

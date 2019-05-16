@@ -53,10 +53,10 @@ class Medicine extends Component {
       strength:'',
       indication:'',
       open: false,
-      loading:false
+      loading:false,
+      success: false
     };
   }
-
   handleClickOpen = () => {
     this.setState({ open: true });
   };
@@ -76,29 +76,29 @@ class Medicine extends Component {
 
     switch (name) {
       case "product_name":
-        
+
         this.props.setProductName(value);
         this.setState({product_name:value});
         break;
 
       case "type":
-        
+
         this.props.setType(value);
         this.setState({type:value});
         break;
 
       case "strength":
-        
+
         this.props.setStrength(value);
         this.setState({strength:value});
         break;
       case "generic":
-        
+
         this.props.setGeneric(value);
         this.setState({generic:value});
         break;
       case "indication":
-        
+
         this.props.setIndication(value);
         this.setState({indication:value});
         break;
@@ -106,22 +106,24 @@ class Medicine extends Component {
   }
   //Todo NAKIB : If save medicine is success, then Add Medicine Dialogue schould close automatically and show sucess result using snackbar
   componentWillReceiveProps(nextProps){
-    if(nextProps.medicineState.medicine.responseStatus == "Medicine saved!"){
+    if(nextProps.medicineState.saveMedicineSuccess){
 			this.setState({
-        loading:false,
         open:false
       });
       //this.props.openSnackBar("New medicine added!",'success');
 		}
+    this.setState({
+      loading:false
+    });
   }
   handleSubmit(event) {
     event.preventDefault();
-    const {  product_name, type, generic, strength, indication } = this.state;
-    const newMedicine = {product_name:product_name,type:type, generic:generic, indication:indication, strength:strength}; // create a new medicine by passing the values as object to the service
-    this.props.saveMedicine(newMedicine);
     this.setState({
       loading:true
-    })
+    });
+    const {  product_name, type, generic, strength, indication } = this.state;
+    const newMedicine = {product_name:product_name,type:type, generic:generic, indication:indication, strength:strength}; // create a new medicine by passing the values as object to the service
+    this.props.saveMedicine(newMedicine)
   }
 
   render() {

@@ -38,13 +38,13 @@ export function saveMedicine(medicine: object) {
   return (dispatch: any , getState: Store) => {
     const { securityState } = getState();
     const { access_token } = securityState.user;
-
+    dispatch(request());
     services.saveMedicine(access_token, medicine).then(
       (medicine ) => {
         if (medicine) {
           const msg = `New medicine added!`;
           dispatch(success(medicine, msg));
-          //dispatch(openSnackBar(msg , 'success'));
+          dispatch({type: constants.RESET_MEDICINE_STATE});
         } else {
           const errorString = `Please Check the details you have provided!`;
           dispatch(failure(errorString));
@@ -57,6 +57,7 @@ export function saveMedicine(medicine: object) {
       }
     );
   };
+  function request() { return { type: constants.SAVE_MEDICINE_REQUEST} }
   function success(medicine , msg) {
     return {
     type: constants.SAVE_MEDICINE_SUCCESS,

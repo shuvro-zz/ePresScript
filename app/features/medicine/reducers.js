@@ -47,18 +47,19 @@ export default function medicineState(state: any = initialState, action){
         ...state,
         submitted: action.submitted
       };
+    case constants.SAVE_MEDICINE_REQUEST:
+      return {
+        ...state,
+        saveMedicineSuccess: false
+      };
     case constants.SAVE_MEDICINE_SUCCESS:
       return {
         ...state,
         medicine: action.medicine,
-        error: "",
-        product_name:"",
-        type:"",
-        strength:"",
-        generic:"",
-        indication:"",
         saveMedicineSuccess: true
       };
+    case constants.RESET_MEDICINE_STATE:
+      return initialState;
     case constants.FETCH_MEDICINE_SUCCESS:
         return{
           ...state,
