@@ -56,22 +56,22 @@ export default function prescriptionState(state: any = initialState, action){
     case constants.SET_PATIENT_OE:
       return {
         ...state,
-        oe: action.payload
+        oe: [...state.oe, action.payload]
       };
     case constants.SET_PATIENT_TESTS:
       return {
         ...state,
-        tests: action.payload
+        tests: [...state.tests, action.payload]
       };
     case constants.SET_PATIENT_CC:
       return {
         ...state,
-        cc: action.payload
+        cc: [...state.cc, action.payload]
       };
     case constants.SET_PATIENT_MEDICINE:
       return {
         ...state,
-        medicine: action.payload
+        medicine: [...state.medicine, action.payload]
       };
     case constants.SET_PATIENT_ADVICE:
       return {

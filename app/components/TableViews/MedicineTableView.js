@@ -138,7 +138,7 @@ class MedicineTableView extends React.Component {
     this.setState({
       searchOn:true
     });
-    if (!this.state.rows.length === 0){
+    if (this.state.rows.length !== 0){
       let filtered = this.state.rows.filter((item)=>{
         return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
       });
@@ -154,12 +154,11 @@ class MedicineTableView extends React.Component {
     });
   }
   render() {
-    console.log(this.state.rows);
     const { classes } = this.props;
     const { rows, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     let medTable;
-    if (!this.state.rows.length === 0){
+    if (rows.length !== 0){
       medTable = !this.state.searchOn ?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
         return(
           <TableRow key={index}>
