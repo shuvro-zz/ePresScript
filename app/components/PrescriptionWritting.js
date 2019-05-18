@@ -13,7 +13,7 @@ import CCData from '../fakedata/cc_fake.json';
 import TestsData from '../fakedata/Tests_fake.json';
 import DiagnosisData from '../fakedata/diagnosis_fake.json';
 import TreatmentData from '../fakedata/Treatment_fake.json';
-import MedData from '../fakedata/med_fake.json';
+//import MedData from '../fakedata/med_fake.json';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -152,7 +152,7 @@ class PrescriptionWrittng extends React.Component{
 
       TempMedValue:'',
       MedOnchange:false,
-      MedFakeData: MedData,
+      MedData: [],
       MedFiltered:[],
       MedList:[],
       MedFlag:false,
@@ -190,8 +190,11 @@ class PrescriptionWrittng extends React.Component{
     console.log(this.props.prescriptionState.cc);
     const {cc } = this.props.prescriptionState;
     console.log(cc);
+    let medicineData = this.props.medicineState.medicineList;
+    console.log(medicineData)
     this.setState({
-      list : cc
+      list : cc,
+      MedData:medicineData
     });
   }
   handlePatientDetailChange=(event)=>{
@@ -456,7 +459,9 @@ class PrescriptionWrittng extends React.Component{
   addMed=(item)=>{
     //console.log(item);
     this.setState({
-      TempMedValue:`${item.name}`,
+      TempMedValue:`${item.product_name}`,
+      TempStrenValue:`${item.strength}`,
+      TempTypValue:`${item.types}`,
       MedFlag:true
     });
     //console.log(this.state.TempMedValue);
@@ -727,8 +732,8 @@ class PrescriptionWrittng extends React.Component{
       this.setState({MedOnchange:false})
     }
     this.setState({ TempMedValue: event.target.value });
-    let filtered = this.state.MedFakeData.filter((item)=>{
-      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+    let filtered = this.state.MedData.filter((item)=>{
+      return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
     });
     this.setState({
       MedFiltered:filtered,
@@ -816,6 +821,7 @@ class PrescriptionWrittng extends React.Component{
     })
   }
   render(){
+    console.log(this.props);
     const {
       patientName,
       patientAge,
@@ -859,7 +865,7 @@ class PrescriptionWrittng extends React.Component{
     const Med = this.state.MedOnchange?this.state.MedFiltered.map((item)=>{
       return(
         <li key={item.id} onClick={()=>this.addMed(item)} className={classes.searchKeyword}>
-          {item.name}
+          {item.product_name}
         </li>
       )
     }):null;
