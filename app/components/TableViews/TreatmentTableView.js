@@ -162,13 +162,16 @@ class TreatmentTableView extends React.Component {
     this.setState({
       searchOn:true
     });
-    let filtered = this.state.rows.filter((item)=>{
-      return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
-    });
-    this.setState({
-      filtered:filtered,
-      searching:true
-    })
+    if (this.state.rows.length !== 0){
+      let filtered = this.state.rows.filter((item)=>{
+        return item.name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+      });
+      this.setState({
+        filtered:filtered,
+        searching:true
+      })
+    }
+
   };
 
   handleChange(index,treatment)
@@ -203,25 +206,29 @@ class TreatmentTableView extends React.Component {
     const { classes , saveMedicine} = this.props;
     const { rows, rowsPerPage, page , medicine , treatmentName, MedicineList} = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (treatment, index) => {
-      return(
-        <TableRow className={classes.TableCell} key={index} onClick={() => {
-          this.handleChange(index , treatment);
-        }}>
-          <TableCell  component="th" scope="row">{treatment.name}</TableCell>
-          <TableCell  component="th" scope="row">{treatment.description}</TableCell>
-        </TableRow>
-      )
-    }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((treatment, index) => {
-      return(
-        <TableRow className={classes.TableCell} key={index} onClick={() => {
-          this.handleChange(index , treatment);
-        }}>
-          <TableCell component="th" scope="row">{treatment.name}</TableCell>
-          <TableCell component="th" scope="row">{treatment.description}</TableCell>
-        </TableRow>
-      )
-    });
+    let medTable = null;
+    if (rows.length !==0 ){
+      medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (treatment, index) => {
+        return(
+          <TableRow className={classes.TableCell} key={index} onClick={() => {
+            this.handleChange(index , treatment);
+          }}>
+            <TableCell  component="th" scope="row">{treatment.name}</TableCell>
+            <TableCell  component="th" scope="row">{treatment.description}</TableCell>
+          </TableRow>
+        )
+      }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((treatment, index) => {
+        return(
+          <TableRow className={classes.TableCell} key={index} onClick={() => {
+            this.handleChange(index , treatment);
+          }}>
+            <TableCell component="th" scope="row">{treatment.name}</TableCell>
+            <TableCell component="th" scope="row">{treatment.description}</TableCell>
+          </TableRow>
+        )
+      });
+    }
+
     return (
       <Paper className={classes.root}>
         <div>

@@ -315,7 +315,7 @@ class EnhancedTable extends React.Component {
   };
   addAll=()=>{
     // Have to call an api for saving it to database
-    
+
   }
   MedicineSearchKeywords = (event)=>{
     let keyword = event.target.value;
@@ -453,9 +453,7 @@ class EnhancedTable extends React.Component {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {n.product_name}
-                      </TableCell>
+                      <TableCell component="th" scope="row" padding="none">{n.product_name}</TableCell>
                       <TableCell align="right">{n.type}</TableCell>
                       <TableCell align="right">{n.generic}</TableCell>
                       <TableCell align="right">{n.strength}</TableCell>
