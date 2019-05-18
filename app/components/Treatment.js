@@ -20,7 +20,7 @@ class Treatment extends React.Component{
     render() {
     const { classes } = this.props;
       console.log('in Treatment Component');
-      const {treatmentState, medicineState , saveMedicine} = this.props;
+      const {treatmentState, medicineState , saveMedicine , updateTreatmentMedicine} = this.props;
 
     return (
       <div className={classes.treatment}>
@@ -28,6 +28,7 @@ class Treatment extends React.Component{
          medicineState={medicineState}
          treatmentState={treatmentState}
          saveMedicine={saveMedicine}
+         updateTreatmentMedicine={updateTreatmentMedicine}
        />
       </div>
     );

@@ -1,3 +1,2 @@
-import { fetchTreatment , saveTreatment } from './actions';
+export { fetchTreatment , saveTreatment , updateTreatmentMedicine } from './actions';
 
-export { fetchTreatment , saveTreatment};

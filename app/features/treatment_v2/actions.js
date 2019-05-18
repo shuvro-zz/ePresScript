@@ -43,6 +43,8 @@ export function saveTreatment(value: object) {
 export function updateTreatmentMedicine(value: object) {
   console.log("inside saveTreatment");
   return (dispatch , getState: Store) => {
+    dispatch({type: constants.UPDATE_TREATMENT_MEDICINE_REQUEST,
+      payload: value});
     const { securityState } = getState();
     const { access_token } = securityState.user;
     services.updateTreatmentMedicine(access_token, value).then(
@@ -61,9 +63,8 @@ export function updateTreatmentMedicine(value: object) {
   }}
   function failure(error) {
     return {
-      type:SNACKBAR_OPEN,
-      message: error,
-      variant: 'error'
+      type: constants.UPDATE_TREATMENT_MEDICINE_FAILURE,
+      payload: error
     }
   }
 }

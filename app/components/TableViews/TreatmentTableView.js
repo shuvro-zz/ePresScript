@@ -203,7 +203,7 @@ class TreatmentTableView extends React.Component {
     console.log("Inside Treatment Table View");
     console.log(this.props);
     console.log(this.state);
-    const { classes , saveMedicine} = this.props;
+    const { classes , saveMedicine, updateTreatmentMedicine} = this.props;
     const { rows, rowsPerPage, page , medicine , treatmentName, MedicineList} = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     let medTable = null;

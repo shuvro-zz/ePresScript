@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Treatment from '../components/Treatment';
 import {fetchTreatment , saveTreatment} from "../features/treatment";
 import {saveMedicine} from "../features/medicine";
+import {updateTreatmentMedicine} from "../features/treatment_v2";
 
 const mapStateToProps = state => ({
   medicineState: state.medicineState,
@@ -13,7 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchTreatment , saveTreatment , saveMedicine
+  fetchTreatment , saveTreatment , saveMedicine , updateTreatmentMedicine
 };
 
 class TreatmentContainer extends Component {
@@ -26,7 +27,7 @@ class TreatmentContainer extends Component {
 
   render() {
     const {
-     medicineState, securityState , treatmentState, saveTreatment, fetchTreatment , saveMedicine
+     medicineState, securityState , treatmentState, saveTreatment, fetchTreatment , saveMedicine , updateTreatmentMedicine
     } = this.props;
     console.log("Treatment Container");
     console.log(this.props);
@@ -38,6 +39,7 @@ class TreatmentContainer extends Component {
         saveTreatment={saveTreatment}
         fetchTreatment={fetchTreatment}
         saveMedicine={saveMedicine}
+        updateTreatmentMedicine={updateTreatmentMedicine}
       />
     );
   }
