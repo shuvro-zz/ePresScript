@@ -1,17 +1,18 @@
-import { setForm,
-  setName,
+import {
+  setProductName,
+  setGeneric,
+  setIndication,
+  setType,
   setStrength,
-  setFrequency,
-  setRemark,
-  setSubmitted,
   saveMedicine,
-fetchMedicine} from './actions';
+  fetchMedicine
+} from './actions';
 
-export { setForm,
-  setName,
+export {
   setStrength,
-  setFrequency,
-  setRemark,
-  setSubmitted,
+  setProductName,
+  setGeneric,
+  setIndication,
+  setType,
   saveMedicine,
   fetchMedicine};

@@ -117,7 +117,7 @@ class MedicineTableView extends React.Component {
     console.log('In MedicineView');
     console.log(props);
     this.state = {
-      rows: this.props.medicineState.medicineList,
+      rows: [],
       page: 0,
       rowsPerPage: 5,
       searchOn:false,
@@ -138,43 +138,48 @@ class MedicineTableView extends React.Component {
     this.setState({
       searchOn:true
     });
-    let filtered = this.state.rows.filter((item)=>{
-      return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
-    });
-    this.setState({
-      filtered:filtered,
-      searching:true
-    })
+    if (this.state.rows.length !== 0){
+      let filtered = this.state.rows.filter((item)=>{
+        return item.product_name.toUpperCase().indexOf(keyword.toUpperCase()) > -1;
+      });
+      this.setState({
+        filtered:filtered,
+        searching:true
+      })
+    }
   }
-  componentWillUnmount(){
+  componentWillMount(){
     this.setState({
       rows : this.props.medicineState.medicineList
     });
   }
   render() {
-    console.log(this.state.rows);
     const { classes } = this.props;
     const { rows, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const medTable = !this.state.searchOn?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
-      return(
-        <TableRow key={index}>
-          <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
-          <TableCell component="th" scope="row">{medicine.types}</TableCell>
-          <TableCell component="th" scope="row">{medicine.strength}</TableCell>
-          <TableCell component="th" scope="row">{medicine.indication}</TableCell>
-        </TableRow>
-      )
-    }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((medicine, index) => {
-      return(
-        <TableRow key={index}>
-          <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
-          <TableCell component="th" scope="row">{medicine.types}</TableCell>
-          <TableCell component="th" scope="row">{medicine.strength}</TableCell>
-          <TableCell component="th" scope="row">{medicine.indication}</TableCell>
-        </TableRow>
-      )
-    });
+    let medTable;
+    if (rows.length !== 0){
+      medTable = !this.state.searchOn ?rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map( (medicine, index) => {
+        return(
+          <TableRow key={index}>
+            <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
+            <TableCell component="th" scope="row">{medicine.types}</TableCell>
+            <TableCell component="th" scope="row">{medicine.strength}</TableCell>
+            <TableCell component="th" scope="row">{medicine.indication}</TableCell>
+          </TableRow>
+        )
+      }):this.state.filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((medicine, index) => {
+        return(
+          <TableRow key={index}>
+            <TableCell component="th" scope="row">{medicine.product_name}</TableCell>
+            <TableCell component="th" scope="row">{medicine.types}</TableCell>
+            <TableCell component="th" scope="row">{medicine.strength}</TableCell>
+            <TableCell component="th" scope="row">{medicine.indication}</TableCell>
+          </TableRow>
+        )
+      });
+    }
+
     return (
       <Paper className={classes.root}>
         <div className={classes.medicineListSearch}>

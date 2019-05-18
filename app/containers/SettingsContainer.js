@@ -4,15 +4,16 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Settings from '../components/Settings';
 import {fetchTreatment , saveTreatment} from "../features/treatment";
+import {saveSettings} from "../features/settings";
 
 const mapStateToProps = state => ({
-  medicineState: state.medicineState,
   securityState: state.securityState,
-  treatmentState: state.treatmentState
+  systemEnvState: state.systemEnvState,
+  settingsState: state.settingsState
 });
 
 const mapDispatchToProps = {
-  fetchTreatment , saveTreatment
+  fetchTreatment , saveTreatment, saveSettings
 };
 
 class SettingsContainer extends Component {
@@ -25,17 +26,16 @@ class SettingsContainer extends Component {
 
   render() {
     const {
-      medicineState, securityState , treatmentState, saveTreatment, fetchTreatment
+       securityState , systemEnvState, settingsState, saveSettings
     } = this.props;
     console.log("Settings Container");
     console.log(this.props);
     return (
       <Settings
-        medicineState={medicineState}
         securityState={securityState}
-        treatmentState={treatmentState}
-        saveTreatment={saveTreatment}
-        fetchTreatment={fetchTreatment}
+        systemEnvState={systemEnvState}
+        settingsState={settingsState}
+        saveSettings={saveSettings}
       />
     );
   }

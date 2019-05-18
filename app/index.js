@@ -5,8 +5,11 @@ import RootContainer from './containers/RootContainer';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import Provider from "react-redux/es/components/Provider";
-
+const { ipcRenderer } = require('electron');
+import systemPrinters from './features/systemEnv';
 const store = configureStore();
+
+store.dispatch(systemPrinters(ipcRenderer.sendSync('fetch-system-printers', 'printers')));
 
 render(
     <Provider store={store}>

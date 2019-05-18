@@ -14,6 +14,7 @@ import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 const {ipcMain} = require('electron');
 
+let workerWindow=null;
 // if (process.env.NODE_ENV === 'production') {
 //
 //   updater.init({
@@ -92,12 +93,19 @@ app.on('ready', async () => {
     center:true,
 
   });
-
+  workerWindow = new BrowserWindow({show: false, allowEval: true});
+  workerWindow.loadURL("file://" + __dirname + "/test.html");
+  // workerWindow.hide();
+  workerWindow.webContents.closeDevTools();
+  workerWindow.on("closed", () => {
+    workerWindow = undefined;
+  });
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
+
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
@@ -107,6 +115,7 @@ app.on('ready', async () => {
       mainWindow.show();
       mainWindow.focus();
     }
+
   });
 
   mainWindow.on('closed', () => {
@@ -127,4 +136,18 @@ ipcMain.on('resize-me-please', (event, arg) => {
     mainWindow.setResizable(true);
     mainWindow.maximize();
   }
+});
+
+ipcMain.on("printPDF", (event: any, content: any) => {
+  console.log("printPDF");
+  workerWindow.webContents.send("printPDF", content);
+});
+// when worker window is ready
+ipcMain.on("readyToPrintPDF", (event, options) => {
+  console.log("readyToPrintPDF");
+  workerWindow.webContents.print(options);
+});
+
+ipcMain.on('fetch-system-printers', (event, arg) => {
+  event.returnValue = mainWindow.webContents.getPrinters();
 });
